@@ -31,6 +31,9 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('uninstall() has not been implemented.');
   }
 
+  /// Returns whether JC was inited.
+  /// Returns **true** if JCManager.initialize() was successfully called.
+  /// Otherwise, returns **false** if initialize() was not called or failed.
   Future<bool> isInited() {
     throw UnimplementedError('isInitialized() has not been implemented.');
   }
