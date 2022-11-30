@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'jc_method_channel.dart';
+import 'jc.dart';
 
 abstract class JcPlatform extends PlatformInterface {
   /// Constructs a JcPlatform.
@@ -8,11 +8,11 @@ abstract class JcPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static JcPlatform _instance = MethodChannelJc();
+  static JcPlatform _instance = JC();
 
   /// The default instance of [JcPlatform] to use.
   ///
-  /// Defaults to [MethodChannelJc].
+  /// Defaults to [JC].
   static JcPlatform get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
@@ -23,11 +23,7 @@ abstract class JcPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
-
-  Future<bool> initialize(/*Context*/ context) {
+  Future<bool> initialize() {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 

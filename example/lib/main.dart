@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jc/jc.dart';
 
@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  final _jcPlugin = Jc();
+  final _jcPlugin = JC();
 
   @override
   void initState() {
@@ -31,8 +31,7 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _jcPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = (await _jcPlugin.isInited()).toString();
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
