@@ -2,6 +2,7 @@ package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
 import androidx.annotation.NonNull
+import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -28,6 +29,9 @@ class JcPlugin: FlutterPlugin, MethodCallHandler {
     when (call.method) {
       "isInited" -> {
         initialization.isInited(result)
+      }
+      "initialize" -> {
+        initialization.initialize(context=applicationContext, result)
       }
       else -> {
         result.notImplemented()

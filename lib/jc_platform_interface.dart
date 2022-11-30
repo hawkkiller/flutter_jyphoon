@@ -32,6 +32,8 @@ abstract class JcPlatform extends PlatformInterface {
   }
 
   /// Returns whether JC was inited.
+  /// 
+  /// On **Android**:
   /// Returns **true** if JCManager.initialize() was successfully called.
   /// Otherwise, returns **false** if initialize() was not called or failed.
   Future<bool> isInited() {
