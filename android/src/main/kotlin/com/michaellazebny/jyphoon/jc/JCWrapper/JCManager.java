@@ -49,6 +49,7 @@ import com.juphoon.cloud.JCPush;
 import com.juphoon.cloud.JCStorage;
 import com.juphoon.cloud.JCStorageCallback;
 import com.juphoon.cloud.JCStorageItem;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -214,6 +215,12 @@ public class JCManager implements JCClientCallback, JCCallCallback, JCMediaChann
     }
 
     @Override
+    public void onMessageReceive(String type, String content, String fromUserId) {
+        EventBus.getDefault().post(new JCConfMessageEvent(type, content, fromUserId));
+        addLog(String.format(Locale.getDefault(), "*onMessageReceive type:%s content:%s fromUserId:%s", type, content, fromUserId));
+    }
+
+    @Override
     public void onMissedCallItem(JCCallItem jcCallItem) {
         addLog(String.format(Locale.getDefault(), "*onMissedCallItem %s", jcCallItem.getUserId()));
     }
@@ -280,11 +287,6 @@ public class JCManager implements JCClientCallback, JCCallCallback, JCMediaChann
         addLog(String.format(Locale.getDefault(), "*onParticipantUpdate %s", participant.getUserId()));
     }
 
-    @Override
-    public void onMessageReceive(String type, String content, String fromUserId) {
-        EventBus.getDefault().post(new JCConfMessageEvent(type, content, fromUserId));
-        addLog(String.format(Locale.getDefault(), "*onMessageReceive type:%s content:%s fromUserId:%s", type, content, fromUserId));
-    }
 
     @Override
     public void onInviteSipUserResult(int operationId, boolean result, int reason) {
