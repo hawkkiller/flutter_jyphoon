@@ -34,4 +34,20 @@ class Initialization {
             result.error("initialize", e.message, null)
         }
     }
+
+    /**
+     * Sets appKey in order to have access to the Jyphoon API.
+     */
+    fun setAppKey(@NonNull result: MethodChannel.Result, appKey: String) {
+        try {
+            JCManager.sAppkey = appKey
+            result.success(null)
+        } catch (e: Exception) {
+            result.error("setAppKey", e.message, null)
+        }
+    }
 }
+
+
+
+

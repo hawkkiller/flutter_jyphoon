@@ -12,34 +12,44 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** JcPlugin */
-class JcPlugin: FlutterPlugin, MethodCallHandler {
-  private lateinit var channel : MethodChannel
-  private lateinit var applicationContext : Context
+class JcPlugin : FlutterPlugin, MethodCallHandler {
+    private lateinit var channel: MethodChannel
+    private lateinit var applicationContext: Context
 
-  private val initialization = Initialization()
+    private val initialization = Initialization()
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    val channelName = "jc"
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, channelName)
-    applicationContext = flutterPluginBinding.applicationContext
-    channel.setMethodCallHandler(this)
-  }
-
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    when (call.method) {
-      "isInited" -> {
-        initialization.isInited(result)
-      }
-      "initialize" -> {
-        initialization.initialize(context=applicationContext, result)
-      }
-      else -> {
-        result.notImplemented()
-      }
+    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        val channelName = "jc"
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, channelName)
+        applicationContext = flutterPluginBinding.applicationContext
+        channel.setMethodCallHandler(this)
     }
-  }
 
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
-  }
+
+    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+        when (call.method) {
+            "isInited" -> {
+                initialization.isInited(result)
+            }
+            "initialize" -> {
+                initialization.initialize(context = applicationContext, result)
+            }
+            "setAppKey" -> {
+                val appKey = call.argument<String>("appKey")
+                if (appKey != null) {
+                    initialization.setAppKey(result, appKey)
+                } else {
+                    result.error("setAppKey", "appKey is null", "");
+                }
+            }
+            else -> {
+                result.notImplemented()
+            }
+        }
+
+    }
+
+    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
+    }
 }

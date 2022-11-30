@@ -30,6 +30,11 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 
+  /// Sets appKey in order to have access to the Jyphoon API.
+  Future<void> setAppKey(String appKey) {
+    throw UnimplementedError('setAppKey() has not been implemented.');
+  }
+
   Future<void> uninitialize() {
     throw UnimplementedError('uninstall() has not been implemented.');
   }
