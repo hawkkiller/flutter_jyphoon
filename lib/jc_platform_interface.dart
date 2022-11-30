@@ -23,7 +23,10 @@ abstract class JcPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<bool> initialize() {
+  /// Returns void.
+  ///
+  /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
+  Future<void> initialize() {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 
@@ -32,7 +35,7 @@ abstract class JcPlatform extends PlatformInterface {
   }
 
   /// Returns whether JC was inited.
-  /// 
+  ///
   /// On **Android**:
   /// Returns **true** if JCManager.initialize() was successfully called.
   /// Otherwise, returns **false** if initialize() was not called or failed.

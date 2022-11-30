@@ -11,13 +11,16 @@ class JC extends JcPlatform {
 
   @override
   Future<bool> isInited() async {
-    final response = await methodChannel.invokeMethod<bool>('isInited');
-    if (response == null) {
+    final res = await methodChannel.invokeMethod<bool>('isInited');
+    if (res == null) {
       throw PlatformException(
         code: 'isInited',
         message: 'isInited failed',
       );
     }
-    return response;
+    return res;
   }
+
+  @override
+  Future<void> initialize() => methodChannel.invokeMethod<void>('initialize');
 }
