@@ -22,7 +22,16 @@ class JC extends JcPlatform {
   }
 
   @override
-  Future<void> initialize() => methodChannel.invokeMethod<void>('initialize');
+  Future<bool> initialize() async {
+    final res = await methodChannel.invokeMethod<bool>('initialize');
+    if (res == null) {
+      throw PlatformException(
+        code: 'initialize',
+        message: 'initialize failed',
+      );
+    }
+    return res;
+  }
 
   @override
   Future<void> setAppKey(String appKey) async {

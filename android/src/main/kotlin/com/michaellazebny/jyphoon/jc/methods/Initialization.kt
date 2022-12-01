@@ -23,13 +23,13 @@ class Initialization {
     }
 
     /**
-     * Returns void.
+     * Returns bool.
      * Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
      */
     fun initialize(context: Context, @NonNull result: MethodChannel.Result) {
         try {
-            jcManager.initialize(context)
-            result.success(null)
+            val res = jcManager.initialize(context)
+            result.success(res)
         } catch (e: Exception) {
             result.error("initialize", e.message, null)
         }

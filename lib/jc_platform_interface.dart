@@ -26,7 +26,7 @@ abstract class JcPlatform extends PlatformInterface {
   /// Returns void.
   ///
   /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
-  Future<void> initialize() {
+  Future<bool> initialize() {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 
