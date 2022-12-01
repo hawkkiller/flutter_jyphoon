@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.methods.Initialization
+import com.michaellazebny.jyphoon.jc.methods.UserInfo
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -17,6 +18,7 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var applicationContext: Context
 
     private val initialization = Initialization()
+    private val userInfo = UserInfo()
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channelName = "jc"
@@ -32,15 +34,13 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
                 initialization.isInited(result)
             }
             "initialize" -> {
-                initialization.initialize(context = applicationContext, result)
+                initialization.initialize(applicationContext, result)
             }
             "setAppKey" -> {
-                val appKey = call.argument<String>("appKey")
-                if (appKey != null) {
-                    initialization.setAppKey(result, appKey)
-                } else {
-                    result.error("setAppKey", "appKey is null", "");
-                }
+                initialization.setAppKey(call, result)
+            }
+            "setDisplayName" -> {
+                userInfo.setDisplayName(call, result)
             }
             else -> {
                 result.notImplemented()

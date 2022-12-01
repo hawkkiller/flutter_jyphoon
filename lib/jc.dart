@@ -38,4 +38,10 @@ class JC extends JcPlatform {
     final arguments = {'appKey': appKey};
     await methodChannel.invokeMethod<void>('setAppKey', arguments);
   }
+
+  @override
+  Future<void> setDisplayName(String displayName) async {
+    final arguments = {'displayName': displayName};
+    await methodChannel.invokeMethod<void>('setDisplayName', arguments);
+  }
 }

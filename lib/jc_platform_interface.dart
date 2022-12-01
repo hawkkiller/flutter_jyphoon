@@ -227,4 +227,13 @@ abstract class JcPlatform extends PlatformInterface {
   Future<void> onNetChange(int newNetType, int oldNetType) {
     throw UnimplementedError('onNetChange() has not been implemented.');
   }
+
+  /// Returns [Void].
+  ///
+  /// Takes [String] displayName in.
+  ///
+  /// Sets the name that is visible to another participant(s).
+  Future<void> setDisplayName(String displayName) {
+    throw UnimplementedError('setDisplayName() has not been implemented.');
+  }
 }

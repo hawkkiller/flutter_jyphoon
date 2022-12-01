@@ -3,6 +3,7 @@ package com.michaellazebny.jyphoon.jc.methods
 import android.content.Context
 import androidx.annotation.NonNull
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
 class Initialization {
@@ -38,8 +39,13 @@ class Initialization {
     /**
      * Sets appKey in order to have access to the Jyphoon API.
      */
-    fun setAppKey(@NonNull result: MethodChannel.Result, appKey: String) {
+    fun setAppKey(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
         try {
+            val appKey = call.argument<String>("appKey")
+            if (appKey == null) {
+                result.error("setAppKey", "appKey is null", null)
+                return
+            }
             JCManager.sAppkey = appKey
             result.success(null)
         } catch (e: Exception) {
