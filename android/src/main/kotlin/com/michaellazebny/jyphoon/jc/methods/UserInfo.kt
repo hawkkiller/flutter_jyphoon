@@ -1,13 +1,8 @@
 package com.michaellazebny.jyphoon.jc.methods
 
-import androidx.annotation.NonNull
-import com.juphoon.cloud.JCClient.LoginParam
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
 
 class UserInfo {
-    private var mLoginParam: LoginParam? = null
     private val jcManager = JCManager.getInstance()
 
 
