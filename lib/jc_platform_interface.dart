@@ -223,7 +223,6 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('onNetChange() has not been implemented.');
   }
 
-
   /// Returns [Void].
   ///
   /// Takes [String] displayName in.
@@ -233,10 +232,18 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('setDisplayName() has not been implemented.');
   }
 
-
   /// Returns [bool].
   /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> setAccountNumber(String accountNumber) async {
     throw UnimplementedError('setAccountNumber() has not been implemented.');
+  }
+
+  /// Returns [Void].
+  ///
+  /// Takes [Int] timeout in.
+  ///
+  /// Sets the timeout for the call request.
+  Future<void> setTimeout(int timeout) {
+    throw UnimplementedError('setTimeout() has not been implemented.');
   }
 }

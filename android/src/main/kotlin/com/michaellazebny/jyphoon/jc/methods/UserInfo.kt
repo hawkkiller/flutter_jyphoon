@@ -1,6 +1,5 @@
 package com.michaellazebny.jyphoon.jc.methods
 
-import androidx.annotation.NonNull
 import com.juphoon.cloud.JCClient.LoginParam
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import io.flutter.plugin.common.MethodCall
@@ -50,6 +49,30 @@ class UserInfo {
 
         } catch (e: Exception) {
             result.error("setAccountNumber", e.message, null)
+        }
+    }
+
+    /**
+     * Returns [Void].
+     *
+     * Takes [Int] timeout in.
+     *
+     * Sets the timeout for the call request.
+     */
+    fun setTimeout(call: MethodCall, result: MethodChannel.Result) {
+        try {
+            val timeout = call.argument<Int>("timeout")
+            if (timeout == null) {
+                result.error("setTimeout", "timeout is null", null)
+                return
+            }
+            if (mLoginParam == null) {
+                mLoginParam = LoginParam()
+            }
+            mLoginParam!!.timeout = timeout
+            result.success(null)
+        } catch (e: Exception) {
+            result.error("setTimeout", e.message, null)
         }
     }
 }
