@@ -1,9 +1,15 @@
 package com.michaellazebny.jyphoon.jc.methods
 
+import androidx.annotation.NonNull
+import com.juphoon.cloud.JCClient.LoginParam
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import io.flutter.plugin.common.MethodCall
+import io.flutter.plugin.common.MethodChannel
 
 class UserInfo {
     private val jcManager = JCManager.getInstance()
+
+    private var mLoginParam: LoginParam? = null
 
     /**
      * Returns [Void].
@@ -12,7 +18,7 @@ class UserInfo {
      *
      * Sets the name that is visible to another participant(s).
      */
-    fun setDisplayName(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
+    fun setDisplayName(call: MethodCall, result: MethodChannel.Result) {
         try {
             val displayName = call.argument<String>("displayName")
             if (displayName == null) {
