@@ -234,7 +234,6 @@ abstract class JcPlatform extends PlatformInterface {
   }
 
   /// Returns [bool].
-  /// 
   /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> setAccountNumber(String accountNumber) async {
     throw UnimplementedError('setAccountNumber() has not been implemented.');
