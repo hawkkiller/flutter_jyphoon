@@ -227,8 +227,4 @@ abstract class JcPlatform extends PlatformInterface {
   Future<void> onNetChange(int newNetType, int oldNetType) {
     throw UnimplementedError('onNetChange() has not been implemented.');
   }
-
-  Future<bool> setAccountNumber(String accountNumber) async {
-    throw UnimplementedError('setAccountNumber() has not been implemented.');
-  }
 }
