@@ -45,6 +45,7 @@ class JC extends JcPlatform {
     await methodChannel.invokeMethod<void>('setDisplayName', arguments);
   }
 
+  @override
   Future<bool> setAccountNumber(String accountNumber) async {
     final arguments = {'accountNumber': accountNumber};
     final res =

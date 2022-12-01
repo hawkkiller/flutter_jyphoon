@@ -161,11 +161,6 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('onParticipantUpdate() has not been implemented.');
   }
 
-  // TODO: imolement
-  //  Future<void> onMessageReceive(String type, String content, String fromUserId) {
-  //   throw UnimplementedError('onMessageReceive() has not been implemented.');
-  //  }
-
   Future<void> onInviteSipUserResult(int operationId, bool result, int reason) {
     throw UnimplementedError(
         'onInviteSipUserResult() has not been implemented.');
