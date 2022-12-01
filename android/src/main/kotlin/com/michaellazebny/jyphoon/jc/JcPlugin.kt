@@ -32,15 +32,13 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
                 initialization.isInited(result)
             }
             "initialize" -> {
-                initialization.initialize(context = applicationContext, result)
+                initialization.initialize(applicationContext, result)
             }
             "setAppKey" -> {
-                val appKey = call.argument<String>("appKey")
-                if (appKey != null) {
-                    initialization.setAppKey(result, appKey)
-                } else {
-                    result.error("setAppKey", "appKey is null", "");
-                }
+                initialization.setAppKey(call, result)
+            }
+            "setDisplayName" -> {
+                userInfo.setDisplayName(call, result)
             }
             else -> {
                 result.notImplemented()
