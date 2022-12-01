@@ -23,7 +23,7 @@ abstract class JcPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Returns void.
+  /// Returns bool.
   ///
   /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> initialize() {
@@ -228,6 +228,8 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('onNetChange() has not been implemented.');
   }
 
+  /// Returns [bool].
+  /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> setAccountNumber(String accountNumber) async {
     throw UnimplementedError('setAccountNumber() has not been implemented.');
   }

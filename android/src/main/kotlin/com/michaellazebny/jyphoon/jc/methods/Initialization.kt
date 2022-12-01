@@ -23,7 +23,7 @@ class Initialization {
     }
 
     /**
-     * Returns bool.
+     * Returns [Boolean].
      * Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
      */
     fun initialize(context: Context, @NonNull result: MethodChannel.Result) {
@@ -36,6 +36,7 @@ class Initialization {
     }
 
     /**
+     * Returns [Boolean].
      * Sets appKey in order to have access to the Jyphoon API.
      */
     fun setAppKey(@NonNull result: MethodChannel.Result, appKey: String) {

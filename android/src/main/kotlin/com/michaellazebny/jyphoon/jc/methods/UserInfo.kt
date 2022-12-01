@@ -10,6 +10,10 @@ class UserInfo {
     private var mLoginParam: LoginParam? = null
     private val jcManager = JCManager.getInstance()
 
+    /**
+     * Sets account number.
+     * It is needed to set appKey before. Otherwise, it will fail.
+     */
     fun setAccountNumber(result: MethodChannel.Result, call: MethodCall) {
         try {
             if (mLoginParam != null) {
