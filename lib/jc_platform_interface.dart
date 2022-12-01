@@ -236,4 +236,8 @@ abstract class JcPlatform extends PlatformInterface {
   Future<void> setDisplayName(String displayName) {
     throw UnimplementedError('setDisplayName() has not been implemented.');
   }
+
+  Future<bool> setAccountNumber(String accountNumber) async {
+    throw UnimplementedError('setAccountNumber() has not been implemented.');
+  }
 }

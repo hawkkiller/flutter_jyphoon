@@ -42,6 +42,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
             "setDisplayName" -> {
                 userInfo.setDisplayName(call, result)
             }
+            "setAccountNumber" -> {
+                userInfo.setAccountNumber(result, call)
+            }
             else -> {
                 result.notImplemented()
             }

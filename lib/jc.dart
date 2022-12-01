@@ -44,4 +44,17 @@ class JC extends JcPlatform {
     final arguments = {'displayName': displayName};
     await methodChannel.invokeMethod<void>('setDisplayName', arguments);
   }
+
+  Future<bool> setAccountNumber(String accountNumber) async {
+    final arguments = {'accountNumber': accountNumber};
+    final res =
+        await methodChannel.invokeMethod<bool>('setAccountNumber', arguments);
+    if (res == null) {
+      throw PlatformException(
+        code: 'setAccountNumber',
+        message: 'setAccountNumber failed',
+      );
+    }
+    return res;
+  }
 }
