@@ -36,7 +36,7 @@ class UserInfo {
      * Sets account number.
      * It is needed to set appKey before. Otherwise, it will fail.
      */
-    fun setAccountNumber(result: MethodChannel.Result, call: MethodCall) {
+    fun setAccountNumber(call: MethodCall, result: MethodChannel.Result) {
         try {
             if (mLoginParam != null) {
                 mLoginParam = LoginParam();
