@@ -3,6 +3,7 @@ package com.michaellazebny.jyphoon.jc
 import android.content.Context
 import androidx.annotation.NonNull
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
 
@@ -20,6 +21,8 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
     private val initialization = Initialization()
 
     private val userInfo = UserInfo()
+
+    private  val call = Call()
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channelName = "jc"
