@@ -2,7 +2,6 @@ package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
 import androidx.annotation.NonNull
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
@@ -22,9 +21,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
 
     private val userInfo = UserInfo()
 
-    private  val call = Call()
+    private val call = Call()
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channelName = "jc"
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, channelName)
         applicationContext = flutterPluginBinding.applicationContext
@@ -32,7 +31,7 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
     }
 
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "isInited" -> {
                 initialization.isInited(result)
@@ -49,6 +48,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
             "setAccountNumber" -> {
                 userInfo.setAccountNumber(call, result)
             }
+            "setTimeout" -> {
+                userInfo.setTimeout(call, result)
+            }
             else -> {
                 result.notImplemented()
             }
@@ -56,7 +58,7 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
 
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
     }
 }

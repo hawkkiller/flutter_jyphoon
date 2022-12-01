@@ -58,4 +58,10 @@ class JC extends JcPlatform {
     }
     return res;
   }
+
+  @override
+  Future<void> setTimeout(int timeout) async {
+    final arguments = {'timeout': timeout};
+    await methodChannel.invokeMethod<void>('setTimeout', arguments);
+  }
 }
