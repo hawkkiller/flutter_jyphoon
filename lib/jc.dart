@@ -38,4 +38,18 @@ class JC extends JcPlatform {
     final arguments = {'appKey': appKey};
     await methodChannel.invokeMethod<void>('setAppKey', arguments);
   }
+
+  @override
+  Future<bool> setAccountNumber(String accountNumber) async {
+    final arguments = {'accountNumber': accountNumber};
+    final res =
+        await methodChannel.invokeMethod<bool>('setAccountNumber', arguments);
+    if (res == null) {
+      throw PlatformException(
+        code: 'setAccountNumber',
+        message: 'setAccountNumber failed',
+      );
+    }
+    return res;
+  }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.methods.Initialization
+import com.michaellazebny.jyphoon.jc.methods.UserInfo
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -17,6 +18,7 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var applicationContext: Context
 
     private val initialization = Initialization()
+    private val userInfo = UserInfo()
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channelName = "jc"
@@ -41,6 +43,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
                 } else {
                     result.error("setAppKey", "appKey is null", "");
                 }
+            }
+            "setAccountNumber" -> {
+                userInfo.setAccountNumber(result, call)
             }
             else -> {
                 result.notImplemented()
