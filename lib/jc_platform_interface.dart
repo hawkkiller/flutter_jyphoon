@@ -223,7 +223,7 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('onNetChange() has not been implemented.');
   }
 
-  
+
   /// Returns [Void].
   ///
   /// Takes [String] displayName in.
@@ -232,6 +232,7 @@ abstract class JcPlatform extends PlatformInterface {
   Future<void> setDisplayName(String displayName) {
     throw UnimplementedError('setDisplayName() has not been implemented.');
   }
+
 
   /// Returns [bool].
   /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
