@@ -1,7 +1,6 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import androidx.annotation.NonNull
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
@@ -51,8 +50,8 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
             "setTimeout" -> {
                 userInfo.setTimeout(call, result)
             }
-            "startVideoCall" -> {
-                this.call.startVideoCall(call, result)
+            "startCall" -> {
+                this.call.startCall(call, result)
             }
             else -> {
                 result.notImplemented()

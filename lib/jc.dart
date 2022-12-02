@@ -65,13 +65,16 @@ class JC extends JcPlatform {
   }
 
   @override
-  Future<bool> videoCall(String account) async {
-    final arguments = {'account': account};
-    final res = await methodChannel.invokeMethod<bool>('videoCall', arguments);
+  Future<bool> startCall(String account, bool video) async {
+    final arguments = {
+      'account': account,
+      'video': video,
+    };
+    final res = await methodChannel.invokeMethod<bool>('startCall', arguments);
     if (res == null) {
       throw PlatformException(
-        code: 'videoCall',
-        message: 'videoCall failed',
+        code: 'startCall',
+        message: 'startCall failed',
       );
     }
     return res;
