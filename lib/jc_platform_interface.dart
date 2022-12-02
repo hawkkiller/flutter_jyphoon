@@ -72,13 +72,11 @@ abstract class JcPlatform extends PlatformInterface {
   }
 
   Future<void> onOnlineMessageSendResult(int operationId, bool result) {
-    throw UnimplementedError(
-        'onOnlineMessageSendResult() has not been implemented.');
+    throw UnimplementedError('onOnlineMessageSendResult() has not been implemented.');
   }
 
   Future<void> onOnlineMessageReceive(String userId, String content) {
-    throw UnimplementedError(
-        'onOnlineMessageReceive() has not been implemented.');
+    throw UnimplementedError('onOnlineMessageReceive() has not been implemented.');
   }
 
   Future<void> onCallItemAdd(/*JCCallItem*/ item) {
@@ -93,13 +91,11 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('onCallItemRemove() has not been implemented.');
   }
 
-  Future<void> onCallItemUpdate(
-      /*JCCallItem*/ item, /*JCCallItem.ChangeParam*/ changeParam) {
+  Future<void> onCallItemUpdate(/*JCCallItem*/ item, /*JCCallItem.ChangeParam*/ changeParam) {
     throw UnimplementedError('onCallItemUpdate() has not been implemented.');
   }
 
-  Future<void> onMessageReceive(
-      String type, String content, /*JCCallItem*/ callItem) {
+  Future<void> onMessageReceive(String type, String content, /*JCCallItem*/ callItem) {
     throw UnimplementedError('onMessageReceive() has not been implemented.');
   }
 
@@ -107,44 +103,34 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('onMissedCallItem() has not been implemented.');
   }
 
-  Future<void> onDtmfReceived(
-      /*JCCallItem*/ jcCallItem, /*@JCCall.DtmfValue*/ int value) {
+  Future<void> onDtmfReceived(/*JCCallItem*/ jcCallItem, /*@JCCall.DtmfValue*/ int value) {
     throw UnimplementedError('onDtmfReceived() has not been implemented.');
   }
 
-  Future<void> onMediaChannelStateChange(
-      /*@JCMediaChannel.MediaChannelState*/ int state,
+  Future<void> onMediaChannelStateChange(/*@JCMediaChannel.MediaChannelState*/ int state,
       /*@JCMediaChannel.MediaChannelState*/ int oldState) {
-    throw UnimplementedError(
-        'onMediaChannelStateChange() has not been implemented.');
+    throw UnimplementedError('onMediaChannelStateChange() has not been implemented.');
   }
 
-  Future<void> onMediaChannelPropertyChange(
-      /*JCMediaChannel.PropChangeParam*/ propChangeParam) {
-    throw UnimplementedError(
-        'onMediaChannelPropertyChange() has not been implemented.');
+  Future<void> onMediaChannelPropertyChange(/*JCMediaChannel.PropChangeParam*/ propChangeParam) {
+    throw UnimplementedError('onMediaChannelPropertyChange() has not been implemented.');
   }
 
-  Future<void> onJoin(bool result,
-      /*@JCMediaChannel.MediaChannelReason*/ int reason, String channelId) {
+  Future<void> onJoin(
+      bool result, /*@JCMediaChannel.MediaChannelReason*/ int reason, String channelId) {
     throw UnimplementedError('onJoin() has not been implemented.');
   }
 
-  Future<void> onLeave(
-      /*@JCMediaChannel.MediaChannelReason*/ int reason, String channelId) {
+  Future<void> onLeave(/*@JCMediaChannel.MediaChannelReason*/ int reason, String channelId) {
     throw UnimplementedError('onLeave() has not been implemented.');
   }
 
-  Future<void> onStop(
-      bool result, /*@JCMediaChannel.MediaChannelReason*/ int reason) {
+  Future<void> onStop(bool result, /*@JCMediaChannel.MediaChannelReason*/ int reason) {
     throw UnimplementedError('onStop() has not been implemented.');
   }
 
-  Future<void> onQuery(
-      int operationId,
-      bool result,
-      /*@JCMediaChannel.MediaChannelReason*/ int reason,
-      /*JCMediaChannelQueryInfo */ queryInfo) {
+  Future<void> onQuery(int operationId, bool result,
+      /*@JCMediaChannel.MediaChannelReason*/ int reason, /*JCMediaChannelQueryInfo */ queryInfo) {
     throw UnimplementedError('onQuery() has not been implemented.');
   }
 
@@ -162,14 +148,11 @@ abstract class JcPlatform extends PlatformInterface {
   }
 
   Future<void> onInviteSipUserResult(int operationId, bool result, int reason) {
-    throw UnimplementedError(
-        'onInviteSipUserResult() has not been implemented.');
+    throw UnimplementedError('onInviteSipUserResult() has not been implemented.');
   }
 
-  Future<void> onParticipantVolumeChange(
-      /*JCMediaChannelParticipant*/ jcMediaChannelParticipant) {
-    throw UnimplementedError(
-        'onParticipantVolumeChange() has not been implemented.');
+  Future<void> onParticipantVolumeChange(/*JCMediaChannelParticipant*/ jcMediaChannelParticipant) {
+    throw UnimplementedError('onParticipantVolumeChange() has not been implemented.');
   }
 
   Future<void> onCameraUpdate() {
@@ -177,27 +160,22 @@ abstract class JcPlatform extends PlatformInterface {
   }
 
   Future<void> onAudioOutputTypeChange(int audioRouteType) {
-    throw UnimplementedError(
-        'onAudioOutputTypeChange() has not been implemented.');
+    throw UnimplementedError('onAudioOutputTypeChange() has not been implemented.');
   }
 
-  Future<void> onRenderReceived(
-      /*JCMediaDeviceVideoCanvas */ jcMediaDeviceVideoCanvas) {
+  Future<void> onRenderReceived(/*JCMediaDeviceVideoCanvas */ jcMediaDeviceVideoCanvas) {
     throw UnimplementedError('onRenderReceived() has not been implemented.');
   }
 
-  Future<void> onRenderStart(
-      /*JCMediaDeviceVideoCanvas*/ jcMediaDeviceVideoCanvas) {
+  Future<void> onRenderStart(/*JCMediaDeviceVideoCanvas*/ jcMediaDeviceVideoCanvas) {
     throw UnimplementedError('onRenderStart() has not been implemented.');
   }
 
-  Future<void> onVideoError(
-      /*JCMediaDeviceVideoCanvas*/ jcMediaDeviceVideoCanvas) {
+  Future<void> onVideoError(/*JCMediaDeviceVideoCanvas*/ jcMediaDeviceVideoCanvas) {
     throw UnimplementedError('onVideoError() has not been implemented.');
   }
 
-  Future<void> onMessageSendUpdate(
-      /*JCMessageChannelItem*/ jcMessageChannelItem) {
+  Future<void> onMessageSendUpdate(/*JCMessageChannelItem*/ jcMessageChannelItem) {
     throw UnimplementedError('onMessageSendUpdate() has not been implemented.');
   }
 
@@ -213,10 +191,8 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('onFileResult() has not been implemented.');
   }
 
-  Future<void> onQueryUserStatusResult(
-      int i, bool result, /*List<JCAccountItem>*/ list) {
-    throw UnimplementedError(
-        'onQueryUserStatusResult() has not been implemented.');
+  Future<void> onQueryUserStatusResult(int i, bool result, /*List<JCAccountItem>*/ list) {
+    throw UnimplementedError('onQueryUserStatusResult() has not been implemented.');
   }
 
   Future<void> onNetChange(int newNetType, int oldNetType) {
@@ -245,5 +221,14 @@ abstract class JcPlatform extends PlatformInterface {
   /// Sets the timeout for the call request.
   Future<void> setTimeout(int timeout) {
     throw UnimplementedError('setTimeout() has not been implemented.');
+  }
+
+  /// Returns [Void].
+  /// Takes [String] account in. It is the account identifier of the person you want to call.
+  ///
+  /// Makes a call to the specified account.
+  /// If [JCCall.call] returns true then the call started.
+  Future<bool> videoCall(String account) async {
+    throw UnimplementedError('videoCall() has not been implemented.');
   }
 }

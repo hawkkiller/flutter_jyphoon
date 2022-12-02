@@ -21,7 +21,7 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
 
     private val userInfo = UserInfo()
 
-    private val call = Call()
+    private val call = Call(applicationContext)
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channelName = "jc"
@@ -50,6 +50,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
             }
             "setTimeout" -> {
                 userInfo.setTimeout(call, result)
+            }
+            "startVideoCall" -> {
+                this.call.startVideoCall(call, result)
             }
             else -> {
                 result.notImplemented()
