@@ -1,6 +1,8 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
+import androidx.annotation.NonNull
+
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
@@ -20,7 +22,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
 
     private val userInfo = UserInfo()
 
+
     private val call = Call(applicationContext)
+
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channelName = "jc"
@@ -50,6 +54,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
             "setTimeout" -> {
                 userInfo.setTimeout(call, result)
             }
+            "uninitialize" -> {
+                initialization.uninitialize(result)
+
             "startCall" -> {
                 this.call.startCall(call, result)
             }

@@ -35,6 +35,10 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('setAppKey() has not been implemented.');
   }
 
+  
+
+  /// Returns [Void]
+  /// Deinitialize the engine. After call this method you can't use call mechanics
   Future<void> uninitialize() {
     throw UnimplementedError('uninstall() has not been implemented.');
   }
