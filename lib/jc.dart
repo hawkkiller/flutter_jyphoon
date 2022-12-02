@@ -48,8 +48,7 @@ class JC extends JcPlatform {
   @override
   Future<bool> setAccountNumber(String accountNumber) async {
     final arguments = {'accountNumber': accountNumber};
-    final res =
-        await methodChannel.invokeMethod<bool>('setAccountNumber', arguments);
+    final res = await methodChannel.invokeMethod<bool>('setAccountNumber', arguments);
     if (res == null) {
       throw PlatformException(
         code: 'setAccountNumber',
@@ -63,5 +62,18 @@ class JC extends JcPlatform {
   Future<void> setTimeout(int timeout) async {
     final arguments = {'timeout': timeout};
     await methodChannel.invokeMethod<void>('setTimeout', arguments);
+  }
+
+  @override
+  Future<bool> videoCall(String account) async {
+    final arguments = {'account': account};
+    final res = await methodChannel.invokeMethod<bool>('videoCall', arguments);
+    if (res == null) {
+      throw PlatformException(
+        code: 'videoCall',
+        message: 'videoCall failed',
+      );
+    }
+    return res;
   }
 }
