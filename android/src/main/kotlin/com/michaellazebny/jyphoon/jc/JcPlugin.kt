@@ -51,6 +51,9 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
             "setTimeout" -> {
                 userInfo.setTimeout(call, result)
             }
+            "uninitialize" -> {
+                initialization.uninitialize(result)
+            }
             else -> {
                 result.notImplemented()
             }

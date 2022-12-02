@@ -53,6 +53,19 @@ class Initialization {
             result.error("setAppKey", e.message, null)
         }
     }
+
+    /**
+     * Returns [Void]
+     * Deinitialize the engine. After call this method you can't use call mechanics
+     */
+    fun uninitialize(result: MethodChannel.Result) {
+        try {
+            jcManager.uninitialize()
+            result.success(null)
+        } catch (e: Exception) {
+            result.error("uninitialize", e.message, null)
+        }
+    }
 }
 
 
