@@ -259,9 +259,9 @@ abstract class JcPlatform extends PlatformInterface {
     throw UnimplementedError('videoCall() has not been implemented.');
   }
 
-  ///   Returns [Void].
+  /// Returns [Void].
   /// Takes [String] host url in.
-  ///  Sets set custom requestUrl.
+  /// Sets set custom requestUrl.
   Future<void> setRequestUrl(String hostUrl) {
     throw UnimplementedError('setRequestUrl() has not been implemented.');
   }
