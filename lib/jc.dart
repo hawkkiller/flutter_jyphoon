@@ -48,7 +48,8 @@ class JC extends JcPlatform {
   @override
   Future<bool> setAccountNumber(String accountNumber) async {
     final arguments = {'accountNumber': accountNumber};
-    final res = await methodChannel.invokeMethod<bool>('setAccountNumber', arguments);
+    final res =
+        await methodChannel.invokeMethod<bool>('setAccountNumber', arguments);
     if (res == null) {
       throw PlatformException(
         code: 'setAccountNumber',
@@ -83,5 +84,11 @@ class JC extends JcPlatform {
       );
     }
     return res;
+  }
+
+  @override
+  Future<void> setRequestUrl(String hostUrl) async {
+    final arguments = {'hostUrl': hostUrl};
+    await methodChannel.invokeMethod<void>('setRequestUrl', arguments);
   }
 }

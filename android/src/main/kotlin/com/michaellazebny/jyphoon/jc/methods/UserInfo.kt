@@ -75,4 +75,24 @@ class UserInfo {
             result.error("setTimeout", e.message, null)
         }
     }
+
+    /**
+     * Returns [Void].
+     * Takes [String] host url in.
+     * Sets set custom requestUrl.
+     */
+    fun setRequestUrl(call: MethodCall, result: MethodChannel.Result) {
+        try {
+            val host = call.argument<String>("hostUrl")
+            if (host == null) {
+                result.error("setRequestUrl", "hostUrl is null", null)
+                return
+            }
+            JCManager.getInstance().client.serverAddress = host
+            result.success(null)
+        } catch (e: Exception) {
+            result.error("setCustomHost", e.message, null)
+        }
+    }
+
 }
