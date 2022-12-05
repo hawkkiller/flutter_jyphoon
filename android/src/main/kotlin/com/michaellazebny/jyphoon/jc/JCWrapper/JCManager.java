@@ -49,6 +49,7 @@ import com.juphoon.cloud.JCPush;
 import com.juphoon.cloud.JCStorage;
 import com.juphoon.cloud.JCStorageCallback;
 import com.juphoon.cloud.JCStorageItem;
+import com.michaellazebny.jyphoon.jc.views.LocalView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -84,6 +85,9 @@ public class JCManager implements JCClientCallback, JCCallCallback, JCMediaChann
     private List<String> mLogs;
 
     public boolean initialize(Context context) {
+        if (isInited()) {
+            return true;
+        }
         mContext = context;
 
         JCClient.CreateParam createParam = new JCClient.CreateParam(context);

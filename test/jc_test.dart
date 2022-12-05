@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jc/jc.dart';
-import 'package:jc/jc_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockJcPlatform extends JcPlatform with MockPlatformInterfaceMixin {}

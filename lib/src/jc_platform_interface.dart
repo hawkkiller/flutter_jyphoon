@@ -255,7 +255,7 @@ abstract class JcPlatform extends PlatformInterface {
   ///
   /// Makes a call to the specified account.
   /// If [JCCall.call] returns true then the call started.
-  Future<bool> startCall(String account, bool video) async {
+  Future<bool> startCall(String accountNumber, bool video) async {
     throw UnimplementedError('videoCall() has not been implemented.');
   }
 

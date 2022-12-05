@@ -6,6 +6,8 @@ import androidx.annotation.NonNull
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
+import com.michaellazebny.jyphoon.jc.views.LocalViewFactory
+import com.michaellazebny.jyphoon.jc.views.RemoteViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -22,8 +24,7 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
 
     private val userInfo = UserInfo()
 
-
-    private val call = Call(applicationContext)
+    private val call = Call()
 
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -31,6 +32,14 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, channelName)
         applicationContext = flutterPluginBinding.applicationContext
         channel.setMethodCallHandler(this)
+        flutterPluginBinding.platformViewRegistry.registerViewFactory(
+            "local-view",
+            LocalViewFactory(),
+        )
+        flutterPluginBinding.platformViewRegistry.registerViewFactory(
+            "remote-view",
+            RemoteViewFactory(),
+        )
     }
 
 
@@ -58,7 +67,7 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
                 initialization.uninitialize(result)
             }
             "startCall" -> {
-                this.call.startCall(call, result)
+                this.call.startCall(call, result, applicationContext)
             }
             "setRequestUrl" -> {
                 userInfo.setRequestUrl(call, result)
