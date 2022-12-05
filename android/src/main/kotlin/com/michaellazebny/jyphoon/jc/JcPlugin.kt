@@ -56,9 +56,12 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
             }
             "uninitialize" -> {
                 initialization.uninitialize(result)
-
+            }
             "startCall" -> {
                 this.call.startCall(call, result)
+            }
+            "setRequestUrl" -> {
+                userInfo.setRequestUrl(call, result)
             }
             else -> {
                 result.notImplemented()
