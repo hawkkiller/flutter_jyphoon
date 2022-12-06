@@ -16,22 +16,17 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** JcPlugin */
-class JcPlugin : FlutterPlugin, MethodCallHandler {
+class JcPlugin : FlutterPlugin, JCApi {
     private lateinit var channel: MethodChannel
     private lateinit var applicationContext: Context
 
     private val initialization = Initialization()
-
     private val userInfo = UserInfo()
-
     private val call = Call()
 
-
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        val channelName = "jc"
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, channelName)
         applicationContext = flutterPluginBinding.applicationContext
-        channel.setMethodCallHandler(this)
+        JCApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "local-view",
             LocalViewFactory(),
@@ -42,44 +37,27 @@ class JcPlugin : FlutterPlugin, MethodCallHandler {
         )
     }
 
-
-    override fun onMethodCall(call: MethodCall, result: Result) {
-        when (call.method) {
-            "isInited" -> {
-                initialization.isInited(result)
-            }
-            "initialize" -> {
-                initialization.initialize(applicationContext, result)
-            }
-            "setAppKey" -> {
-                initialization.setAppKey(call, result)
-            }
-            "setDisplayName" -> {
-                userInfo.setDisplayName(call, result)
-            }
-            "setAccountNumber" -> {
-                userInfo.setAccountNumber(call, result)
-            }
-            "setTimeout" -> {
-                userInfo.setTimeout(call, result)
-            }
-            "uninitialize" -> {
-                initialization.uninitialize(result)
-            }
-            "startCall" -> {
-                this.call.startCall(call, result, applicationContext)
-            }
-            "setRequestUrl" -> {
-                userInfo.setRequestUrl(call, result)
-            }
-            else -> {
-                result.notImplemented()
-            }
-        }
-
-    }
-
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        channel.setMethodCallHandler(null)
+        JCApi.setUp(binding.binaryMessenger, null)
     }
+
+    override fun isInited() = initialization.isInited()
+
+    override fun initialize() = initialization.initialize(applicationContext)
+
+    override fun uninitialize() = initialization.uninitialize()
+
+    override fun setAppKey(appKey: String) = initialization.setAppKey(appKey)
+
+    override fun setDisplayName(displayName: String) = userInfo.setDisplayName(displayName)
+
+    override fun setAccountNumber(accountNumber: String) = userInfo.setAccountNumber(accountNumber)
+
+    override fun setTimeout(timeout: Long) = userInfo.setTimeout(timeout)
+
+    override fun startCall(accountNumber: String, video: Boolean) =
+        call.startCall(accountNumber, video, applicationContext)
+
+    override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
+
 }

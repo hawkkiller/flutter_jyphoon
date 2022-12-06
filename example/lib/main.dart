@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _jcPlugin = JC();
+  final _jcPlugin = JCApi();
   bool started = false;
 
   @override
@@ -43,12 +43,21 @@ class _MyAppState extends State<MyApp> {
             ),
             ElevatedButton(
               onPressed: () async {
+                setState(() {
+                  started = !started;
+                });
+              },
+              child: const Text('setState'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
                 await _jcPlugin.setAppKey('36731340dcf305c7c5234096');
                 final res = await _jcPlugin.initialize();
                 await _jcPlugin.setDisplayName('Flutter');
                 final res2 = await _jcPlugin.setAccountNumber('a123456');
-                await _jcPlugin
-                    .setRequestUrl('http:cn.router.justalkcloud.com:8080');
+                await _jcPlugin.setServerAddress(
+                  'http:cn.router.justalkcloud.com:8080',
+                );
                 await _jcPlugin.setTimeout(5000);
                 log('initialize: $res');
               },
@@ -57,14 +66,12 @@ class _MyAppState extends State<MyApp> {
             // start call
             ElevatedButton(
               onPressed: () async {
-                final started = await _jcPlugin.startCall.call(
+                final started = await _jcPlugin.startCall(
                   'b123456',
                   true,
                 );
-                Future.delayed(const Duration(seconds: 5), () async {
-                  setState(() {
-                    this.started = started;
-                  });
+                setState(() {
+                  this.started = started;
                 });
               },
               child: const Text('startCall'),
