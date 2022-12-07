@@ -21,7 +21,6 @@ class LocalView(context: Context, id: Int, creationParams: Map<String?, Any?>?) 
 
 class LocalViewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
-        Log.d("ADDED", "misha")
         return LocalView(context, viewId, null)
     }
 }

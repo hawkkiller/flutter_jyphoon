@@ -69,6 +69,10 @@ abstract class JCApi {
   /// Returns [Void].
   /// Takes [String] account in. It is the account identifier of the person you want to call.
   void setServerAddress(String serverAddress);
+
+  /// Returns [Void].
+  /// Answers call
+  void answerCall();
 }
 
 @FlutterApi()

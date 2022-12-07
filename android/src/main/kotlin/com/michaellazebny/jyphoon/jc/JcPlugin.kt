@@ -18,7 +18,6 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 /** JcPlugin */
 class JcPlugin : FlutterPlugin, JCApi {
-    private lateinit var channel: MethodChannel
     private lateinit var applicationContext: Context
     private lateinit var receiver: JcReceiver
 
@@ -60,7 +59,12 @@ class JcPlugin : FlutterPlugin, JCApi {
     override fun setTimeout(timeout: Long) = userInfo.setTimeout(timeout)
 
     override fun startCall(accountNumber: String, video: Boolean) =
-        call.startCall(accountNumber, video, applicationContext)
+        call.startCall(
+            accountNumber = accountNumber,
+            video = video,
+            context = applicationContext,
+            receiver = receiver,
+        )
 
     override fun startSelfVideo() = call.startSelfVideo(applicationContext, receiver)
 
@@ -69,5 +73,7 @@ class JcPlugin : FlutterPlugin, JCApi {
     override fun startOtherVideo() = call.startOtherVideo(applicationContext)
 
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
+
+    override fun answerCall() = call.answerCall()
 
 }

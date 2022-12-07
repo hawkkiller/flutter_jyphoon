@@ -85,6 +85,8 @@ interface JCApi {
    * Takes [String] account in. It is the account identifier of the person you want to call.
    */
   fun setServerAddress(serverAddress: String)
+  /** Returns [Void]. */
+  fun answerCall()
 
   companion object {
     /** The codec used by JCApi. */
@@ -297,6 +299,23 @@ interface JCApi {
               val args = message as List<Any?>
               val serverAddressArg = args[0] as String
               api.setServerAddress(serverAddressArg)
+              wrapped["result"] = null
+            } catch (exception: Error) {
+              wrapped["error"] = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.answerCall", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped = hashMapOf<String, Any?>()
+            try {
+              api.answerCall()
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)

@@ -9,10 +9,6 @@ import com.michaellazebny.jyphoon.jc.JcReceiver
 import com.michaellazebny.jyphoon.jc.Toos.SPUtils
 import com.michaellazebny.jyphoon.jc.views.LocalView
 import com.michaellazebny.jyphoon.jc.views.RemoteView
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-import java.util.*
-import java.util.logging.Handler
 
 class Call() {
     private val jcManager = JCManager.getInstance()
@@ -25,7 +21,12 @@ class Call() {
      * Makes a call to the specified account.
      * If [JCCall.call] returns true then the call started.
      */
-    fun startCall(accountNumber: String, video: Boolean, context: Context): Boolean {
+    fun startCall(
+        accountNumber: String,
+        video: Boolean,
+        context: Context,
+        receiver: JcReceiver
+    ): Boolean {
         val callTicket = SPUtils.get(context, "callTicket", "1234567890") as String
         val callParam = CallParam("video", callTicket)
         // start call, returns [Boolean] whether call was started or not
@@ -55,6 +56,7 @@ class Call() {
             LocalView.localView = canvas.videoView
             RemoteView.remoteView = remoteCanvas.videoView
         }
+        receiver.onCallStarted {}
         return res
     }
 
@@ -89,5 +91,16 @@ class Call() {
             ) as Int
         )
         RemoteView.remoteView = canvas.videoView
+    }
+
+    /**
+     * Returns [Void].
+     * Answers incoming call.
+     */
+    fun answerCall() {
+        val item = JCManager.getInstance().call.activeCallItem
+        if (item != null) {
+            JCManager.getInstance().call.answer(item, true)
+        }
     }
 }
