@@ -5,6 +5,7 @@ import com.juphoon.cloud.JCCall
 import com.juphoon.cloud.JCCall.CallParam
 import com.juphoon.cloud.JCMediaDevice
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.JcReceiver
 import com.michaellazebny.jyphoon.jc.Toos.SPUtils
 import com.michaellazebny.jyphoon.jc.views.LocalView
 import com.michaellazebny.jyphoon.jc.views.RemoteView
@@ -24,7 +25,7 @@ class Call() {
      * Makes a call to the specified account.
      * If [JCCall.call] returns true then the call started.
      */
-    fun startCall(accountNumber: String, video: Boolean, context: Context) : Boolean {
+    fun startCall(accountNumber: String, video: Boolean, context: Context): Boolean {
         val callTicket = SPUtils.get(context, "callTicket", "1234567890") as String
         val callParam = CallParam("video", callTicket)
         // start call, returns [Boolean] whether call was started or not
@@ -36,6 +37,29 @@ class Call() {
         if (res) {
             item = jcManager.call.activeCallItem;
         }
+        if (video) {
+            val canvas = item.startSelfVideo(
+                SPUtils.get(
+                    context,
+                    "RenderMode",
+                    JCMediaDevice.RENDER_FULL_CONTENT
+                ) as Int
+            )
+            val remoteCanvas = item.startOtherVideo(
+                SPUtils.get(
+                    context,
+                    "RenderMode",
+                    JCMediaDevice.RENDER_FULL_CONTENT
+                ) as Int
+            )
+            LocalView.localView = canvas.videoView
+            RemoteView.remoteView = remoteCanvas.videoView
+        }
+        return res
+    }
+
+    fun startSelfVideo(context: Context, receiver: JcReceiver) {
+        val item = jcManager.call.activeCallItem;
         val canvas = item.startSelfVideo(
             SPUtils.get(
                 context,
@@ -43,15 +67,27 @@ class Call() {
                 JCMediaDevice.RENDER_FULL_CONTENT
             ) as Int
         )
-        val remoteCanvas = item.startOtherVideo(
+        LocalView.localView = canvas.videoView
+        receiver.onVideoStarted {}
+    }
+
+    fun stopSelfVideo(receiver: JcReceiver) {
+        val item = jcManager.call.activeCallItem;
+        item.stopSelfVideo()
+
+        LocalView.localView = null
+        receiver.onVideoStopped {}
+    }
+
+    fun startOtherVideo(context: Context) {
+        val item = jcManager.call.activeCallItem;
+        val canvas = item.startOtherVideo(
             SPUtils.get(
                 context,
                 "RenderMode",
                 JCMediaDevice.RENDER_FULL_CONTENT
             ) as Int
         )
-        LocalView.localView = canvas.videoView
-        RemoteView.remoteView = remoteCanvas.videoView
-        return res
+        RemoteView.remoteView = canvas.videoView
     }
 }

@@ -54,10 +54,30 @@ abstract class JCApi {
   /// If [JCCall.call] returns true then the call started.
   bool startCall(String accountNumber, bool video);
 
+  /// Returns [Void].
+  /// Starts to send video.
+  void startSelfVideo();
+
+  /// Returns [Void].
+  /// Stops to send video.
+  void stopSelfVideo();
+
+  /// Returns [Void].
+  /// Gets the video from the other participant.
+  void startOtherVideo();
+
+  /// Returns [Void].
+  /// Takes [String] account in. It is the account identifier of the person you want to call.
   void setServerAddress(String serverAddress);
 }
 
 @FlutterApi()
 abstract class JcReceiver {
   void onCallStarted();
+
+  void onVideoStarted();
+
+  void onVideoStopped();
+
+  void onCallEnded();
 }

@@ -10,6 +10,7 @@ import com.michaellazebny.jyphoon.jc.views.LocalViewFactory
 import com.michaellazebny.jyphoon.jc.views.RemoteViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -19,10 +20,15 @@ import io.flutter.plugin.common.MethodChannel.Result
 class JcPlugin : FlutterPlugin, JCApi {
     private lateinit var channel: MethodChannel
     private lateinit var applicationContext: Context
+    private lateinit var receiver: JcReceiver
 
     private val initialization = Initialization()
     private val userInfo = UserInfo()
     private val call = Call()
+
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        JCApi.setUp(binding.binaryMessenger, null)
+    }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = flutterPluginBinding.applicationContext
@@ -35,11 +41,9 @@ class JcPlugin : FlutterPlugin, JCApi {
             "remote-view",
             RemoteViewFactory(),
         )
+        receiver = JcReceiver(flutterPluginBinding.binaryMessenger)
     }
 
-    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        JCApi.setUp(binding.binaryMessenger, null)
-    }
 
     override fun isInited() = initialization.isInited()
 
@@ -57,6 +61,12 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     override fun startCall(accountNumber: String, video: Boolean) =
         call.startCall(accountNumber, video, applicationContext)
+
+    override fun startSelfVideo() = call.startSelfVideo(applicationContext, receiver)
+
+    override fun stopSelfVideo() = call.stopSelfVideo(receiver)
+
+    override fun startOtherVideo() = call.startOtherVideo(applicationContext)
 
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
 
