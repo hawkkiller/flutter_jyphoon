@@ -24,10 +24,10 @@ class Call() {
     fun startCall(
         accountNumber: String,
         video: Boolean,
+        callTicket: String,
         context: Context,
         receiver: JcReceiver
     ): Boolean {
-        val callTicket = SPUtils.get(context, "callTicket", "1234567890") as String
         val callParam = CallParam("video", callTicket)
         // start call, returns [Boolean] whether call was started or not
         var item = jcManager.call.activeCallItem;
@@ -37,6 +37,8 @@ class Call() {
         val res = jcManager.call.call(accountNumber, video, callParam)
         if (res) {
             item = jcManager.call.activeCallItem;
+        } else {
+            return res
         }
         if (video) {
             val canvas = item.startSelfVideo(

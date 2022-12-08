@@ -52,7 +52,7 @@ abstract class JCApi {
   ///
   /// Makes a call to the specified account.
   /// If [JCCall.call] returns true then the call started.
-  bool startCall(String accountNumber, bool video);
+  bool startCall(String accountNumber, bool video, String ticket);
 
   /// Returns [Void].
   /// Starts to send video.

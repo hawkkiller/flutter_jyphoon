@@ -215,11 +215,11 @@ class JCApi {
   ///
   /// Makes a call to the specified account.
   /// If [JCCall.call] returns true then the call started.
-  Future<bool> startCall(String arg_accountNumber, bool arg_video) async {
+  Future<bool> startCall(String arg_accountNumber, bool arg_video, String arg_ticket) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JCApi.startCall', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_accountNumber, arg_video]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_accountNumber, arg_video, arg_ticket]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -339,6 +339,7 @@ class JCApi {
   }
 
   /// Returns [Void].
+  /// Answers call
   Future<void> answerCall() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JCApi.answerCall', codec, binaryMessenger: _binaryMessenger);

@@ -1,7 +1,6 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import androidx.annotation.NonNull
 
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
@@ -10,11 +9,6 @@ import com.michaellazebny.jyphoon.jc.views.LocalViewFactory
 import com.michaellazebny.jyphoon.jc.views.RemoteViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
 /** JcPlugin */
 class JcPlugin : FlutterPlugin, JCApi {
@@ -58,12 +52,13 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     override fun setTimeout(timeout: Long) = userInfo.setTimeout(timeout)
 
-    override fun startCall(accountNumber: String, video: Boolean) =
+    override fun startCall(accountNumber: String, video: Boolean, ticket: String) =
         call.startCall(
             accountNumber = accountNumber,
             video = video,
             context = applicationContext,
             receiver = receiver,
+            callTicket = ticket,
         )
 
     override fun startSelfVideo() = call.startSelfVideo(applicationContext, receiver)

@@ -64,7 +64,7 @@ interface JCApi {
    * Makes a call to the specified account.
    * If [JCCall.call] returns true then the call started.
    */
-  fun startCall(accountNumber: String, video: Boolean): Boolean
+  fun startCall(accountNumber: String, video: Boolean, ticket: String): Boolean
   /**
    * Returns [Void].
    * Starts to send video.
@@ -85,7 +85,10 @@ interface JCApi {
    * Takes [String] account in. It is the account identifier of the person you want to call.
    */
   fun setServerAddress(serverAddress: String)
-  /** Returns [Void]. */
+  /**
+   * Returns [Void].
+   * Answers call
+   */
   fun answerCall()
 
   companion object {
@@ -229,7 +232,8 @@ interface JCApi {
               val args = message as List<Any?>
               val accountNumberArg = args[0] as String
               val videoArg = args[1] as Boolean
-              wrapped["result"] = api.startCall(accountNumberArg, videoArg)
+              val ticketArg = args[2] as String
+              wrapped["result"] = api.startCall(accountNumberArg, videoArg, ticketArg)
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
             }
