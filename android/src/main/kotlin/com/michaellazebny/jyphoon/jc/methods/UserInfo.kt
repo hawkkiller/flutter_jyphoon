@@ -27,7 +27,7 @@ class UserInfo {
      */
     fun setAccountNumber(accountNumber: String): Boolean {
         if (mLoginParam != null) {
-            mLoginParam = LoginParam();
+            mLoginParam = LoginParam()
         }
 
         return jcManager.client.login(accountNumber, "123", mLoginParam)

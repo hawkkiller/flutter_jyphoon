@@ -74,7 +74,8 @@ class _MyAppState extends State<MyApp> {
                   await _jcPlugin.setAppKey('36731340dcf305c7c5234096');
                   final res = await _jcPlugin.initialize();
                   await _jcPlugin.setDisplayName('Flutter');
-                  final res2 = await _jcPlugin.setAccountNumber('31');
+                  final res2 = await _jcPlugin
+                      .setAccountNumber('llgrishakova_gmail_com');
                   await _jcPlugin.setServerAddress(
                     'http:cn.router.justalkcloud.com:8080',
                   );
@@ -89,7 +90,7 @@ class _MyAppState extends State<MyApp> {
                   final started = await _jcPlugin.startCall(
                     '353101510211658',
                     true,
-                    "0151021165_1670491158",
+                    "0151021165_1670504790",
                   );
                   setState(() {
                     this.started = started;
