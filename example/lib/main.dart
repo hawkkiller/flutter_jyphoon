@@ -53,13 +53,13 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  _jcPlugin.stopSelfVideo();
+                  _jcPlugin.setSelfVideoCondition(false);
                 },
                 child: const Text('stop self video'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  _jcPlugin.startSelfVideo();
+                  _jcPlugin.setSelfVideoCondition(true);
                 },
                 child: const Text('start self video'),
               ),

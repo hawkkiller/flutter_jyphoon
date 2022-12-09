@@ -55,16 +55,17 @@ abstract class JCApi {
   bool startCall(String accountNumber, bool video, String ticket);
 
   /// Returns [Void].
-  /// Starts to send video.
-  void startSelfVideo();
+  /// Starts or stops to send video.
+  void setSelfVideoCondition(bool condition);
 
   /// Returns [Void].
-  /// Stops to send video.
-  void stopSelfVideo();
+  void setOtherVideoCondition(bool condition);
 
   /// Returns [Void].
-  /// Gets the video from the other participant.
-  void startOtherVideo();
+  void setSelfVoiceCondition(bool condition);
+
+  /// Returns [Void].
+  void setOtherVoiceCondition(bool condition);
 
   /// Returns [Void].
   /// Takes [String] account in. It is the account identifier of the person you want to call.
@@ -79,9 +80,13 @@ abstract class JCApi {
 abstract class JcReceiver {
   void onCallStarted();
 
-  void onVideoStarted();
+  void onSelfVideoChange(bool condition);
 
-  void onVideoStopped();
+  void onCompanionVideoChange(bool condition);
+
+  void onSelfVoiceChange(bool condition);
+
+  void onCompanionVoiceChange(bool condition);
 
   void onCallEnded();
 }

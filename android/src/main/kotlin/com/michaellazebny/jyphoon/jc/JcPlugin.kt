@@ -52,20 +52,23 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     override fun setTimeout(timeout: Long) = userInfo.setTimeout(timeout)
 
-    override fun startCall(accountNumber: String, video: Boolean, ticket: String) =
-        call.startCall(
-            accountNumber = accountNumber,
-            video = video,
-            context = applicationContext,
-            receiver = receiver,
-            callTicket = ticket,
-        )
+    override fun startCall(accountNumber: String, video: Boolean, ticket: String) = call.startCall(
+        accountNumber = accountNumber,
+        video = video,
+        context = applicationContext,
+        receiver = receiver,
+        callTicket = ticket,
+    )
 
-    override fun startSelfVideo() = call.startSelfVideo(applicationContext, receiver)
+    override fun setSelfVideoCondition(condition: Boolean) =
+        call.setSelfVideoCondition(condition, applicationContext)
 
-    override fun stopSelfVideo() = call.stopSelfVideo(receiver)
+    override fun setOtherVideoCondition(condition: Boolean) =
+        call.setOtherVideoCondition(condition, applicationContext)
 
-    override fun startOtherVideo() = call.startOtherVideo(applicationContext)
+    override fun setSelfVoiceCondition(condition: Boolean) = call.setSelfVoiceCondition(condition)
+
+    override fun setOtherVoiceCondition(condition: Boolean) = call.setOtherVoiceCondition(condition)
 
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
 

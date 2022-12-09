@@ -243,12 +243,12 @@ class JCApi {
   }
 
   /// Returns [Void].
-  /// Starts to send video.
-  Future<void> startSelfVideo() async {
+  /// Starts or stops to send video.
+  Future<void> setSelfVideoCondition(bool arg_condition) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.startSelfVideo', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.setSelfVideoCondition', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(null) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -267,12 +267,11 @@ class JCApi {
   }
 
   /// Returns [Void].
-  /// Stops to send video.
-  Future<void> stopSelfVideo() async {
+  Future<void> setOtherVideoCondition(bool arg_condition) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.stopSelfVideo', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.setOtherVideoCondition', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(null) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -291,12 +290,34 @@ class JCApi {
   }
 
   /// Returns [Void].
-  /// Gets the video from the other participant.
-  Future<void> startOtherVideo() async {
+  Future<void> setSelfVoiceCondition(bool arg_condition) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.startOtherVideo', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.setSelfVoiceCondition', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(null) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// Returns [Void].
+  Future<void> setOtherVoiceCondition(bool arg_condition) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.JCApi.setOtherVoiceCondition', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -367,8 +388,10 @@ abstract class JcReceiver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   void onCallStarted();
-  void onVideoStarted();
-  void onVideoStopped();
+  void onSelfVideoChange(bool condition);
+  void onCompanionVideoChange(bool condition);
+  void onSelfVoiceChange(bool condition);
+  void onCompanionVoiceChange(bool condition);
   void onCallEnded();
   static void setup(JcReceiver? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -386,26 +409,64 @@ abstract class JcReceiver {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.JcReceiver.onVideoStarted', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.JcReceiver.onSelfVideoChange', codec, binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          // ignore message
-          api.onVideoStarted();
+          assert(message != null, 'Argument for dev.flutter.pigeon.JcReceiver.onSelfVideoChange was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final bool? arg_condition = (args[0] as bool?);
+          assert(arg_condition != null, 'Argument for dev.flutter.pigeon.JcReceiver.onSelfVideoChange was null, expected non-null bool.');
+          api.onSelfVideoChange(arg_condition!);
           return;
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.JcReceiver.onVideoStopped', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.JcReceiver.onCompanionVideoChange', codec, binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          // ignore message
-          api.onVideoStopped();
+          assert(message != null, 'Argument for dev.flutter.pigeon.JcReceiver.onCompanionVideoChange was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final bool? arg_condition = (args[0] as bool?);
+          assert(arg_condition != null, 'Argument for dev.flutter.pigeon.JcReceiver.onCompanionVideoChange was null, expected non-null bool.');
+          api.onCompanionVideoChange(arg_condition!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.JcReceiver.onSelfVoiceChange', codec, binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null, 'Argument for dev.flutter.pigeon.JcReceiver.onSelfVoiceChange was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final bool? arg_condition = (args[0] as bool?);
+          assert(arg_condition != null, 'Argument for dev.flutter.pigeon.JcReceiver.onSelfVoiceChange was null, expected non-null bool.');
+          api.onSelfVoiceChange(arg_condition!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.JcReceiver.onCompanionVoiceChange', codec, binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null, 'Argument for dev.flutter.pigeon.JcReceiver.onCompanionVoiceChange was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final bool? arg_condition = (args[0] as bool?);
+          assert(arg_condition != null, 'Argument for dev.flutter.pigeon.JcReceiver.onCompanionVoiceChange was null, expected non-null bool.');
+          api.onCompanionVoiceChange(arg_condition!);
           return;
         });
       }

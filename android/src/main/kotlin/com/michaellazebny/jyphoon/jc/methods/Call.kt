@@ -43,16 +43,12 @@ class Call() {
         if (video) {
             val canvas = item.startSelfVideo(
                 SPUtils.get(
-                    context,
-                    "RenderMode",
-                    JCMediaDevice.RENDER_FULL_CONTENT
+                    context, "RenderMode", JCMediaDevice.RENDER_FULL_CONTENT
                 ) as Int
             )
             val remoteCanvas = item.startOtherVideo(
                 SPUtils.get(
-                    context,
-                    "RenderMode",
-                    JCMediaDevice.RENDER_FULL_CONTENT
+                    context, "RenderMode", JCMediaDevice.RENDER_FULL_CONTENT
                 ) as Int
             )
             LocalView.localView = canvas.videoView
@@ -62,38 +58,48 @@ class Call() {
         return res
     }
 
-    fun startSelfVideo(context: Context, receiver: JcReceiver) {
+    fun setSelfVideoCondition(condition: Boolean, context: Context) {
         val item = jcManager.call.activeCallItem;
-        val canvas = item.startSelfVideo(
-            SPUtils.get(
-                context,
-                "RenderMode",
-                JCMediaDevice.RENDER_FULL_CONTENT
-            ) as Int
-        )
-        LocalView.localView = canvas.videoView
-        receiver.onVideoStarted {}
+        if (condition) {
+            val canvas = item.startSelfVideo(
+                SPUtils.get(
+                    context, "RenderMode", JCMediaDevice.RENDER_FULL_CONTENT
+                ) as Int
+            )
+            LocalView.localView = canvas.videoView
+        } else {
+            item.stopSelfVideo()
+            LocalView.localView = null
+        }
     }
 
-    fun stopSelfVideo(receiver: JcReceiver) {
+    fun setOtherVideoCondition(condition: Boolean, context: Context) {
         val item = jcManager.call.activeCallItem;
-        item.stopSelfVideo()
-
-        LocalView.localView = null
-        receiver.onVideoStopped {}
+        if (condition) {
+            val canvas = item.startOtherVideo(
+                SPUtils.get(
+                    context, "RenderMode", JCMediaDevice.RENDER_FULL_CONTENT
+                ) as Int
+            )
+            RemoteView.remoteView = canvas.videoView
+        } else {
+            item.stopOtherVideo()
+            RemoteView.remoteView = null
+        }
     }
 
-    fun startOtherVideo(context: Context) {
-        val item = jcManager.call.activeCallItem;
-        val canvas = item.startOtherVideo(
-            SPUtils.get(
-                context,
-                "RenderMode",
-                JCMediaDevice.RENDER_FULL_CONTENT
-            ) as Int
-        )
-        RemoteView.remoteView = canvas.videoView
+    fun setSelfVoiceCondition(condition: Boolean) {
+        val call = jcManager.call
+        val item = call.activeCallItem
+        call.muteMicrophone(item, condition)
     }
+
+    fun setOtherVoiceCondition(condition: Boolean) {
+        val call = jcManager.call
+        val item = call.activeCallItem
+        call.muteSpeaker(item, condition)
+    }
+
 
     /**
      * Returns [Void].

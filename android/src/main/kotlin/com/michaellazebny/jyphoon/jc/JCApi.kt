@@ -67,19 +67,15 @@ interface JCApi {
   fun startCall(accountNumber: String, video: Boolean, ticket: String): Boolean
   /**
    * Returns [Void].
-   * Starts to send video.
+   * Starts or stops to send video.
    */
-  fun startSelfVideo()
-  /**
-   * Returns [Void].
-   * Stops to send video.
-   */
-  fun stopSelfVideo()
-  /**
-   * Returns [Void].
-   * Gets the video from the other participant.
-   */
-  fun startOtherVideo()
+  fun setSelfVideoCondition(condition: Boolean)
+  /** Returns [Void]. */
+  fun setOtherVideoCondition(condition: Boolean)
+  /** Returns [Void]. */
+  fun setSelfVoiceCondition(condition: Boolean)
+  /** Returns [Void]. */
+  fun setOtherVoiceCondition(condition: Boolean)
   /**
    * Returns [Void].
    * Takes [String] account in. It is the account identifier of the person you want to call.
@@ -244,12 +240,14 @@ interface JCApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.startSelfVideo", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.setSelfVideoCondition", codec)
         if (api != null) {
-          channel.setMessageHandler { _, reply ->
+          channel.setMessageHandler { message, reply ->
             val wrapped = hashMapOf<String, Any?>()
             try {
-              api.startSelfVideo()
+              val args = message as List<Any?>
+              val conditionArg = args[0] as Boolean
+              api.setSelfVideoCondition(conditionArg)
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
@@ -261,12 +259,14 @@ interface JCApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.stopSelfVideo", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.setOtherVideoCondition", codec)
         if (api != null) {
-          channel.setMessageHandler { _, reply ->
+          channel.setMessageHandler { message, reply ->
             val wrapped = hashMapOf<String, Any?>()
             try {
-              api.stopSelfVideo()
+              val args = message as List<Any?>
+              val conditionArg = args[0] as Boolean
+              api.setOtherVideoCondition(conditionArg)
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
@@ -278,12 +278,33 @@ interface JCApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.startOtherVideo", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.setSelfVoiceCondition", codec)
         if (api != null) {
-          channel.setMessageHandler { _, reply ->
+          channel.setMessageHandler { message, reply ->
             val wrapped = hashMapOf<String, Any?>()
             try {
-              api.startOtherVideo()
+              val args = message as List<Any?>
+              val conditionArg = args[0] as Boolean
+              api.setSelfVoiceCondition(conditionArg)
+              wrapped["result"] = null
+            } catch (exception: Error) {
+              wrapped["error"] = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.setOtherVoiceCondition", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val wrapped = hashMapOf<String, Any?>()
+            try {
+              val args = message as List<Any?>
+              val conditionArg = args[0] as Boolean
+              api.setOtherVoiceCondition(conditionArg)
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
@@ -348,15 +369,27 @@ class JcReceiver(private val binaryMessenger: BinaryMessenger) {
       callback()
     }
   }
-  fun onVideoStarted(callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onVideoStarted", codec)
-    channel.send(null) {
+  fun onSelfVideoChange(conditionArg: Boolean, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onSelfVideoChange", codec)
+    channel.send(listOf(conditionArg)) {
       callback()
     }
   }
-  fun onVideoStopped(callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onVideoStopped", codec)
-    channel.send(null) {
+  fun onCompanionVideoChange(conditionArg: Boolean, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onCompanionVideoChange", codec)
+    channel.send(listOf(conditionArg)) {
+      callback()
+    }
+  }
+  fun onSelfVoiceChange(conditionArg: Boolean, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onSelfVoiceChange", codec)
+    channel.send(listOf(conditionArg)) {
+      callback()
+    }
+  }
+  fun onCompanionVoiceChange(conditionArg: Boolean, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onCompanionVoiceChange", codec)
+    channel.send(listOf(conditionArg)) {
       callback()
     }
   }
