@@ -74,4 +74,5 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     override fun answerCall() = call.answerCall()
 
+    override fun getCurrentUserId() = userInfo.getUserId()
 }

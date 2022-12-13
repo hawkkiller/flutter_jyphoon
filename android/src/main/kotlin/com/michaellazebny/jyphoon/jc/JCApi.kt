@@ -86,6 +86,11 @@ interface JCApi {
    * Answers call
    */
   fun answerCall()
+  /**
+   * Returns [String].
+   * Get current user id
+   */
+  fun getCurrentUserId(): String?
 
   companion object {
     /** The codec used by JCApi. */
@@ -342,6 +347,22 @@ interface JCApi {
             try {
               api.answerCall()
               wrapped["result"] = null
+            } catch (exception: Error) {
+              wrapped["error"] = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.getCurrentUserId", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped = hashMapOf<String, Any?>()
+            try {
+              wrapped["result"] = api.getCurrentUserId()
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
             }

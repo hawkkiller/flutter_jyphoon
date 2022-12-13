@@ -74,6 +74,10 @@ abstract class JCApi {
   /// Returns [Void].
   /// Answers call
   void answerCall();
+
+  /// Returns [String].
+  /// Get current user id
+  String? getCurrentUserId();
 }
 
 @FlutterApi()

@@ -56,4 +56,14 @@ class UserInfo {
         JCManager.getInstance().client.serverAddress = hostUrl
     }
 
+    /**
+     * Returns [String].
+     * Get current user id.
+     */
+    fun getUserId(): String? {
+        if (jcManager.client.userId != null) {
+            return jcManager.client.userId
+        }
+        return null
+    }
 }
