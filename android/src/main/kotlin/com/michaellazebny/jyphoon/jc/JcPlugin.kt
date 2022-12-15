@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCCallUtils
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
@@ -75,22 +74,22 @@ class JcPlugin : FlutterPlugin, JCApi {
         callTicket = ticket,
     )
 
-    override fun setSelfVideoCondition(condition: Boolean) =
-        call.setSelfVideoCondition(applicationContext, condition)
-
-    override fun setOtherVideoCondition(condition: Boolean) =
-        call.setOtherVideoCondition(condition, applicationContext)
-
-    override fun setSelfVoiceCondition(condition: Boolean) = call.setSelfVoiceCondition(condition)
-
-    override fun setOtherVoiceCondition(condition: Boolean) = call.setOtherVoiceCondition(condition)
-
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
 
     override fun answerCall() = call.answerCall()
 
     override fun confJoin(confId: String, password: String) =
         call.confJoin(confId, password, applicationContext)
+
+    override fun updateSelfVideo(condition: Boolean) =
+        call.updateSelfVideo(applicationContext, condition)
+
+    override fun updateOtherVideo(condition: Boolean) =
+        call.updateOtherVideo(condition, applicationContext)
+
+    override fun updateSelfVoice(condition: Boolean) = call.updateSelfVoice(condition)
+
+    override fun updateOtherVoice(condition: Boolean) = call.updateOtherVoice(condition)
 
     override fun getCurrentUserId() = userInfo.getUserId()
 }

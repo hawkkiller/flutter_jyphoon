@@ -3,16 +3,13 @@ package com.michaellazebny.jyphoon.jc.methods
 import android.content.Context
 import com.juphoon.cloud.JCCall
 import com.juphoon.cloud.JCCall.CallParam
-import com.juphoon.cloud.JCMediaChannel
 import com.juphoon.cloud.JCMediaChannel.JoinParam
-import com.juphoon.cloud.JCMediaChannel.RecordParam
 import com.juphoon.cloud.JCMediaDevice
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.JcReceiver
 import com.michaellazebny.jyphoon.jc.Toos.SPUtils
 import com.michaellazebny.jyphoon.jc.views.LocalView
 import com.michaellazebny.jyphoon.jc.views.RemoteView
-import org.greenrobot.eventbus.EventBus
 
 class Call() {
     private val jcManager = JCManager.getInstance()
@@ -118,7 +115,7 @@ class Call() {
         return jcManager.mediaChannel.join(channelId, joinParam)
     }
 
-    fun setSelfVideoCondition(context: Context, condition: Boolean) {
+    fun updateSelfVideo(context: Context, condition: Boolean) {
         val item = jcManager.call.activeCallItem;
         if (condition) {
             val canvas = item.startSelfVideo(
@@ -133,7 +130,7 @@ class Call() {
         }
     }
 
-    fun setOtherVideoCondition(condition: Boolean, context: Context) {
+    fun updateOtherVideo(condition: Boolean, context: Context) {
         val item = jcManager.call.activeCallItem;
         if (condition) {
             val canvas = item.startOtherVideo(
@@ -148,13 +145,13 @@ class Call() {
         }
     }
 
-    fun setSelfVoiceCondition(condition: Boolean) {
+    fun updateSelfVoice(condition: Boolean) {
         val call = jcManager.call
         val item = call.activeCallItem
         call.muteMicrophone(item, condition)
     }
 
-    fun setOtherVoiceCondition(condition: Boolean) {
+    fun updateOtherVoice(condition: Boolean) {
         val call = jcManager.call
         val item = call.activeCallItem
         call.muteSpeaker(item, condition)
