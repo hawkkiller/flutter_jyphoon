@@ -65,6 +65,7 @@ interface JCApi {
    * If [JCCall.call] returns true then the call started.
    */
   fun startCall(accountNumber: String, video: Boolean, ticket: String): Boolean
+  fun confJoin(confId: String, password: String): Boolean
   /**
    * Returns [Void].
    * Starts or stops to send video.
@@ -245,7 +246,26 @@ interface JCApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.setSelfVideoCondition", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.confJoin", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val wrapped = hashMapOf<String, Any?>()
+            try {
+              val args = message as List<Any?>
+              val confIdArg = args[0] as String
+              val passwordArg = args[1] as String
+              wrapped["result"] = api.confJoin(confIdArg, passwordArg)
+            } catch (exception: Error) {
+              wrapped["error"] = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.startSelfVideo", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val wrapped = hashMapOf<String, Any?>()
