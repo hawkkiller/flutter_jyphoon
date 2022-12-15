@@ -6,22 +6,14 @@ class JcController extends JcReceiver {
   }
 
   @override
-  void onCallStarted() {
-    print('MISHA' + StackTrace.current.toString());
-  }
+  void onCallStarted() {}
 
   @override
-  void onCallEnded() {
-    print('MISHA' + StackTrace.current.toString());
-  }
+  void onCallEnded() {}
 
   @override
-  void onVideoStarted() {
-    print('MISHA' + StackTrace.current.toString());
-  }
+  void onVideoStarted() {}
 
   @override
-  void onVideoStopped() {
-    print('MISHA' + StackTrace.current.toString());
-  }
+  void onVideoStopped() {}
 }

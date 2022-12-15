@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   await _jcPlugin.setAppKey('36731340dcf305c7c5234096');
                   final res = await _jcPlugin.initialize();
-                  await _jcPlugin.setDisplayName('Flutter');
+                  await _jcPlugin.setDisplayName('fdsdf');
                   final res2 = await _jcPlugin
                       .setAccountNumber('llgrishakova_gmail_com');
                   await _jcPlugin.setServerAddress(
@@ -97,6 +97,15 @@ class _MyAppState extends State<MyApp> {
                   });
                 },
                 child: const Text('startCall'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await _jcPlugin.confJoin(
+                    "0151021165_llgrishakova_gmail_com",
+                    "123456",
+                  );
+                },
+                child: const Text('Conf Join'),
               ),
               if (started)
                 const SizedBox(

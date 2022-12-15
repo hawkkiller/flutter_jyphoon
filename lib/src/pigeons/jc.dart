@@ -54,6 +54,8 @@ abstract class JCApi {
   /// If [JCCall.call] returns true then the call started.
   bool startCall(String accountNumber, bool video, String ticket);
 
+  bool confJoin(String confId, String password);
+
   /// Returns [Void].
   /// Starts to send video.
   void startSelfVideo();
