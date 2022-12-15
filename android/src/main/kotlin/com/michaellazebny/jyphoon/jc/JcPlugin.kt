@@ -76,7 +76,7 @@ class JcPlugin : FlutterPlugin, JCApi {
     )
 
     override fun setSelfVideoCondition(condition: Boolean) =
-        call.setSelfVideoCondition(condition, applicationContext)
+        call.setSelfVideoCondition(applicationContext, condition)
 
     override fun setOtherVideoCondition(condition: Boolean) =
         call.setOtherVideoCondition(condition, applicationContext)

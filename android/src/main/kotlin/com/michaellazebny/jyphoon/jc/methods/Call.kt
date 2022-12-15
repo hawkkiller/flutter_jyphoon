@@ -118,7 +118,7 @@ class Call() {
         return jcManager.mediaChannel.join(channelId, joinParam)
     }
 
-    fun startSelfVideo(context: Context, receiver: JcReceiver) {
+    fun setSelfVideoCondition(context: Context, condition: Boolean) {
         val item = jcManager.call.activeCallItem;
         if (condition) {
             val canvas = item.startSelfVideo(
