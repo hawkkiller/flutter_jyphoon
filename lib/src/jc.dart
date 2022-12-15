@@ -271,9 +271,9 @@ class JCApi {
 
   /// Returns [Void].
   /// Starts or stops to send video.
-  Future<void> setSelfVideoCondition(bool arg_condition) async {
+  Future<void> updateSelfVideo(bool arg_condition) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setSelfVideoCondition', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateSelfVideo', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -294,9 +294,9 @@ class JCApi {
   }
 
   /// Returns [Void].
-  Future<void> setOtherVideoCondition(bool arg_condition) async {
+  Future<void> updateOtherVideo(bool arg_condition) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setOtherVideoCondition', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateOtherVideo', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -317,9 +317,9 @@ class JCApi {
   }
 
   /// Returns [Void].
-  Future<void> setSelfVoiceCondition(bool arg_condition) async {
+  Future<void> updateSelfVoice(bool arg_condition) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setSelfVoiceCondition', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateSelfVoice', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -340,9 +340,9 @@ class JCApi {
   }
 
   /// Returns [Void].
-  Future<void> setOtherVoiceCondition(bool arg_condition) async {
+  Future<void> updateOtherVoice(bool arg_condition) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setOtherVoiceCondition', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateOtherVoice', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_condition]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -438,26 +438,11 @@ class JCApi {
 abstract class JcReceiver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  void onCallStarted();
   void onSelfVideoChange(bool condition);
   void onCompanionVideoChange(bool condition);
   void onSelfVoiceChange(bool condition);
   void onCompanionVoiceChange(bool condition);
-  void onCallEnded();
   static void setup(JcReceiver? api, {BinaryMessenger? binaryMessenger}) {
-    {
-      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.JcReceiver.onCallStarted', codec, binaryMessenger: binaryMessenger);
-      if (api == null) {
-        channel.setMessageHandler(null);
-      } else {
-        channel.setMessageHandler((Object? message) async {
-          // ignore message
-          api.onCallStarted();
-          return;
-        });
-      }
-    }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.JcReceiver.onSelfVideoChange', codec, binaryMessenger: binaryMessenger);
@@ -518,19 +503,6 @@ abstract class JcReceiver {
           final bool? arg_condition = (args[0] as bool?);
           assert(arg_condition != null, 'Argument for dev.flutter.pigeon.JcReceiver.onCompanionVoiceChange was null, expected non-null bool.');
           api.onCompanionVoiceChange(arg_condition!);
-          return;
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.JcReceiver.onCallEnded', codec, binaryMessenger: binaryMessenger);
-      if (api == null) {
-        channel.setMessageHandler(null);
-      } else {
-        channel.setMessageHandler((Object? message) async {
-          // ignore message
-          api.onCallEnded();
           return;
         });
       }
