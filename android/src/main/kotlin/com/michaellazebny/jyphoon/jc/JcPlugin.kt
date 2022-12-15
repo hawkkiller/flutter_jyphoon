@@ -81,15 +81,13 @@ class JcPlugin : FlutterPlugin, JCApi {
     override fun confJoin(confId: String, password: String) =
         call.confJoin(confId, password, applicationContext)
 
-    override fun updateSelfVideo(condition: Boolean) =
-        call.updateSelfVideo(applicationContext, condition)
+    override fun updateSelfVideo(value: Boolean) = call.updateSelfVideo(applicationContext, value)
 
-    override fun updateOtherVideo(condition: Boolean) =
-        call.updateOtherVideo(condition, applicationContext)
+    override fun updateOtherVideo(value: Boolean) = call.updateOtherVideo(value, applicationContext)
 
-    override fun updateSelfVoice(condition: Boolean) = call.updateSelfVoice(condition)
+    override fun updateSelfVoice(value: Boolean) = call.updateSelfVoice(value)
 
-    override fun updateOtherVoice(condition: Boolean) = call.updateOtherVoice(condition)
+    override fun updateOtherVoice(value: Boolean) = call.updateOtherVoice(value)
 
     override fun getCurrentUserId() = userInfo.getUserId()
 }

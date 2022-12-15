@@ -70,13 +70,13 @@ interface JCApi {
    * Returns [Void].
    * Starts or stops to send video.
    */
-  fun updateSelfVideo(condition: Boolean)
+  fun updateSelfVideo(value: Boolean)
   /** Returns [Void]. */
-  fun updateOtherVideo(condition: Boolean)
+  fun updateOtherVideo(value: Boolean)
   /** Returns [Void]. */
-  fun updateSelfVoice(condition: Boolean)
+  fun updateSelfVoice(value: Boolean)
   /** Returns [Void]. */
-  fun updateOtherVoice(condition: Boolean)
+  fun updateOtherVoice(value: Boolean)
   /**
    * Returns [Void].
    * Takes [String] account in. It is the account identifier of the person you want to call.
@@ -271,8 +271,8 @@ interface JCApi {
             val wrapped = hashMapOf<String, Any?>()
             try {
               val args = message as List<Any?>
-              val conditionArg = args[0] as Boolean
-              api.updateSelfVideo(conditionArg)
+              val valueArg = args[0] as Boolean
+              api.updateSelfVideo(valueArg)
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
@@ -290,8 +290,8 @@ interface JCApi {
             val wrapped = hashMapOf<String, Any?>()
             try {
               val args = message as List<Any?>
-              val conditionArg = args[0] as Boolean
-              api.updateOtherVideo(conditionArg)
+              val valueArg = args[0] as Boolean
+              api.updateOtherVideo(valueArg)
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
@@ -309,8 +309,8 @@ interface JCApi {
             val wrapped = hashMapOf<String, Any?>()
             try {
               val args = message as List<Any?>
-              val conditionArg = args[0] as Boolean
-              api.updateSelfVoice(conditionArg)
+              val valueArg = args[0] as Boolean
+              api.updateSelfVoice(valueArg)
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
@@ -328,8 +328,8 @@ interface JCApi {
             val wrapped = hashMapOf<String, Any?>()
             try {
               val args = message as List<Any?>
-              val conditionArg = args[0] as Boolean
-              api.updateOtherVoice(conditionArg)
+              val valueArg = args[0] as Boolean
+              api.updateOtherVoice(valueArg)
               wrapped["result"] = null
             } catch (exception: Error) {
               wrapped["error"] = wrapError(exception)
@@ -404,27 +404,27 @@ class JcReceiver(private val binaryMessenger: BinaryMessenger) {
       StandardMessageCodec()
     }
   }
-  fun onSelfVideoChange(conditionArg: Boolean, callback: () -> Unit) {
+  fun onSelfVideoChange(valueArg: Boolean, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onSelfVideoChange", codec)
-    channel.send(listOf(conditionArg)) {
+    channel.send(listOf(valueArg)) {
       callback()
     }
   }
-  fun onCompanionVideoChange(conditionArg: Boolean, callback: () -> Unit) {
+  fun onCompanionVideoChange(valueArg: Boolean, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onCompanionVideoChange", codec)
-    channel.send(listOf(conditionArg)) {
+    channel.send(listOf(valueArg)) {
       callback()
     }
   }
-  fun onSelfVoiceChange(conditionArg: Boolean, callback: () -> Unit) {
+  fun onSelfVoiceChange(valueArg: Boolean, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onSelfVoiceChange", codec)
-    channel.send(listOf(conditionArg)) {
+    channel.send(listOf(valueArg)) {
       callback()
     }
   }
-  fun onCompanionVoiceChange(conditionArg: Boolean, callback: () -> Unit) {
+  fun onCompanionVoiceChange(valueArg: Boolean, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onCompanionVoiceChange", codec)
-    channel.send(listOf(conditionArg)) {
+    channel.send(listOf(valueArg)) {
       callback()
     }
   }

@@ -58,16 +58,16 @@ abstract class JCApi {
 
   /// Returns [Void].
   /// Starts or stops to send video.
-  void updateSelfVideo(bool condition);
+  void updateSelfVideo(bool value);
 
   /// Returns [Void].
-  void updateOtherVideo(bool condition);
+  void updateOtherVideo(bool value);
 
   /// Returns [Void].
-  void updateSelfVoice(bool condition);
+  void updateSelfVoice(bool value);
 
   /// Returns [Void].
-  void updateOtherVoice(bool condition);
+  void updateOtherVoice(bool value);
 
   /// Returns [Void].
   /// Takes [String] account in. It is the account identifier of the person you want to call.
@@ -84,11 +84,11 @@ abstract class JCApi {
 
 @FlutterApi()
 abstract class JcReceiver {
-  void onSelfVideoChange(bool condition);
+  void onSelfVideoChange(bool value);
 
-  void onCompanionVideoChange(bool condition);
+  void onCompanionVideoChange(bool value);
 
-  void onSelfVoiceChange(bool condition);
+  void onSelfVoiceChange(bool value);
 
-  void onCompanionVoiceChange(bool condition);
+  void onCompanionVoiceChange(bool value);
 }

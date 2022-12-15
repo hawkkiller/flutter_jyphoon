@@ -20,28 +20,22 @@ class JcController extends JcReceiver {
       StreamController<VoiceStatus>.broadcast();
 
   @override
-  void onCallStarted() {}
-
-  @override
-  void onCallEnded() {}
-
-  @override
-  void onCompanionVideoChange(bool condition) => condition
+  void onCompanionVideoChange(bool value) => value
       ? _companionVideoStatus.add(VideoStatus.started)
       : _companionVideoStatus.add(VideoStatus.stopped);
 
   @override
-  void onCompanionVoiceChange(bool condition) => condition
+  void onCompanionVoiceChange(bool value) => value
       ? _companionVoiceStatus.add(VoiceStatus.started)
       : _companionVoiceStatus.add(VoiceStatus.ended);
 
   @override
-  void onSelfVideoChange(bool condition) => condition
+  void onSelfVideoChange(bool value) => value
       ? _selfVideoStatus.add(VideoStatus.started)
       : _selfVideoStatus.add(VideoStatus.stopped);
 
   @override
-  void onSelfVoiceChange(bool condition) => condition
+  void onSelfVoiceChange(bool value) => value
       ? _selfVoiceStatus.add(VoiceStatus.started)
       : _selfVoiceStatus.add(VoiceStatus.ended);
 }
