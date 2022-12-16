@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// {@template local_view}
-/// LocalView widget
+/// {@template self_view}
+/// SelfView widget
 /// {@endtemplate}
-class LocalView extends StatelessWidget {
-  /// {@macro local_view}
-  const LocalView({super.key});
+class SelfView extends StatelessWidget {
+  /// {@macro self_view}
+  const SelfView({super.key});
 
   static const String viewType = 'local-view';
 

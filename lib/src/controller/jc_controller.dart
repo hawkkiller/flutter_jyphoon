@@ -2,11 +2,11 @@ import 'package:jc/src/controller/call.dart';
 import 'package:jc/src/jc.dart';
 
 class JcController extends JcReceiver {
-  JcController() : call = CallImpl() {
+  JcController() : call = JCCallImpl() {
     JcReceiver.setup(this);
   }
 
-  final Call call;
+  final JCCall call;
 
   @override
   void onVideoChange(bool value, bool self) => call.onVideoChange(

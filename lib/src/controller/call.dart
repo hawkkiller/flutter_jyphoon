@@ -1,7 +1,7 @@
 import 'package:jc/jc.dart';
 import 'package:rxdart/subjects.dart';
 
-abstract class Call {
+abstract class JCCall {
   abstract final Stream<VideoStatus> selfVideo;
   abstract final Stream<VideoStatus> companionVideo;
 
@@ -11,7 +11,7 @@ abstract class Call {
   });
 }
 
-class CallImpl implements Call {
+class JCCallImpl implements JCCall {
   final _selfVideo = BehaviorSubject<VideoStatus>();
   final _companionVideo = BehaviorSubject<VideoStatus>();
 
