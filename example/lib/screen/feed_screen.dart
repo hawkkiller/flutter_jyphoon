@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:jc/jc.dart';
 import 'package:jc_example/main.dart';
 
+import 'call_screen.dart';
+
 /// {@template feed_screen}
 /// FeedScreen widget
 /// {@endtemplate}
@@ -27,7 +29,7 @@ class _FeedScreenState extends State<FeedScreen> {
   bool _timeoutSet = false;
   bool _serverAddressSet = false;
 
-  bool allFieldsSet() {
+  bool _allFieldsSet() {
     return _appKeySet &&
         _displayNameSet &&
         _accountNumberSet &&
@@ -43,51 +45,74 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var allFieldsSet = _allFieldsSet();
+
     return SingleChildScrollView(
       child: Column(
         children: [
           _MaterialButton(
             color: Colors.deepPurple,
-            onTap: () async {
-              await _jcApi.initialize();
-              setState(() {
-                isInitialized = true;
-              });
-            },
+            onTap: () => _jcApi.initialize().then(
+                  (value) => setState(
+                    () => isInitialized = true,
+                  ),
+                ),
             title: 'initialize',
             enabled: _appKeySet,
           ),
           SDKField(
             label: 'AppKey',
-            onTap: (str) async {
-              await _jcApi.setAppKey(str);
-              setState(() {
-                _appKeySet = true;
-              });
-            },
+            onTap: (str) => _jcApi.setAppKey(str).then(
+                  (value) => setState(
+                    () => _appKeySet = true,
+                  ),
+                ),
           ),
           SDKField(
             label: 'DisplayName',
-            onTap: _jcApi.setDisplayName,
+            onTap: (str) => _jcApi.setDisplayName(str).then(
+                  (value) => setState(
+                    () => _displayNameSet = true,
+                  ),
+                ),
             isActive: isInitialized,
           ),
           SDKField(
             label: 'AccountNumber',
-            onTap: _jcApi.setAccountNumber,
+            onTap: (str) => _jcApi.setAccountNumber(str).then(
+                  (value) => setState(
+                    () => _accountNumberSet = true,
+                  ),
+                ),
             isActive: isInitialized,
           ),
           SDKField(
             label: 'ServerAddress',
-            onTap: _jcApi.setServerAddress,
+            onTap: (str) => _jcApi.setServerAddress(str).then(
+                  (value) => setState(
+                    () => _serverAddressSet = true,
+                  ),
+                ),
             isActive: isInitialized,
           ),
           SDKField(
             label: 'Timeout',
-            onTap: (value) => _jcApi.setTimeout(int.parse(value)),
+            onTap: (str) => _jcApi.setTimeout(int.parse(str)).then(
+                  (value) => setState(
+                    () => _timeoutSet = true,
+                  ),
+                ),
             isActive: isInitialized,
           ),
           _MaterialButton(
-              onTap: () {}, enabled: allFieldsSet(), title: 'Go to call page')
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => CallScreen(jcApi: _jcApi),
+              ));
+            },
+            enabled: allFieldsSet,
+            title: 'Go to call page',
+          )
         ],
       ),
     );
