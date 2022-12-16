@@ -44,7 +44,9 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'AppKey',
-            onTap: (str) => _jcApi.setAppKey,
+            onTap: (str) async {
+              await _jcApi.setAppKey(str);
+            },
           ),
           SDKField(
             label: 'DisplayName',
