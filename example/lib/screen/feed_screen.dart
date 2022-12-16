@@ -18,7 +18,22 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   late final JCApi _jcApi;
+
   bool isInitialized = false;
+
+  bool _appKeySet = false;
+  bool _displayNameSet = false;
+  bool _accountNumberSet = false;
+  bool _timeoutSet = false;
+  bool _serverAddressSet = false;
+
+  bool allFieldsSet() {
+    return _appKeySet &&
+        _displayNameSet &&
+        _accountNumberSet &&
+        _timeoutSet &&
+        _serverAddressSet;
+  }
 
   @override
   void initState() {
@@ -31,20 +46,25 @@ class _FeedScreenState extends State<FeedScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          MaterialButton(
+          _MaterialButton(
             color: Colors.deepPurple,
-            onPressed: () async {
+            onTap: () async {
               await _jcApi.initialize();
-
               setState(() {
                 isInitialized = true;
               });
             },
-            child: const Text('initialize'),
+            title: 'initialize',
+            enabled: _appKeySet,
           ),
           SDKField(
             label: 'AppKey',
-            onTap: _jcApi.setAppKey,
+            onTap: (str) async {
+              await _jcApi.setAppKey(str);
+              setState(() {
+                _appKeySet = true;
+              });
+            },
           ),
           SDKField(
             label: 'DisplayName',
@@ -66,6 +86,8 @@ class _FeedScreenState extends State<FeedScreen> {
             onTap: (value) => _jcApi.setTimeout(int.parse(value)),
             isActive: isInitialized,
           ),
+          _MaterialButton(
+              onTap: () {}, enabled: allFieldsSet(), title: 'Go to call page')
         ],
       ),
     );
