@@ -28,7 +28,6 @@ class Call() {
         video: Boolean,
         callTicket: String,
         context: Context,
-        receiver: JcReceiver
     ): Boolean {
         val callParam = CallParam("video", callTicket)
         // start call, returns [Boolean] whether call was started or not
@@ -56,7 +55,6 @@ class Call() {
             LocalView.localView = canvas.videoView
             RemoteView.remoteView = remoteCanvas.videoView
         }
-        receiver.onCallStarted {}
         return res
     }
 

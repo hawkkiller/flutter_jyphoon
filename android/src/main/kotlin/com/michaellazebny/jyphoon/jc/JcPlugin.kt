@@ -2,8 +2,11 @@ package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
 import android.util.Log
+import com.juphoon.cloud.JCMediaDevice
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCCallUtils
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent
+import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.handlers.Handler
 
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
@@ -23,9 +26,11 @@ class JcPlugin : FlutterPlugin, JCApi {
     private val initialization = Initialization()
     private val userInfo = UserInfo()
     private val call = Call()
+    private lateinit var handler: Handler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         JCApi.setUp(binding.binaryMessenger, null)
+        handler.dispose()
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -40,16 +45,8 @@ class JcPlugin : FlutterPlugin, JCApi {
             RemoteViewFactory(),
         )
         receiver = JcReceiver(flutterPluginBinding.binaryMessenger)
-        EventBus.getDefault().register(this)
-    }
-
-    @Subscribe
-    fun onEvent(event: JCEvent) {
-        Log.d("JcPlugin", "onEvent: ${event.eventType}")
-        val activeCallItem = JCCallUtils.getActiveCall()
-        if (activeCallItem != null) {
-            print("activeCallItem: $activeCallItem")
-        }
+        handler = Handler(receiver)
+        handler.init()
     }
 
     override fun isInited() = initialization.isInited()
@@ -70,7 +67,6 @@ class JcPlugin : FlutterPlugin, JCApi {
         accountNumber = accountNumber,
         video = video,
         context = applicationContext,
-        receiver = receiver,
         callTicket = ticket,
     )
 

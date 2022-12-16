@@ -404,27 +404,15 @@ class JcReceiver(private val binaryMessenger: BinaryMessenger) {
       StandardMessageCodec()
     }
   }
-  fun onSelfVideoChange(valueArg: Boolean, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onSelfVideoChange", codec)
-    channel.send(listOf(valueArg)) {
+  fun onVideoChange(valueArg: Boolean, selfArg: Boolean, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onVideoChange", codec)
+    channel.send(listOf(valueArg, selfArg)) {
       callback()
     }
   }
-  fun onCompanionVideoChange(valueArg: Boolean, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onCompanionVideoChange", codec)
-    channel.send(listOf(valueArg)) {
-      callback()
-    }
-  }
-  fun onSelfVoiceChange(valueArg: Boolean, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onSelfVoiceChange", codec)
-    channel.send(listOf(valueArg)) {
-      callback()
-    }
-  }
-  fun onCompanionVoiceChange(valueArg: Boolean, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onCompanionVoiceChange", codec)
-    channel.send(listOf(valueArg)) {
+  fun onVoiceChange(valueArg: Boolean, selfArg: Boolean, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JcReceiver.onVoiceChange", codec)
+    channel.send(listOf(valueArg, selfArg)) {
       callback()
     }
   }

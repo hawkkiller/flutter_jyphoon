@@ -84,11 +84,13 @@ abstract class JCApi {
 
 @FlutterApi()
 abstract class JcReceiver {
-  void onSelfVideoChange(bool value);
+  void onVideoChange(
+    bool value,
+    bool self,
+  );
 
-  void onCompanionVideoChange(bool value);
-
-  void onSelfVoiceChange(bool value);
-
-  void onCompanionVoiceChange(bool value);
+  void onVoiceChange(
+    bool value,
+    bool self,
+  );
 }
