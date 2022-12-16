@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:jc/jc.dart';
 
@@ -82,18 +84,27 @@ class _CallScreenState extends State<CallScreen> {
                         return const Text('Self Video: null');
                       }
 
-                      return const SelfView();
+                      return const SizedBox(
+                        height: 200,
+                        width: 100,
+                        child: SelfView(),
+                      );
                     },
                   ),
                   StreamBuilder<VideoStatus>(
                     stream: _jcCall.companionVideo,
                     builder: (context, snapshot) {
                       final data = snapshot.data;
+                      log(snapshot.data.toString());
                       if (data == null || data == VideoStatus.off) {
                         return const Text('Companion Video: null');
                       }
 
-                      return const CompanionView();
+                      return const SizedBox(
+                        height: 200,
+                        width: 100,
+                        child: CompanionView(),
+                      );
                     },
                   )
                 ],

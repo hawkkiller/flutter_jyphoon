@@ -6,6 +6,8 @@ import com.michaellazebny.jyphoon.jc.JCWrapper.JCCallUtils
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.JcReceiver
+import com.michaellazebny.jyphoon.jc.views.LocalView
+import com.michaellazebny.jyphoon.jc.views.RemoteView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -25,7 +27,7 @@ class Handler(private val receiver: JcReceiver) {
         Log.d("JcPlugin::Handler", "onEvent: ${event.eventType}")
         val activeCallItem = JCCallUtils.getActiveCall() ?: return
         when (event.eventType) {
-            JCEvent.EventType.CAMERA_UPDATE, JCEvent.EventType.CALL_UPDATE, JCEvent.EventType.CALL_UI -> {
+            JCEvent.EventType.CAMERA_UPDATE, JCEvent.EventType.CALL_UPDATE -> {
                 onVideoUpdate(activeCallItem)
             }
             else -> {}
@@ -35,6 +37,9 @@ class Handler(private val receiver: JcReceiver) {
     private fun onVideoUpdate(callItem: JCCallItem) {
         val selfVideo = callItem.uploadVideoStreamSelf
         val companionVideo = callItem.uploadVideoStreamOther
+        LocalView.localView = JCCallUtils.getSelfCanvas(callItem).videoView
+        RemoteView.remoteView = JCCallUtils.getOtherCanvas(callItem).videoView
+
         receiver.onVideoChange(selfVideo, true) {}
         receiver.onVideoChange(companionVideo, false) {}
     }

@@ -2,6 +2,7 @@ package com.michaellazebny.jyphoon.jc.JCWrapper;
 
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallItem;
+import com.juphoon.cloud.JCMediaDevice;
 
 import java.util.Locale;
 
@@ -14,6 +15,14 @@ public class JCCallUtils {
             }
         }
         return null;
+    }
+
+    public static com.juphoon.cloud.JCMediaDeviceVideoCanvas getSelfCanvas(JCCallItem item) {
+        return item.startSelfVideo(JCMediaDevice.RENDER_FULL_CONTENT);
+    }
+
+    public static com.juphoon.cloud.JCMediaDeviceVideoCanvas getOtherCanvas(JCCallItem item) {
+        return item.startOtherVideo(JCMediaDevice.RENDER_FULL_CONTENT);
     }
 
     public static boolean isIdle() {
