@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'AppKey',
-            onTap: _jcApi.setAppKey,
+            onTap: (str) => _jcApi.setAppKey,
           ),
           SDKField(
             label: 'DisplayName',
@@ -130,7 +129,7 @@ class _SDKFieldState extends State<SDKField> {
               enabled: widget.isActive,
               title: 'Set ${widget.label}',
               onTap: () {
-                widget.onTap?.call(widget.controller?.text ?? '');
+                widget.onTap?.call(_controller.text);
                 prefs.setString(
                   widget.label,
                   _controller.text,
