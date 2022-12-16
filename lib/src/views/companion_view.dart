@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 /// {@template remote_view}
 /// RemoteView widget
 /// {@endtemplate}
-class RemoteView extends StatelessWidget {
+class CompanionView extends StatelessWidget {
   /// {@macro remote_view}
-  const RemoteView({super.key});
+  const CompanionView({super.key});
 
   static const String viewType = 'remote-view';
 

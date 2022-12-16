@@ -85,6 +85,17 @@ class _CallScreenState extends State<CallScreen> {
                       return const SelfView();
                     },
                   ),
+                  StreamBuilder<VideoStatus>(
+                    stream: _jcCall.companionVideo,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data;
+                      if (data == null || data == VideoStatus.off) {
+                        return const Text('Companion Video: null');
+                      }
+
+                      return const CompanionView();
+                    },
+                  )
                 ],
               ),
             ),
