@@ -32,26 +32,40 @@ class _FeedScreenState extends State<FeedScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          MaterialButton(
+            color: Colors.deepPurple,
+            onPressed: () async {
+              await _jcApi.initialize();
+
+              setState(() {
+                isInitialized = true;
+              });
+            },
+            child: const Text('initialize'),
+          ),
           SDKField(
             label: 'AppKey',
             onTap: _jcApi.setAppKey,
           ),
-          MaterialButton(
-            color: Colors.deepPurple,
-            onPressed: () async {
-              await _jcApi.setAppKey('36731340dcf305c7c5234096');
-              final res = await _jcApi.initialize();
-              await _jcApi.setDisplayName('fdsdf');
-              final res2 = await _jcApi.setAccountNumber(
-                'llgrishakova_gmail_com',
-              );
-              await _jcApi.setServerAddress(
-                'http:cn.router.justalkcloud.com:8080',
-              );
-              await _jcApi.setTimeout(5000);
-              log('initialize: $res');
-            },
-            child: const Text('initialize'),
+          SDKField(
+            label: 'DisplayName',
+            onTap: _jcApi.setDisplayName,
+            isActive: isInitialized,
+          ),
+          SDKField(
+            label: 'AccountNumber',
+            onTap: _jcApi.setAccountNumber,
+            isActive: isInitialized,
+          ),
+          SDKField(
+            label: 'ServerAddress',
+            onTap: _jcApi.setServerAddress,
+            isActive: isInitialized,
+          ),
+          SDKField(
+            label: 'Timeout',
+            onTap: (value) => _jcApi.setTimeout(int.parse(value)),
+            isActive: isInitialized,
           ),
         ],
       ),
