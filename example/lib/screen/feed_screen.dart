@@ -44,9 +44,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'AppKey',
-            onTap: (str) async {
-              await _jcApi.setAppKey(str);
-            },
+            onTap: _jcApi.setAppKey,
           ),
           SDKField(
             label: 'DisplayName',
@@ -130,15 +128,15 @@ class _SDKFieldState extends State<SDKField> {
               color: CupertinoColors.systemYellow,
               enabled: widget.isActive,
               title: 'Set ${widget.label}',
-              onTap: () {
-                widget.onTap?.call(_controller.text);
-                prefs.setString(
-                  widget.label,
-                  _controller.text,
-                );
+              onTap: () async {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('Set ${widget.label} to ${_controller.text}'),
                 ));
+                await widget.onTap?.call(_controller.text);
+                await prefs.setString(
+                  widget.label,
+                  _controller.text,
+                );
               },
             ),
         ],
