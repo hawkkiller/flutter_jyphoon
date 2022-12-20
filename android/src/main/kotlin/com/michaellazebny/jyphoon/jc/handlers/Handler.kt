@@ -37,8 +37,6 @@ class Handler(private val receiver: JcReceiver) {
     private fun onVideoUpdate(callItem: JCCallItem) {
         val selfVideo = callItem.uploadVideoStreamSelf
         val companionVideo = callItem.uploadVideoStreamOther
-        LocalView.localView = JCCallUtils.getSelfCanvas(callItem).videoView
-        RemoteView.remoteView = JCCallUtils.getOtherCanvas(callItem).videoView
 
         receiver.onVideoChange(selfVideo, true) {}
         receiver.onVideoChange(companionVideo, false) {}

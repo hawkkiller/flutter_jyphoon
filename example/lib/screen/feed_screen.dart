@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jc/jc.dart';
 import 'package:jc_example/main.dart';
+import 'package:jc_example/screen/conference_screen.dart';
 
 import 'call_screen.dart';
 
@@ -107,11 +108,20 @@ class _FeedScreenState extends State<FeedScreen> {
           _MaterialButton(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => CallScreen(jcApi: _jcApi),
+                builder: (context) => const CallScreen(),
               ));
             },
             enabled: allFieldsSet,
-            title: 'Go to call page',
+            title: 'Go to Call Screen',
+          ),
+          _MaterialButton(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ConferenceScreen(),
+              ));
+            },
+            enabled: allFieldsSet,
+            title: 'Go to Conference Screen',
           )
         ],
       ),
@@ -153,6 +163,13 @@ class _SDKFieldState extends State<SDKField> {
     if (widget.controller == null) _controller.dispose();
   }
 
+  Future<void> _save() async {
+    await prefs.setString(
+      widget.label,
+      _controller.text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -161,6 +178,9 @@ class _SDKFieldState extends State<SDKField> {
         children: [
           Expanded(
             child: TextField(
+              onChanged: (value) async {
+                await _save();
+              },
               enabled: widget.isActive,
               controller: _controller,
               decoration: InputDecoration(
@@ -180,10 +200,6 @@ class _SDKFieldState extends State<SDKField> {
                   content: Text('Set ${widget.label} to ${_controller.text}'),
                 ));
                 await widget.onTap?.call(_controller.text);
-                await prefs.setString(
-                  widget.label,
-                  _controller.text,
-                );
               },
             ),
         ],

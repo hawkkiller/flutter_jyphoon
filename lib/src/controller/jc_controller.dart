@@ -2,7 +2,11 @@ import 'package:jc/src/controller/call.dart';
 import 'package:jc/src/jc.dart';
 
 class JcController extends JcReceiver {
-  JcController() : call = JCCallImpl() {
+  static final JcController _instance = JcController._();
+
+  factory JcController() => _instance;
+
+  JcController._() : call = JCCallImpl() {
     JcReceiver.setup(this);
   }
 

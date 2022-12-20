@@ -52,8 +52,6 @@ class Call() {
                     context, "RenderMode", JCMediaDevice.RENDER_FULL_CONTENT
                 ) as Int
             )
-            LocalView.localView = canvas.videoView
-            RemoteView.remoteView = remoteCanvas.videoView
         }
         return res
     }
@@ -122,10 +120,8 @@ class Call() {
                     context, "RenderMode", JCMediaDevice.RENDER_FULL_CONTENT
                 ) as Int
             )
-            LocalView.localView = canvas.videoView
         } else {
             item.stopSelfVideo()
-            LocalView.localView = null
         }
     }
 
@@ -137,10 +133,8 @@ class Call() {
                     context, "RenderMode", JCMediaDevice.RENDER_FULL_CONTENT
                 ) as Int
             )
-            RemoteView.remoteView = canvas.videoView
         } else {
             item.stopOtherVideo()
-            RemoteView.remoteView = null
         }
     }
 
