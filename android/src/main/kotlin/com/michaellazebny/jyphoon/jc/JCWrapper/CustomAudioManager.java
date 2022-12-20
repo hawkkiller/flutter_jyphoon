@@ -3,7 +3,7 @@ package com.michaellazebny.jyphoon.jc.JCWrapper;
 import android.content.Context;
 
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent;
-import com.michaellazebny.jyphoon.jc.Toos.JCAudioTrack;
+import com.michaellazebny.jyphoon.jc.Tools.JCAudioTrack;
 import com.juphoon.cloud.JCAudioFrameCallback;
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCMediaChannel;
@@ -19,9 +19,9 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.michaellazebny.jyphoon.jc.Toos.CustomAudioInputUtil.encodeValue;
-import static com.michaellazebny.jyphoon.jc.Toos.CustomAudioInputUtil.getByteArrayFromFilePath;
-import static com.michaellazebny.jyphoon.jc.Toos.CustomAudioInputUtil.saveAssetFile;
+import static com.michaellazebny.jyphoon.jc.Tools.CustomAudioInputUtil.encodeValue;
+import static com.michaellazebny.jyphoon.jc.Tools.CustomAudioInputUtil.getByteArrayFromFilePath;
+import static com.michaellazebny.jyphoon.jc.Tools.CustomAudioInputUtil.saveAssetFile;
 
 /**
  * @author juphoon

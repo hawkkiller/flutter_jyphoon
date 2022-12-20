@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.handlers
+package com.michaellazebny.jyphoon.jc.handler
 
 import android.util.Log
 import com.juphoon.cloud.JCCallItem

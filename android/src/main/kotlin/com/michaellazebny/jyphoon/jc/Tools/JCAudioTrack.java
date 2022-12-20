@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.Toos;
+package com.michaellazebny.jyphoon.jc.Tools;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;

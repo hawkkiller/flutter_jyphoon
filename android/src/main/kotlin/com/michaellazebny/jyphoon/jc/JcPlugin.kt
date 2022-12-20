@@ -1,7 +1,7 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import com.michaellazebny.jyphoon.jc.handlers.Handler
+import com.michaellazebny.jyphoon.jc.handler.Handler
 
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization

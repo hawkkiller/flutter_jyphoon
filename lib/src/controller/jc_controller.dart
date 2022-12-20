@@ -34,4 +34,14 @@ enum VideoStatus {
   }
 }
 
+/// An enum to determinate types of the activity
+///
+///
+/// where 0 is call
+/// and 1 is conference
+enum CallType {
+  call,
+  conference;
+}
+
 enum VoiceStatus { started, ended }

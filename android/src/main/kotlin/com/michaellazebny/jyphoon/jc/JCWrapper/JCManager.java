@@ -17,7 +17,7 @@ import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCLoginEvent;
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCMessageEvent;
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCOnlineMessageReceiveEvent;
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCStorageEvent;
-import com.michaellazebny.jyphoon.jc.Toos.SPUtils;
+import com.michaellazebny.jyphoon.jc.Tools.SPUtils;
 import com.juphoon.cloud.JCAccount;
 import com.juphoon.cloud.JCAccountCallback;
 import com.juphoon.cloud.JCAccountContact;
