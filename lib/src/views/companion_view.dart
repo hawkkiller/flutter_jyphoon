@@ -7,7 +7,7 @@ class CompanionView extends StatelessWidget {
   /// {@macro remote_view}
   const CompanionView({super.key});
 
-  static const String viewType = 'remote-view';
+  static const String viewType = 'companion-view';
 
   @override
   Widget build(BuildContext context) => const AndroidView(

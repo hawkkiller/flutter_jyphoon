@@ -6,8 +6,6 @@ import com.michaellazebny.jyphoon.jc.JCWrapper.JCCallUtils
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.JcReceiver
-import com.michaellazebny.jyphoon.jc.views.LocalView
-import com.michaellazebny.jyphoon.jc.views.RemoteView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 

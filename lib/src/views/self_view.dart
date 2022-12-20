@@ -8,7 +8,7 @@ class SelfView extends StatelessWidget {
   /// {@macro self_view}
   const SelfView({super.key});
 
-  static const String viewType = 'local-view';
+  static const String viewType = 'self-view';
 
   @override
   Widget build(BuildContext context) => AndroidView(

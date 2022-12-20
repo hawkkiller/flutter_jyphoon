@@ -3,7 +3,6 @@ package com.michaellazebny.jyphoon.jc.JCWrapper;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.text.TextUtils;
 
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCAccountQueryStatusEvent;
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCCallDtmfReceivedEvent;
@@ -49,10 +48,8 @@ import com.juphoon.cloud.JCPush;
 import com.juphoon.cloud.JCStorage;
 import com.juphoon.cloud.JCStorageCallback;
 import com.juphoon.cloud.JCStorageItem;
-import com.michaellazebny.jyphoon.jc.views.LocalView;
 
 import org.greenrobot.eventbus.EventBus;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;

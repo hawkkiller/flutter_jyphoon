@@ -1,22 +1,15 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import android.util.Log
-import com.juphoon.cloud.JCMediaDevice
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCCallUtils
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.handlers.Handler
 
 import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
-import com.michaellazebny.jyphoon.jc.views.LocalViewFactory
+import com.michaellazebny.jyphoon.jc.views.SelfViewFactory
 import com.michaellazebny.jyphoon.jc.views.RemoteViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 
 /** JcPlugin */
 class JcPlugin : FlutterPlugin, JCApi {
@@ -37,11 +30,11 @@ class JcPlugin : FlutterPlugin, JCApi {
         applicationContext = flutterPluginBinding.applicationContext
         JCApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
-            "local-view",
-            LocalViewFactory(),
+            "self-view",
+            SelfViewFactory(),
         )
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
-            "remote-view",
+            "companion-view",
             RemoteViewFactory(),
         )
         receiver = JcReceiver(flutterPluginBinding.binaryMessenger)

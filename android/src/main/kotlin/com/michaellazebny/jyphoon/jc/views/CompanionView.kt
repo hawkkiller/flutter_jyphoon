@@ -8,7 +8,7 @@ import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
-class RemoteView(context: Context, id: Int, creationParams: Map<String?, Any?>?) : PlatformView {
+class CompanionView : PlatformView {
     private var view: View
     override fun getView() = view
 
@@ -26,6 +26,6 @@ class RemoteView(context: Context, id: Int, creationParams: Map<String?, Any?>?)
 
 class RemoteViewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
-        return RemoteView(context, viewId, null)
+        return CompanionView()
     }
 }

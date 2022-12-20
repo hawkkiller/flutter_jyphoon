@@ -6,11 +6,7 @@ import com.juphoon.cloud.JCCall.CallParam
 import com.juphoon.cloud.JCMediaChannel.JoinParam
 import com.juphoon.cloud.JCMediaDevice
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
-import com.michaellazebny.jyphoon.jc.JcReceiver
 import com.michaellazebny.jyphoon.jc.Toos.SPUtils
-import com.michaellazebny.jyphoon.jc.views.LocalView
-import com.michaellazebny.jyphoon.jc.views.RemoteView
-import org.greenrobot.eventbus.EventBus
 
 class Call() {
     private val jcManager = JCManager.getInstance()

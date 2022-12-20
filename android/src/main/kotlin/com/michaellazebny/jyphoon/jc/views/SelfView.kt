@@ -1,17 +1,14 @@
 package com.michaellazebny.jyphoon.jc.views
 
 import android.content.Context
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCCallUtils
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
-class LocalView(context: Context, id: Int, creationParams: Map<String?, Any?>?) : PlatformView {
+class SelfView : PlatformView {
     private var view: View
     override fun getView() = view
 
@@ -27,8 +24,8 @@ class LocalView(context: Context, id: Int, creationParams: Map<String?, Any?>?) 
     }
 }
 
-class LocalViewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
+class SelfViewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
-        return LocalView(context, viewId, null)
+        return SelfView()
     }
 }
