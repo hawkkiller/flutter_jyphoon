@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// {@template self_view}
 /// SelfView widget
@@ -11,12 +10,8 @@ class SelfView extends StatelessWidget {
   static const String viewType = 'self-view';
 
   @override
-  Widget build(BuildContext context) => AndroidView(
+  Widget build(BuildContext context) => const AndroidView(
         viewType: viewType,
         layoutDirection: TextDirection.ltr,
-        onPlatformViewCreated: (id) {
-          print('SelfView: onPlatformViewCreated: $id');
-        },
-        creationParamsCodec: const StandardMessageCodec(),
       );
 }
