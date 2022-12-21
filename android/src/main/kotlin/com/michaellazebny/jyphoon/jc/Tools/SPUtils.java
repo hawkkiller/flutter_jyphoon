@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.Tools;
+package com.michaellazebny.jyphoon.jc.tools;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

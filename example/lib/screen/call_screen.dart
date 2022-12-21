@@ -80,7 +80,9 @@ class _CallScreenState extends State<CallScreen> {
                         key: UniqueKey(),
                         height: 200,
                         width: 100,
-                        child: const SelfView(),
+                        child: const SelfView(
+                          callType: CallType.call,
+                        ),
                       );
                     },
                   ),
@@ -95,7 +97,9 @@ class _CallScreenState extends State<CallScreen> {
                         key: UniqueKey(),
                         height: 200,
                         width: 100,
-                        child: const CompanionView(),
+                        child: const CompanionView(
+                          callType: CallType.conference,
+                        ),
                       );
                     },
                   )

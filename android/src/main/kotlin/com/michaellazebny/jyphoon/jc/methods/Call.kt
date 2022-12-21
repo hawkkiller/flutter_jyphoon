@@ -6,7 +6,7 @@ import com.juphoon.cloud.JCCall.CallParam
 import com.juphoon.cloud.JCMediaChannel.JoinParam
 import com.juphoon.cloud.JCMediaDevice
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
-import com.michaellazebny.jyphoon.jc.Tools.SPUtils
+import com.michaellazebny.jyphoon.jc.tools.SPUtils
 
 class Call() {
     private val jcManager = JCManager.getInstance()

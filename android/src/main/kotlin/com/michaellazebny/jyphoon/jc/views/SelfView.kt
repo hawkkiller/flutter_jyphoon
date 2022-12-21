@@ -4,11 +4,10 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.juphoon.cloud.JCMediaChannel
-import com.juphoon.cloud.JCMediaChannelParticipant
 import com.juphoon.cloud.JCMediaDevice
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCCallUtils
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.model.CallType
+import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
@@ -16,8 +15,8 @@ import io.flutter.plugin.platform.PlatformViewFactory
 class SelfView(callType: CallType) : PlatformView {
     private var view: View? = when (callType) {
         CallType.CALL -> {
-            val call = JCCallUtils.getActiveCall()
-            JCCallUtils.getSelfCanvas(call)?.videoView
+            val call = JCCallUtils.activeCall
+            JCCallUtils.getSelfCanvas(call!!)?.videoView
         }
         CallType.CONFERENCE -> {
             val jcManager = JCManager.getInstance()
