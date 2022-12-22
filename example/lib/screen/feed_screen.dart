@@ -51,6 +51,19 @@ class _FeedScreenState extends State<FeedScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          MaterialButton(
+            color: Colors.green,
+            child: const Text('Is Inited'),
+            onPressed: () async {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    await _jcApi.isInited().then((value) => value.toString()),
+                  ),
+                ),
+              );
+            },
+          ),
           _MaterialButton(
             color: Colors.deepPurple,
             onTap: () => _jcApi.initialize().then(
