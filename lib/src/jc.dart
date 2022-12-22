@@ -7,12 +7,12 @@ import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
-
 class JCApi {
   /// Constructor for [JCApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  JCApi({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
+  JCApi({BinaryMessenger? binaryMessenger})
+      : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
   static const MessageCodec<Object?> codec = StandardMessageCodec();
@@ -24,7 +24,8 @@ class JCApi {
   /// Otherwise, returns **false** if initialize() was not called or failed.
   Future<bool> isInited() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.isInited', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.isInited', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -33,7 +34,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -54,7 +56,8 @@ class JCApi {
   /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> initialize() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.initialize', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.initialize', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -63,7 +66,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -83,7 +87,8 @@ class JCApi {
   /// Deinitialize the engine. After call this method you can't use call mechanics
   Future<void> uninitialize() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.uninitialize', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.uninitialize', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -92,7 +97,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -106,7 +112,8 @@ class JCApi {
   /// Sets appKey in order to have access to the Jyphoon API.
   Future<void> setAppKey(String arg_appKey) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setAppKey', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.setAppKey', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_appKey]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -115,7 +122,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -133,16 +141,18 @@ class JCApi {
   /// Sets the name that is visible to another participant(s).
   Future<void> setDisplayName(String arg_displayName) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setDisplayName', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_displayName]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.JCApi.setDisplayName', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_displayName]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -157,16 +167,18 @@ class JCApi {
   /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> setAccountNumber(String arg_accountNumber) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setAccountNumber', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_accountNumber]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.JCApi.setAccountNumber', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_accountNumber]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -189,7 +201,8 @@ class JCApi {
   /// Sets the timeout for the call request.
   Future<void> setTimeout(int arg_timeout) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setTimeout', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.setTimeout', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_timeout]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -198,7 +211,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -215,18 +229,22 @@ class JCApi {
   ///
   /// Makes a call to the specified account.
   /// If [JCCall.call] returns true then the call started.
-  Future<bool> startCall(String arg_accountNumber, bool arg_video, String arg_ticket) async {
+  Future<bool> startCall(
+      String arg_accountNumber, bool arg_video, String arg_ticket) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.startCall', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.startCall', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_accountNumber, arg_video, arg_ticket]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_accountNumber, arg_video, arg_ticket])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -244,16 +262,18 @@ class JCApi {
 
   Future<bool> confJoin(String arg_confId, String arg_password) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.confJoin', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_confId, arg_password]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.JCApi.confJoin', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_confId, arg_password]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -273,7 +293,8 @@ class JCApi {
   /// Starts or stops to send video.
   Future<void> updateSelfVideo(bool arg_value) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.updateSelfVideo', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateSelfVideo', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_value]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -282,7 +303,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -296,7 +318,8 @@ class JCApi {
   /// Returns [Void].
   Future<void> updateOtherVideo(bool arg_value) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.updateOtherVideo', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateOtherVideo', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_value]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -305,7 +328,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -319,7 +343,8 @@ class JCApi {
   /// Returns [Void].
   Future<void> updateSelfVoice(bool arg_value) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.updateSelfVoice', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateSelfVoice', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_value]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -328,7 +353,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -342,7 +368,8 @@ class JCApi {
   /// Returns [Void].
   Future<void> updateOtherVoice(bool arg_value) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.updateOtherVoice', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.updateOtherVoice', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_value]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -351,7 +378,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -366,16 +394,18 @@ class JCApi {
   /// Takes [String] account in. It is the account identifier of the person you want to call.
   Future<void> setServerAddress(String arg_serverAddress) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setServerAddress', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_serverAddress]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.JCApi.setServerAddress', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_serverAddress]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -390,7 +420,8 @@ class JCApi {
   /// Answers call
   Future<void> answerCall() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.answerCall', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.answerCall', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -399,7 +430,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -414,7 +446,8 @@ class JCApi {
   /// Get current user id
   Future<String?> getCurrentUserId() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.getCurrentUserId', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.JCApi.getCurrentUserId', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -423,7 +456,8 @@ class JCApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -443,17 +477,21 @@ abstract class JcReceiver {
   static void setup(JcReceiver? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.JcReceiver.onVideoChange', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.JcReceiver.onVideoChange', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.JcReceiver.onVideoChange was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.JcReceiver.onVideoChange was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final bool? arg_value = (args[0] as bool?);
-          assert(arg_value != null, 'Argument for dev.flutter.pigeon.JcReceiver.onVideoChange was null, expected non-null bool.');
+          assert(arg_value != null,
+              'Argument for dev.flutter.pigeon.JcReceiver.onVideoChange was null, expected non-null bool.');
           final bool? arg_self = (args[1] as bool?);
-          assert(arg_self != null, 'Argument for dev.flutter.pigeon.JcReceiver.onVideoChange was null, expected non-null bool.');
+          assert(arg_self != null,
+              'Argument for dev.flutter.pigeon.JcReceiver.onVideoChange was null, expected non-null bool.');
           api.onVideoChange(arg_value!, arg_self!);
           return;
         });
@@ -461,17 +499,21 @@ abstract class JcReceiver {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.JcReceiver.onVoiceChange', codec, binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.JcReceiver.onVoiceChange', codec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null, 'Argument for dev.flutter.pigeon.JcReceiver.onVoiceChange was null.');
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.JcReceiver.onVoiceChange was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final bool? arg_value = (args[0] as bool?);
-          assert(arg_value != null, 'Argument for dev.flutter.pigeon.JcReceiver.onVoiceChange was null, expected non-null bool.');
+          assert(arg_value != null,
+              'Argument for dev.flutter.pigeon.JcReceiver.onVoiceChange was null, expected non-null bool.');
           final bool? arg_self = (args[1] as bool?);
-          assert(arg_self != null, 'Argument for dev.flutter.pigeon.JcReceiver.onVoiceChange was null, expected non-null bool.');
+          assert(arg_self != null,
+              'Argument for dev.flutter.pigeon.JcReceiver.onVoiceChange was null, expected non-null bool.');
           api.onVoiceChange(arg_value!, arg_self!);
           return;
         });
