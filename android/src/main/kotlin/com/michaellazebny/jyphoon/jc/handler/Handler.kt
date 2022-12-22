@@ -29,7 +29,7 @@ class Handler(private val receiver: JcReceiver) {
                 val activeCallItem = JCCallUtils.activeCall ?: return
                 onCallUpdate(activeCallItem)
             }
-            JCEvent.EventType.CONFERENCE_PARTP_UPDATE -> {
+            JCEvent.EventType.CONFERENCE_PARTP_UPDATE, JCEvent.EventType.CONFERENCE_PROP_CHANGE, JCEvent.EventType.CONFERENCE_JOIN, JCEvent.EventType.CONFERENCE_LEAVE -> {
                 onConfUpdate()
             }
             else -> {}
