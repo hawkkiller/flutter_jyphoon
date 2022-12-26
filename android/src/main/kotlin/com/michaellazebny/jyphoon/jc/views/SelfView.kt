@@ -21,7 +21,7 @@ class SelfView(callType: CallType) : PlatformView {
         CallType.CONFERENCE -> {
             val jcManager = JCManager.getInstance()
             val selfParticipant = jcManager.mediaChannel.selfParticipant
-            selfParticipant.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MAX)?.videoView
+            selfParticipant.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MIN)?.videoView
         }
     }
 

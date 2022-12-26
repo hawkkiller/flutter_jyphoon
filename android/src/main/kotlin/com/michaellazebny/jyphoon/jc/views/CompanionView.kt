@@ -25,7 +25,7 @@ class CompanionView(callType: CallType) : PlatformView {
             }
             CallType.CONFERENCE -> {
                 val otherParticipant = JCCallUtils.otherParticipant
-                otherParticipant?.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MAX)?.videoView
+                otherParticipant?.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MIN)?.videoView
             }
         }
     }
