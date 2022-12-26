@@ -17,7 +17,7 @@ class CallScreen extends StatefulWidget {
 class _CallScreenState extends State<CallScreen> {
   late final TextEditingController _companionController;
   late final TextEditingController _ticketController;
-  late final JCCall _jcCall;
+  late final JCState _jcCall;
   late final JcController _jcController;
   late final JCApi _jcApi;
   bool video = false;
@@ -27,7 +27,7 @@ class _CallScreenState extends State<CallScreen> {
     super.initState();
     _jcApi = JCApi();
     _jcController = JcController();
-    _jcCall = _jcController.call;
+    _jcCall = _jcController.state;
     _companionController = TextEditingController();
     _ticketController = TextEditingController();
   }

@@ -73,7 +73,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                               ),
                             ),
                             child: StreamBuilder(
-                              stream: _jcController.call.selfVideo,
+                              stream: _jcController.state.selfVideo,
                               builder: (context, snapshot) {
                                 if (snapshot.data != VideoStatus.on) {
                                   return const SizedBox.shrink();
@@ -99,7 +99,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                               ),
                             ),
                             child: StreamBuilder(
-                              stream: _jcController.call.companionVideo,
+                              stream: _jcController.state.companionVideo,
                               builder: (context, snapshot) {
                                 if (snapshot.data != VideoStatus.on) {
                                   return const SizedBox.shrink();

@@ -3,7 +3,7 @@ package com.michaellazebny.jyphoon.jc
 import android.content.Context
 import com.michaellazebny.jyphoon.jc.handler.Handler
 
-import com.michaellazebny.jyphoon.jc.methods.Call
+import com.michaellazebny.jyphoon.jc.methods.Conf
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
 import com.michaellazebny.jyphoon.jc.views.SelfViewFactory
@@ -18,7 +18,7 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     private val initialization = Initialization()
     private val userInfo = UserInfo()
-    private val call = Call()
+    private val conf = Conf()
     private lateinit var handler: Handler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -56,27 +56,23 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     override fun setTimeout(timeout: Long) = userInfo.setTimeout(timeout)
 
-    override fun startCall(accountNumber: String, video: Boolean, ticket: String) = call.startCall(
-        accountNumber = accountNumber,
-        video = video,
-        context = applicationContext,
-        callTicket = ticket,
-    )
-
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
 
-    override fun answerCall() = call.answerCall()
-
-    override fun confJoin(confId: String, password: String) =
-        call.confJoin(confId, password, applicationContext)
-
-    override fun updateSelfVideo(value: Boolean) = call.updateSelfVideo(applicationContext, value)
-
-    override fun updateOtherVideo(value: Boolean) = call.updateOtherVideo(value, applicationContext)
-
-    override fun updateSelfVoice(value: Boolean) = call.updateSelfVoice(value)
-
-    override fun updateOtherVoice(value: Boolean) = call.updateOtherVoice(value)
+    override fun confJoin(confId: String, password: String) = conf.join(confId, password)
 
     override fun getCurrentUserId() = userInfo.getUserId()
+
+    override fun confLeave() = conf.leave()
+
+    override fun switchVideo() = conf.switchVideo()
+
+    override fun switchAudio() = conf.switchAudio()
+
+    override fun audio() = conf.audio()
+
+    override fun otherAudio() = conf.otherAudio()
+
+    override fun video() = conf.video()
+
+    override fun otherVideo() = conf.otherVideo()
 }
