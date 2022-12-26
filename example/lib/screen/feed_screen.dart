@@ -212,7 +212,7 @@ class _SDKFieldState extends State<SDKField> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('Set ${widget.label} to ${_controller.text}'),
                 ));
-                await widget.onTap?.call(_controller.text);
+                await widget.onTap?.state(_controller.text);
               },
             ),
         ],

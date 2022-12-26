@@ -23,36 +23,6 @@ class Handler(private val receiver: JcReceiver) {
     @Subscribe
     fun onEvent(event: JCEvent) {
         Log.d("JcPlugin::Handler", "onEvent: ${event.eventType}")
-
-        when (event.eventType) {
-            JCEvent.EventType.CAMERA_UPDATE, JCEvent.EventType.CALL_UPDATE -> {
-                val activeCallItem = JCCallUtils.activeCall ?: return
-                onCallUpdate(activeCallItem)
-            }
-            JCEvent.EventType.CONFERENCE_PARTP_UPDATE, JCEvent.EventType.CONFERENCE_PROP_CHANGE, JCEvent.EventType.CONFERENCE_JOIN, JCEvent.EventType.CONFERENCE_LEAVE -> {
-                onConfUpdate()
-            }
-            else -> {}
-        }
-    }
-
-    private fun onCallUpdate(callItem: JCCallItem) {
-        val selfVideo = callItem.uploadVideoStreamSelf
-        val companionVideo = callItem.uploadVideoStreamOther
-
-        receiver.onVideoChange(selfVideo, true) {}
-        receiver.onVideoChange(companionVideo, false) {}
-    }
-
-    private fun onConfUpdate() {
-        val otherParticipant = JCCallUtils.otherParticipant
-        val selfParticipant = jcManager.mediaChannel.selfParticipant
-        if (selfParticipant != null) {
-            receiver.onVideoChange(selfParticipant.isVideo, true) {}
-        }
-        if (otherParticipant != null) {
-            receiver.onVideoChange(otherParticipant.isVideo, false) {}
-        }
-
+        receiver.onEvent(event.eventType.name) {}
     }
 }

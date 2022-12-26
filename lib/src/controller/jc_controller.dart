@@ -1,4 +1,4 @@
-import 'package:jc/src/controller/call.dart';
+import 'package:jc/src/controller/state.dart';
 import 'package:jc/src/jc.dart';
 
 class JcController extends JcReceiver {
@@ -6,20 +6,19 @@ class JcController extends JcReceiver {
 
   factory JcController() => _instance;
 
-  JcController._() : call = JCCallImpl() {
+  JcController._() : state = JCStateImpl() {
     JcReceiver.setup(this);
   }
 
-  final JCCall call;
+  final JCState state;
 
   @override
-  void onVideoChange(bool value, bool self) => call.onVideoChange(
-        value: value,
-        self: self,
-      );
-
-  @override
-  void onVoiceChange(bool value, bool self) {}
+  void onEvent(String event) {
+    switch (event) {
+      case '':
+        break;
+    }
+  }
 }
 
 enum VideoStatus {

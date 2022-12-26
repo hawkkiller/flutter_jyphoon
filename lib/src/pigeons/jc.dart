@@ -46,51 +46,54 @@ abstract class JCApi {
   /// Sets the timeout for the call request.
   void setTimeout(int timeout);
 
-  /// Returns [Void].
-  /// Takes [String] account in. It is the account identifier of the person you want to call.
-  /// Takes [bool] video in. It is the type of call you want to make. If true, it will be a video call.
-  ///
-  /// Makes a call to the specified account.
-  /// If [JCCall.call] returns true then the call started.
-  bool startCall(String accountNumber, bool video, String ticket);
-
+  /// Returns [Boolean].
+  /// Takes [String] confId in. It is the conference identifier.
+  /// Takes [String] password in. It is the password for the conference.
+  /// Starts the "call".
   bool confJoin(String confId, String password);
-
-  /// Returns [Void].
-  /// Starts or stops to send video.
-  void updateSelfVideo(bool value);
-
-  /// Returns [Void].
-  void updateOtherVideo(bool value);
-
-  /// Returns [Void].
-  void updateSelfVoice(bool value);
-
-  /// Returns [Void].
-  void updateOtherVoice(bool value);
 
   /// Returns [Void].
   /// Takes [String] account in. It is the account identifier of the person you want to call.
   void setServerAddress(String serverAddress);
 
   /// Returns [Void].
-  /// Answers call
-  void answerCall();
+  /// Starts or stops to send video.
+  void switchVideo();
+
+  /// Returns [Void].
+  /// Starts or stops to send audio.
+  void switchAudio();
 
   /// Returns [String].
   /// Get current user id
   String? getCurrentUserId();
+
+  /// Returns [Void].
+  /// Hangs up the "call".
+  bool confLeave();
+
+  /// Returns [Boolean].
+  /// True if the user is in the call and is not muted.
+  /// Otherwise, returns false.
+  bool audio();
+
+  /// Returns [Boolean].
+  /// True if the companion is in the call and is not muted.
+  /// Otherwise, returns false.
+  bool otherAudio();
+
+  /// Returns [Boolean].
+  /// True if the user is in the call and shares video.
+  /// Otherwise, returns false.
+  bool video();
+
+  /// Returns [Boolean].
+  /// True if the companion is in the call and shares video.
+  /// Otherwise, returns false.
+  bool otherVideo();
 }
 
 @FlutterApi()
 abstract class JcReceiver {
-  void onVideoChange(
-    bool value,
-    bool self,
-  );
-
-  void onVoiceChange(
-    bool value,
-    bool self,
-  );
+  void onEvent(String event);
 }

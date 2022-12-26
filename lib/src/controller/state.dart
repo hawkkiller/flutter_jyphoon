@@ -1,9 +1,11 @@
 import 'package:jc/jc.dart';
 import 'package:rxdart/subjects.dart';
 
-abstract class JCCall {
+abstract class JCState {
   abstract final Stream<VideoStatus> selfVideo;
   abstract final Stream<VideoStatus> companionVideo;
+
+  abstract final Stream<bool> conf;
 
   void onVideoChange({
     required bool value,
@@ -11,15 +13,19 @@ abstract class JCCall {
   });
 }
 
-class JCCallImpl implements JCCall {
+class JCStateImpl implements JCState {
   final _selfVideo = BehaviorSubject<VideoStatus>();
   final _companionVideo = BehaviorSubject<VideoStatus>();
+  final _conf = BehaviorSubject<bool>();
 
   @override
   Stream<VideoStatus> get selfVideo => _selfVideo.stream.distinct();
 
   @override
   Stream<VideoStatus> get companionVideo => _companionVideo.stream.distinct();
+
+  @override
+  Stream<bool> get conf => _conf.distinct();
 
   @override
   void onVideoChange({
