@@ -71,6 +71,7 @@ class JCStateImpl implements JCState {
   }
 
   Future<void> _updateConfStatus() async {
-    _conference.add(ConferenceStatus.fromString(await _api.confStatus()));
+    final status = await _api.confStatus();
+    _conference.add(ConferenceStatus.fromString(status));
   }
 }
