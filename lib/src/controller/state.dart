@@ -3,40 +3,74 @@ import 'package:rxdart/subjects.dart';
 
 abstract class JCState {
   abstract final Stream<VideoStatus> selfVideo;
+  abstract final Stream<AudioStatus> selfAudio;
+
   abstract final Stream<VideoStatus> companionVideo;
+  abstract final Stream<AudioStatus> companionAudio;
 
-  abstract final Stream<bool> conf;
+  /// Reactive stream of the conference status.
+  abstract final Stream<ConferenceStatus> conference;
 
-  void onVideoChange({
-    required bool value,
-    required bool self,
-  });
+  void updateVideoStatus();
+
+  void updateVoiceStatus();
+
+  void updateConfStatus();
 }
 
 class JCStateImpl implements JCState {
+  JCStateImpl() : _api = JCApi();
+
   final _selfVideo = BehaviorSubject<VideoStatus>();
+  final _selfAudio = BehaviorSubject<AudioStatus>();
+
   final _companionVideo = BehaviorSubject<VideoStatus>();
-  final _conf = BehaviorSubject<bool>();
+  final _companionAudio = BehaviorSubject<AudioStatus>();
+
+  final _conference = BehaviorSubject<ConferenceStatus>();
+  late final JCApi _api;
 
   @override
   Stream<VideoStatus> get selfVideo => _selfVideo.stream.distinct();
 
   @override
+  Stream<AudioStatus> get selfAudio => _selfAudio.stream.distinct();
+
+  @override
   Stream<VideoStatus> get companionVideo => _companionVideo.stream.distinct();
 
   @override
-  Stream<bool> get conf => _conf.distinct();
+  Stream<AudioStatus> get companionAudio => _companionAudio.stream.distinct();
 
   @override
-  void onVideoChange({
-    required bool value,
-    required bool self,
-  }) {
-    final status = VideoStatus.fromBool(value);
-    if (self) {
-      _selfVideo.add(status);
-    } else {
-      _companionVideo.add(status);
-    }
+  Stream<ConferenceStatus> get conference => _conference.distinct();
+
+  @override
+  void updateVideoStatus() {
+    _updateVideoStatus();
+  }
+
+  Future<void> _updateVideoStatus() async {
+    _selfVideo.add(VideoStatus.fromBool(await _api.video()));
+    _companionVideo.add(VideoStatus.fromBool(await _api.otherVideo()));
+  }
+
+  @override
+  void updateVoiceStatus() {
+    _updateVoiceStatus();
+  }
+
+  Future<void> _updateVoiceStatus() async {
+    _selfAudio.add(AudioStatus.fromBool(await _api.audio()));
+    _companionAudio.add(AudioStatus.fromBool(await _api.otherAudio()));
+  }
+
+  @override
+  void updateConfStatus() {
+    _updateConfStatus();
+  }
+
+  Future<void> _updateConfStatus() async {
+    _conference.add(ConferenceStatus.fromString(await _api.confStatus()));
   }
 }

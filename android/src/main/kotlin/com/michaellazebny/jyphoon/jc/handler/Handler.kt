@@ -24,5 +24,6 @@ class Handler(private val receiver: JcReceiver) {
     fun onEvent(event: JCEvent) {
         Log.d("JcPlugin::Handler", "onEvent: ${event.eventType}")
         receiver.onEvent(event.eventType.name) {}
+        event.eventType
     }
 }

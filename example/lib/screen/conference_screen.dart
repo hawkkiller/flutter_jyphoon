@@ -51,6 +51,12 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     },
                     child: const Text('Join'),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _jcApi.confLeave();
+                    },
+                    child: const Text('Leave'),
+                  ),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -78,9 +84,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                                 if (snapshot.data != VideoStatus.on) {
                                   return const SizedBox.shrink();
                                 }
-                                return const SelfView(
-                                  callType: CallType.conference,
-                                );
+                                return const SelfView();
                               },
                             ),
                           ),
@@ -104,9 +108,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                                 if (snapshot.data != VideoStatus.on) {
                                   return const SizedBox.shrink();
                                 }
-                                return const CompanionView(
-                                  callType: CallType.conference,
-                                );
+                                return const CompanionView();
                               },
                             ),
                           ),

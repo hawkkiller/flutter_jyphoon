@@ -12,17 +12,12 @@ import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
-class SelfView(callType: CallType) : PlatformView {
-    private var view: View? = when (callType) {
-        CallType.CALL -> {
-            val call = JCCallUtils.activeCall
-            JCCallUtils.getSelfCanvas(call!!)?.videoView
-        }
-        CallType.CONFERENCE -> {
-            val jcManager = JCManager.getInstance()
-            val selfParticipant = jcManager.mediaChannel.selfParticipant
-            selfParticipant.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MIN)?.videoView
-        }
+class SelfView() : PlatformView {
+    private var view: View?
+    init {
+        val jcManager = JCManager.getInstance()
+        val selfParticipant = jcManager.mediaChannel.selfParticipant
+        view = selfParticipant.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MIN)?.videoView
     }
 
     override fun getView() = view
@@ -36,8 +31,6 @@ class SelfView(callType: CallType) : PlatformView {
 
 class SelfViewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
-        val map = args as Map<*, *>
-        val callType = map["callType"] as Int
-        return SelfView(callType = CallType.fromInt(callType))
+        return SelfView()
     }
 }
