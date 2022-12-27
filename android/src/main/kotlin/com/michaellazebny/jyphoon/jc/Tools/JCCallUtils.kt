@@ -17,7 +17,7 @@ object JCCallUtils {
     val otherParticipant: JCMediaChannelParticipant?
         get() {
             val jcManager = JCManager.getInstance()
-            val selfParticipant = jcManager.mediaChannel.selfParticipant
+            val selfParticipant = jcManager.mediaChannel?.selfParticipant
             var otherParticipant: JCMediaChannelParticipant? = null
             val participants = jcManager.mediaChannel.participants
             participants.forEach {

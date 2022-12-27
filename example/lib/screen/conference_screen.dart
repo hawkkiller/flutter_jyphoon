@@ -84,7 +84,20 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                                 if (snapshot.data != VideoStatus.on) {
                                   return const SizedBox.shrink();
                                 }
-                                return const SelfView();
+                                return StreamBuilder<ConferenceStatus>(
+                                    stream: _jcController.state.conference,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.data ==
+                                          ConferenceStatus.waiting) {
+                                        return const CircularProgressIndicator
+                                            .adaptive();
+                                      }
+                                      if (snapshot.data !=
+                                          ConferenceStatus.on) {
+                                        return const SizedBox.shrink();
+                                      }
+                                      return const SelfView();
+                                    });
                               },
                             ),
                           ),

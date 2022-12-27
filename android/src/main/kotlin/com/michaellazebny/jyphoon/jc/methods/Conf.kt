@@ -25,11 +25,12 @@ class Conf {
     }
 
     fun leave(): Boolean {
-        return jcManager.mediaChannel.leave()
+//        jcManager.mediaChannel?.selfParticipant?.stopVideo()
+        return jcManager?.mediaChannel?.leave() ?: false
     }
 
     fun audio(): Boolean {
-        return jcManager.mediaChannel.selfParticipant?.isAudio ?: false
+        return jcManager.mediaChannel?.selfParticipant?.isAudio ?: false
     }
 
     fun otherAudio(): Boolean {
@@ -37,7 +38,7 @@ class Conf {
     }
 
     fun video(): Boolean {
-        return jcManager.mediaChannel.selfParticipant?.isVideo ?: false
+        return jcManager.mediaChannel?.selfParticipant?.isVideo ?: false
     }
 
     fun otherVideo(): Boolean {
