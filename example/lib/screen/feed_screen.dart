@@ -6,8 +6,6 @@ import 'package:jc/jc.dart';
 import 'package:jc_example/main.dart';
 import 'package:jc_example/screen/conference_screen.dart';
 
-import 'call_screen.dart';
-
 /// {@template feed_screen}
 /// FeedScreen widget
 /// {@endtemplate}
@@ -121,15 +119,6 @@ class _FeedScreenState extends State<FeedScreen> {
           _MaterialButton(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const CallScreen(),
-              ));
-            },
-            enabled: allFieldsSet,
-            title: 'Go to Call Screen',
-          ),
-          _MaterialButton(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ConferenceScreen(),
               ));
             },
@@ -212,7 +201,7 @@ class _SDKFieldState extends State<SDKField> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('Set ${widget.label} to ${_controller.text}'),
                 ));
-                await widget.onTap?.state(_controller.text);
+                await widget.onTap?.call(_controller.text);
               },
             ),
         ],

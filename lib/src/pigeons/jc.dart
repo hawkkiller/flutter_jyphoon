@@ -91,6 +91,14 @@ abstract class JCApi {
   /// True if the companion is in the call and shares video.
   /// Otherwise, returns false.
   bool otherVideo();
+
+  /// Returns [ConferenceStatus].
+  /// Returns the current conference status.
+  /// It can be one of the following:
+  /// - [ConferenceStatus.on]
+  /// - [ConferenceStatus.off]
+  /// - [ConferenceStatus.waiting]
+  String confStatus();
 }
 
 @FlutterApi()

@@ -75,4 +75,6 @@ class JcPlugin : FlutterPlugin, JCApi {
     override fun video() = conf.video()
 
     override fun otherVideo() = conf.otherVideo()
+
+    override fun confStatus() = conf.confStatus()
 }

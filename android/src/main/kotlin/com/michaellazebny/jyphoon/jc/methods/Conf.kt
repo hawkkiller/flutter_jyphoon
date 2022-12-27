@@ -56,7 +56,21 @@ class Conf {
         if (video()) {
             jcManager.mediaChannel.selfParticipant?.stopVideo()
         } else {
-            jcManager.mediaChannel.selfParticipant?.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MIN)
+            jcManager.mediaChannel.selfParticipant?.startVideo(
+                JCMediaDevice.RENDER_FULL_CONTENT,
+                JCMediaChannel.PICTURESIZE_MIN
+            )
         }
+    }
+
+    fun confStatus(): String {
+        val participants = jcManager?.mediaChannel?.participants
+        if (participants == null || participants.isEmpty()) {
+            return "off"
+        }
+        if (participants.size == 1) {
+            return "waiting"
+        }
+        return "on"
     }
 }

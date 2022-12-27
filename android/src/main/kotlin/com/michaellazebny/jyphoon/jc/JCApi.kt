@@ -112,6 +112,15 @@ interface JCApi {
    * Otherwise, returns false.
    */
   fun otherVideo(): Boolean
+  /**
+   * Returns [ConferenceStatus].
+   * Returns the current conference status.
+   * It can be one of the following:
+   * - [ConferenceStatus.on]
+   * - [ConferenceStatus.off]
+   * - [ConferenceStatus.waiting]
+   */
+  fun confStatus(): String
 
   companion object {
     /** The codec used by JCApi. */
@@ -404,6 +413,22 @@ interface JCApi {
             var wrapped = listOf<Any?>()
             try {
               wrapped = listOf<Any?>(api.otherVideo())
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.confStatus", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              wrapped = listOf<Any?>(api.confStatus())
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

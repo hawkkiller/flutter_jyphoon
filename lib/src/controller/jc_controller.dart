@@ -15,32 +15,42 @@ class JcController extends JcReceiver {
   @override
   void onEvent(String event) {
     switch (event) {
-      case '':
+      case 'CONFERENCE_JOIN':
+        state
+          ..updateVideoStatus()
+          ..updateConfStatus();
+        break;
+      case 'CONFERENCE_LEAVE':
+        state
+          ..updateVideoStatus()
+          ..updateConfStatus();
+        break;
+      case 'CONFERENCE_STOP':
+        state
+          ..updateVideoStatus()
+          ..updateConfStatus();
+
+        break;
+      case 'CONFERENCE_PARTP_JOIN':
+        state.updateVideoStatus();
+        break;
+      case 'CONFERENCE_PARTP_LEAVE':
+        state
+          ..updateVideoStatus()
+          ..updateConfStatus();
+        break;
+      case 'CONFERENCE_PARTP_UPDATE':
+        state
+          ..updateVideoStatus()
+          ..updateConfStatus();
+        break;
+      case 'CONFERENCE_PROP_CHANGE':
+        state
+          ..updateVideoStatus()
+          ..updateVoiceStatus();
+        break;
+      case 'CONFERENCE_MESSAGE_RECEIVED':
         break;
     }
   }
 }
-
-enum VideoStatus {
-  on,
-  off;
-
-  static VideoStatus fromBool(bool value) {
-    if (value) {
-      return VideoStatus.on;
-    }
-    return VideoStatus.off;
-  }
-}
-
-/// An enum to determinate types of the activity
-///
-///
-/// where 0 is call
-/// and 1 is conference
-enum CallType {
-  call,
-  conference;
-}
-
-enum VoiceStatus { started, ended }
