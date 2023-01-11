@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:jc/jc.dart';
 
@@ -66,9 +65,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Badge(
-                          shape: BadgeShape.square,
-                          badgeContent: const Text('Self'),
-                          borderRadius: BorderRadius.circular(8),
+                          label: const Text('Self'),
                           child: Container(
                             width: 100,
                             height: 100,
@@ -103,9 +100,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                           ),
                         ),
                         Badge(
-                          shape: BadgeShape.square,
-                          borderRadius: BorderRadius.circular(8),
-                          badgeContent: const Text('Companion'),
+                          label: const Text('Companion'),
                           child: Container(
                             width: 100,
                             height: 100,

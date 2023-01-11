@@ -16,8 +16,8 @@ class SelfView() : PlatformView {
     private var view: View?
     init {
         val jcManager = JCManager.getInstance()
-        val selfParticipant = jcManager.mediaChannel.selfParticipant
-        view = selfParticipant.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MIN)?.videoView
+        val selfParticipant = jcManager.mediaChannel?.selfParticipant
+        view = selfParticipant?.startVideo(JCMediaDevice.RENDER_FULL_CONTENT, JCMediaChannel.PICTURESIZE_MIN)?.videoView
     }
 
     override fun getView() = view

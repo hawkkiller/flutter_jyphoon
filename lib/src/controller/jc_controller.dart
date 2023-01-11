@@ -1,5 +1,5 @@
-import 'package:jc/src/controller/state.dart';
-import 'package:jc/src/jc.dart';
+import 'package:jc/src/controller/jc_state.dart';
+import 'package:jc/src/generated_api.dart';
 
 class JcController extends JcReceiver {
   static final JcController _instance = JcController._();

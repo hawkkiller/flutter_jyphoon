@@ -121,6 +121,11 @@ interface JCApi {
    * - [ConferenceStatus.waiting]
    */
   fun confStatus(): String
+  /**
+   * Returns [Void].
+   * Switches the camera.
+   */
+  fun switchCamera()
 
   companion object {
     /** The codec used by JCApi. */
@@ -429,6 +434,23 @@ interface JCApi {
             var wrapped = listOf<Any?>()
             try {
               wrapped = listOf<Any?>(api.confStatus())
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JCApi.switchCamera", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              api.switchCamera()
+              wrapped = listOf<Any?>(null)
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

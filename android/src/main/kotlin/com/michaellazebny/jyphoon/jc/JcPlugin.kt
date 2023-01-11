@@ -3,7 +3,7 @@ package com.michaellazebny.jyphoon.jc
 import android.content.Context
 import com.michaellazebny.jyphoon.jc.handler.Handler
 
-import com.michaellazebny.jyphoon.jc.methods.Conf
+import com.michaellazebny.jyphoon.jc.methods.MediaChannel
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
 import com.michaellazebny.jyphoon.jc.views.SelfViewFactory
@@ -18,7 +18,7 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     private val initialization = Initialization()
     private val userInfo = UserInfo()
-    private val conf = Conf()
+    private val mediaChannel = MediaChannel()
     private lateinit var handler: Handler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -58,23 +58,25 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
 
-    override fun confJoin(confId: String, password: String) = conf.join(confId, password)
+    override fun confJoin(confId: String, password: String) = mediaChannel.join(confId, password)
 
     override fun getCurrentUserId() = userInfo.getUserId()
 
-    override fun confLeave() = conf.leave()
+    override fun confLeave() = mediaChannel.leave()
 
-    override fun switchVideo() = conf.switchVideo()
+    override fun switchVideo() = mediaChannel.switchVideo()
 
-    override fun switchAudio() = conf.switchAudio()
+    override fun switchAudio() = mediaChannel.switchAudio()
 
-    override fun audio() = conf.audio()
+    override fun audio() = mediaChannel.audio()
 
-    override fun otherAudio() = conf.otherAudio()
+    override fun otherAudio() = mediaChannel.otherAudio()
 
-    override fun video() = conf.video()
+    override fun video() = mediaChannel.video()
 
-    override fun otherVideo() = conf.otherVideo()
+    override fun otherVideo() = mediaChannel.otherVideo()
 
-    override fun confStatus() = conf.confStatus()
+    override fun confStatus() = mediaChannel.confStatus()
+
+    override fun switchCamera() = mediaChannel.switchCamera()
 }

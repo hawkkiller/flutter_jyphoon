@@ -1,2 +1,2 @@
 pigeon:
-	@flutter pub run pigeon --input "lib/src/pigeons/jc.dart"
+	@flutter pub run pigeon --input "lib/src/pigeons/jc_pigeon.dart"
