@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jc/jc.dart';
+import 'package:jc/jyphoon.dart';
 
 /// {@template conference_screen}
 /// ConferenceScreen widget
@@ -15,14 +15,12 @@ class ConferenceScreen extends StatefulWidget {
 /// State for widget ConferenceScreen
 class _ConferenceScreenState extends State<ConferenceScreen> {
   late final TextEditingController _sessionId;
-  late final JCApi _jcApi;
-  late final JcController _jcController;
+  late final JyphoonSDK _sdk;
 
   @override
   void initState() {
     super.initState();
-    _jcApi = JCApi();
-    _jcController = JcController();
+    _sdk = JyphoonSDK();
 
     _sessionId = TextEditingController();
   }
@@ -46,13 +44,13 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _jcApi.confJoin(_sessionId.text, '123456');
+                      _sdk.confJoin(_sessionId.text, '123456');
                     },
                     child: const Text('Join'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _jcApi.confLeave();
+                      _sdk.confLeave();
                     },
                     child: const Text('Leave'),
                   ),
@@ -76,13 +74,13 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                               ),
                             ),
                             child: StreamBuilder(
-                              stream: _jcController.state.selfVideo,
+                              stream: _sdk.state.selfVideo,
                               builder: (context, snapshot) {
                                 if (snapshot.data != VideoStatus.on) {
                                   return const SizedBox.shrink();
                                 }
                                 return StreamBuilder<ConferenceStatus>(
-                                    stream: _jcController.state.conference,
+                                    stream: _sdk.state.conference,
                                     builder: (context, snapshot) {
                                       if (snapshot.data ==
                                           ConferenceStatus.waiting) {
@@ -111,7 +109,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                               ),
                             ),
                             child: StreamBuilder(
-                              stream: _jcController.state.companionVideo,
+                              stream: _sdk.state.companionVideo,
                               builder: (context, snapshot) {
                                 if (snapshot.data != VideoStatus.on) {
                                   return const SizedBox.shrink();

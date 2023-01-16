@@ -1,16 +1,21 @@
-import 'package:jc/src/controller/jc_state.dart';
-import 'package:jc/src/generated_api.dart';
+import 'package:jc/src/generated/jyphoon_api.dart';
+import 'package:jc/src/logic/jyphoon_state.dart';
 
-class JcController extends JcReceiver {
-  static final JcController _instance = JcController._();
+abstract class JyphoonController {
+  JyphoonState get state;
+}
 
-  factory JcController() => _instance;
+class JyphoonControllerImpl implements JyphoonReceiver, JyphoonController {
+  static final JyphoonControllerImpl _instance = JyphoonControllerImpl._();
 
-  JcController._() : state = JCStateImpl() {
-    JcReceiver.setup(this);
+  factory JyphoonControllerImpl() => _instance;
+
+  JyphoonControllerImpl._() : state = InnerJyphoonStateImpl() {
+    JyphoonReceiver.setup(this);
   }
 
-  final JCState state;
+  @override
+  final InnerJyphoonState state;
 
   @override
   void onEvent(String event) {
@@ -29,7 +34,6 @@ class JcController extends JcReceiver {
         state
           ..updateVideoStatus()
           ..updateConfStatus();
-
         break;
       case 'CONFERENCE_PARTP_JOIN':
         state.updateVideoStatus();

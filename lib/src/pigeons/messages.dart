@@ -2,13 +2,13 @@ import 'package:pigeon/pigeon.dart';
 
 @ConfigurePigeon(
   PigeonOptions(
-    dartOut: 'lib/src/generated_api.dart',
+    dartOut: 'lib/src/generated/jyphoon_api.dart',
     kotlinOut: 'android/src/main/kotlin/com/michaellazebny/jyphoon/jc/JCApi.kt',
     kotlinOptions: KotlinOptions(package: 'com.michaellazebny.jyphoon.jc'),
   ),
 )
 @HostApi()
-abstract class JCApi {
+abstract class JyphoonApi {
   /// Returns whether JC was inited.
   ///
   /// On **Android**:
@@ -57,20 +57,12 @@ abstract class JCApi {
   void setServerAddress(String serverAddress);
 
   /// Returns [Void].
-  /// Starts or stops to send video.
-  void switchVideo();
+  /// Starts or stops to send video
+  void setVideo(bool video);
 
   /// Returns [Void].
   /// Starts or stops to send audio.
-  void switchAudio();
-
-  /// Returns [String].
-  /// Get current user id
-  String? getCurrentUserId();
-
-  /// Returns [Void].
-  /// Hangs up the "call".
-  bool confLeave();
+  void setAudio(bool audio);
 
   /// Returns [Boolean].
   /// True if the user is in the call and is not muted.
@@ -86,6 +78,14 @@ abstract class JCApi {
   /// True if the user is in the call and shares video.
   /// Otherwise, returns false.
   bool video();
+
+  /// Returns [String].
+  /// Get current user id
+  String? getCurrentUserId();
+
+  /// Returns [Void].
+  /// Hangs up the "call".
+  bool confLeave();
 
   /// Returns [Boolean].
   /// True if the companion is in the call and shares video.
@@ -106,6 +106,6 @@ abstract class JCApi {
 }
 
 @FlutterApi()
-abstract class JcReceiver {
+abstract class JyphoonReceiver {
   void onEvent(String event);
 }

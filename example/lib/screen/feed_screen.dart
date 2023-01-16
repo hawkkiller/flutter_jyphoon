@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jc/jc.dart';
+import 'package:jc/jyphoon.dart';
 import 'package:jc_example/main.dart';
 import 'package:jc_example/screen/conference_screen.dart';
 
@@ -18,7 +18,7 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  late final JCApi _jcApi;
+  late final JyphoonSDK _sdk;
 
   bool isInitialized = false;
 
@@ -39,7 +39,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     super.initState();
-    _jcApi = JCApi();
+    _sdk = JyphoonSDK();
   }
 
   @override
@@ -56,7 +56,7 @@ class _FeedScreenState extends State<FeedScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    await _jcApi.isInited().then((value) => value.toString()),
+                    await _sdk.isInited().then((value) => value.toString()),
                   ),
                 ),
               );
@@ -64,7 +64,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           _MaterialButton(
             color: Colors.deepPurple,
-            onTap: () => _jcApi.initialize().then(
+            onTap: () => _sdk.initialize().then(
                   (value) => setState(
                     () => isInitialized = true,
                   ),
@@ -74,7 +74,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'AppKey',
-            onTap: (str) => _jcApi.setAppKey(str).then(
+            onTap: (str) => _sdk.setAppKey(str).then(
                   (value) => setState(
                     () => _appKeySet = true,
                   ),
@@ -82,7 +82,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'DisplayName',
-            onTap: (str) => _jcApi.setDisplayName(str).then(
+            onTap: (str) => _sdk.setDisplayName(str).then(
                   (value) => setState(
                     () => _displayNameSet = true,
                   ),
@@ -91,7 +91,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'AccountNumber',
-            onTap: (str) => _jcApi.setAccountNumber(str).then(
+            onTap: (str) => _sdk.setAccountNumber(str).then(
                   (value) => setState(
                     () => _accountNumberSet = true,
                   ),
@@ -100,7 +100,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'ServerAddress',
-            onTap: (str) => _jcApi.setServerAddress(str).then(
+            onTap: (str) => _sdk.setServerAddress(str).then(
                   (value) => setState(
                     () => _serverAddressSet = true,
                   ),
@@ -109,7 +109,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           SDKField(
             label: 'Timeout',
-            onTap: (str) => _jcApi.setTimeout(int.parse(str)).then(
+            onTap: (str) => _sdk.setTimeout(int.parse(str)).then(
                   (value) => setState(
                     () => _timeoutSet = true,
                   ),

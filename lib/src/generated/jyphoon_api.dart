@@ -8,11 +8,11 @@ import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
 
-class JCApi {
-  /// Constructor for [JCApi].  The [binaryMessenger] named argument is
+class JyphoonApi {
+  /// Constructor for [JyphoonApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  JCApi({BinaryMessenger? binaryMessenger})
+  JyphoonApi({BinaryMessenger? binaryMessenger})
       : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
@@ -25,7 +25,7 @@ class JCApi {
   /// Otherwise, returns **false** if initialize() was not called or failed.
   Future<bool> isInited() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.isInited', codec,
+        'dev.flutter.pigeon.JyphoonApi.isInited', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -55,7 +55,7 @@ class JCApi {
   /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> initialize() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.initialize', codec,
+        'dev.flutter.pigeon.JyphoonApi.initialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -84,7 +84,7 @@ class JCApi {
   /// Deinitialize the engine. After call this method you can't use call mechanics
   Future<void> uninitialize() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.uninitialize', codec,
+        'dev.flutter.pigeon.JyphoonApi.uninitialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -107,7 +107,7 @@ class JCApi {
   /// Sets appKey in order to have access to the Jyphoon API.
   Future<void> setAppKey(String arg_appKey) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setAppKey', codec,
+        'dev.flutter.pigeon.JyphoonApi.setAppKey', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_appKey]) as List<Object?>?;
@@ -134,7 +134,7 @@ class JCApi {
   /// Sets the name that is visible to another participant(s).
   Future<void> setDisplayName(String arg_displayName) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setDisplayName', codec,
+        'dev.flutter.pigeon.JyphoonApi.setDisplayName', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_displayName]) as List<Object?>?;
@@ -158,7 +158,7 @@ class JCApi {
   /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> setAccountNumber(String arg_accountNumber) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setAccountNumber', codec,
+        'dev.flutter.pigeon.JyphoonApi.setAccountNumber', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_accountNumber]) as List<Object?>?;
@@ -190,7 +190,7 @@ class JCApi {
   /// Sets the timeout for the call request.
   Future<void> setTimeout(int arg_timeout) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setTimeout', codec,
+        'dev.flutter.pigeon.JyphoonApi.setTimeout', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_timeout]) as List<Object?>?;
@@ -216,7 +216,7 @@ class JCApi {
   /// Starts the "call".
   Future<bool> confJoin(String arg_confId, String arg_password) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.confJoin', codec,
+        'dev.flutter.pigeon.JyphoonApi.confJoin', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_confId, arg_password]) as List<Object?>?;
@@ -245,7 +245,7 @@ class JCApi {
   /// Takes [String] account in. It is the account identifier of the person you want to call.
   Future<void> setServerAddress(String arg_serverAddress) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.setServerAddress', codec,
+        'dev.flutter.pigeon.JyphoonApi.setServerAddress', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_serverAddress]) as List<Object?>?;
@@ -266,13 +266,13 @@ class JCApi {
   }
 
   /// Returns [Void].
-  /// Starts or stops to send video.
-  Future<void> switchVideo() async {
+  /// Starts or stops to send video
+  Future<void> setVideo(bool arg_video) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.switchVideo', codec,
+        'dev.flutter.pigeon.JyphoonApi.setVideo', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+        await channel.send(<Object?>[arg_video]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -291,12 +291,12 @@ class JCApi {
 
   /// Returns [Void].
   /// Starts or stops to send audio.
-  Future<void> switchAudio() async {
+  Future<void> setAudio(bool arg_audio) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.switchAudio', codec,
+        'dev.flutter.pigeon.JyphoonApi.setAudio', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+        await channel.send(<Object?>[arg_audio]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -313,65 +313,12 @@ class JCApi {
     }
   }
 
-  /// Returns [String].
-  /// Get current user id
-  Future<String?> getCurrentUserId() async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.getCurrentUserId', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return (replyList[0] as String?);
-    }
-  }
-
-  /// Returns [Void].
-  /// Hangs up the "call".
-  Future<bool> confLeave() async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.confLeave', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else if (replyList[0] == null) {
-      throw PlatformException(
-        code: 'null-error',
-        message: 'Host platform returned null value for non-null return value.',
-      );
-    } else {
-      return (replyList[0] as bool?)!;
-    }
-  }
-
   /// Returns [Boolean].
   /// True if the user is in the call and is not muted.
   /// Otherwise, returns false.
   Future<bool> audio() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.audio', codec,
+        'dev.flutter.pigeon.JyphoonApi.audio', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -401,7 +348,7 @@ class JCApi {
   /// Otherwise, returns false.
   Future<bool> otherAudio() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.otherAudio', codec,
+        'dev.flutter.pigeon.JyphoonApi.otherAudio', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -431,7 +378,60 @@ class JCApi {
   /// Otherwise, returns false.
   Future<bool> video() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.video', codec,
+        'dev.flutter.pigeon.JyphoonApi.video', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(null) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else if (replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyList[0] as bool?)!;
+    }
+  }
+
+  /// Returns [String].
+  /// Get current user id
+  Future<String?> getCurrentUserId() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.JyphoonApi.getCurrentUserId', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(null) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return (replyList[0] as String?);
+    }
+  }
+
+  /// Returns [Void].
+  /// Hangs up the "call".
+  Future<bool> confLeave() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.JyphoonApi.confLeave', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -461,7 +461,7 @@ class JCApi {
   /// Otherwise, returns false.
   Future<bool> otherVideo() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.otherVideo', codec,
+        'dev.flutter.pigeon.JyphoonApi.otherVideo', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -494,7 +494,7 @@ class JCApi {
   /// - [ConferenceStatus.waiting]
   Future<String> confStatus() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.confStatus', codec,
+        'dev.flutter.pigeon.JyphoonApi.confStatus', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -523,7 +523,7 @@ class JCApi {
   /// Switches the camera.
   Future<void> switchCamera() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JCApi.switchCamera', codec,
+        'dev.flutter.pigeon.JyphoonApi.switchCamera', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -545,25 +545,25 @@ class JCApi {
 }
 
 
-abstract class JcReceiver {
+abstract class JyphoonReceiver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   void onEvent(String event);
 
-  static void setup(JcReceiver? api, {BinaryMessenger? binaryMessenger}) {
+  static void setup(JyphoonReceiver? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.JcReceiver.onEvent', codec,
+          'dev.flutter.pigeon.JyphoonReceiver.onEvent', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.JcReceiver.onEvent was null.');
+          'Argument for dev.flutter.pigeon.JyphoonReceiver.onEvent was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final String? arg_event = (args[0] as String?);
-          assert(arg_event != null, 'Argument for dev.flutter.pigeon.JcReceiver.onEvent was null, expected non-null String.');
+          assert(arg_event != null, 'Argument for dev.flutter.pigeon.JyphoonReceiver.onEvent was null, expected non-null String.');
           api.onEvent(arg_event!);
           return;
         });

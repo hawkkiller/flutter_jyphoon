@@ -21,6 +21,7 @@ class MediaChannel {
         joinParam.framerate = 24
         joinParam.customVideoResolution = ""
         joinParam.videoRatio = 1.78f
+        jcManager.mediaDevice.enableSpeaker(true)
         return jcManager.mediaChannel.join(channelId, joinParam)
     }
 
@@ -44,16 +45,16 @@ class MediaChannel {
         return JCCallUtils.otherParticipant?.isVideo ?: false
     }
 
-    fun switchAudio() {
+    fun setAudio(audio: Boolean) {
         // TODO: check if this really mutes audio
         val activeCall = JCCallUtils.activeCall
         if (activeCall != null) {
-            jcManager.call.muteMicrophone(activeCall, !audio())
+            jcManager.call.muteMicrophone(activeCall, !audio)
         }
     }
 
-    fun switchVideo() {
-        if (video()) {
+    fun setVideo(video: Boolean) {
+        if (video) {
             jcManager.mediaChannel.selfParticipant?.stopVideo()
         } else {
             jcManager.mediaChannel.selfParticipant?.startVideo(

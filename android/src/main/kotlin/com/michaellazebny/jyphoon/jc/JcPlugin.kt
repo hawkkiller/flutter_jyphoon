@@ -12,9 +12,9 @@ import com.michaellazebny.jyphoon.jc.views.RemoteViewFactory
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 
 /** JcPlugin */
-class JcPlugin : FlutterPlugin, JCApi {
+class JcPlugin : FlutterPlugin, JyphoonApi {
     private lateinit var applicationContext: Context
-    private lateinit var receiver: JcReceiver
+    private lateinit var receiver: JyphoonReceiver
 
     private val initialization = Initialization()
     private val userInfo = UserInfo()
@@ -22,13 +22,13 @@ class JcPlugin : FlutterPlugin, JCApi {
     private lateinit var handler: Handler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        JCApi.setUp(binding.binaryMessenger, null)
+        JyphoonApi.setUp(binding.binaryMessenger, null)
         handler.dispose()
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = flutterPluginBinding.applicationContext
-        JCApi.setUp(flutterPluginBinding.binaryMessenger, this)
+        JyphoonApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "self-view",
             SelfViewFactory(),
@@ -37,7 +37,7 @@ class JcPlugin : FlutterPlugin, JCApi {
             "companion-view",
             RemoteViewFactory(),
         )
-        receiver = JcReceiver(flutterPluginBinding.binaryMessenger)
+        receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
         handler = Handler(receiver)
         handler.init()
     }
@@ -58,15 +58,15 @@ class JcPlugin : FlutterPlugin, JCApi {
 
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
 
+    override fun setVideo(video: Boolean) = mediaChannel.setVideo(video)
+
+    override fun setAudio(audio: Boolean) = mediaChannel.setAudio(audio)
+
     override fun confJoin(confId: String, password: String) = mediaChannel.join(confId, password)
 
     override fun getCurrentUserId() = userInfo.getUserId()
 
     override fun confLeave() = mediaChannel.leave()
-
-    override fun switchVideo() = mediaChannel.switchVideo()
-
-    override fun switchAudio() = mediaChannel.switchAudio()
 
     override fun audio() = mediaChannel.audio()
 
