@@ -64,6 +64,10 @@ class MediaChannel {
         }
     }
 
+    fun setSpeaker(value: Boolean) {
+        jcManager.mediaDevice.enableSpeaker(value)
+    }
+
     fun confStatus(): String {
         val participants = jcManager?.mediaChannel?.participants
         if (participants == null || participants.isEmpty()) {
