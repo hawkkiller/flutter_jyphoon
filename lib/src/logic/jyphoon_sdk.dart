@@ -86,4 +86,7 @@ class JyphoonSDKImpl implements JyphoonSDK {
 
   @override
   Future<void> setVideo(bool video) => _api.setVideo(video);
+
+  @override
+  Future<void> setSpeaker(bool speaker) => _api.setSpeaker(speaker);
 }

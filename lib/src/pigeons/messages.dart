@@ -64,6 +64,11 @@ abstract class JyphoonApi {
   /// Starts or stops to send audio.
   void setAudio(bool audio);
 
+  /// Returns [Void].
+  ///
+  /// Configures the speaker mode.
+  void setSpeaker(bool speaker);
+
   /// Returns [Boolean].
   /// True if the user is in the call and is not muted.
   /// Otherwise, returns false.

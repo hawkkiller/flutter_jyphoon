@@ -79,4 +79,6 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
     override fun confStatus() = mediaChannel.confStatus()
 
     override fun switchCamera() = mediaChannel.switchCamera()
+
+    override fun setSpeaker(speaker: Boolean) = mediaChannel.setSpeaker(speaker)
 }

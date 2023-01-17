@@ -79,6 +79,12 @@ interface JyphoonApi {
    */
   fun setAudio(audio: Boolean)
   /**
+   * Returns [Void].
+   *
+   * Configures the speaker mode.
+   */
+  fun setSpeaker(speaker: Boolean)
+  /**
    * Returns [Boolean].
    * True if the user is in the call and is not muted.
    * Otherwise, returns false.
@@ -325,6 +331,25 @@ interface JyphoonApi {
               val args = message as List<Any?>
               val audioArg = args[0] as Boolean
               api.setAudio(audioArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.setSpeaker", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              val args = message as List<Any?>
+              val speakerArg = args[0] as Boolean
+              api.setSpeaker(speakerArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Error) {
               wrapped = wrapError(exception)
