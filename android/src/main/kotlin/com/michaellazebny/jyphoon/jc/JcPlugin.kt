@@ -46,8 +46,6 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
 
     override fun initialize() = initialization.initialize(applicationContext)
 
-    override fun uninitialize() = initialization.uninitialize()
-
     override fun setAppKey(appKey: String) = initialization.setAppKey(appKey)
 
     override fun setDisplayName(displayName: String) = userInfo.setDisplayName(displayName)

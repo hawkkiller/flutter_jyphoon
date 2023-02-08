@@ -5,6 +5,8 @@ import 'package:pigeon/pigeon.dart';
     dartOut: 'lib/src/generated/jyphoon_api.dart',
     kotlinOut: 'android/src/main/kotlin/com/michaellazebny/jyphoon/jc/JCApi.kt',
     kotlinOptions: KotlinOptions(package: 'com.michaellazebny.jyphoon.jc'),
+    swiftOptions: SwiftOptions(),
+    swiftOut: 'ios/Classes/JCApi.swift',
   ),
 )
 @HostApi()
@@ -20,10 +22,6 @@ abstract class JyphoonApi {
   ///
   /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
   bool initialize();
-
-  /// Returns [Void]
-  /// Deinitialize the engine. After call this method you can't use call mechanics
-  void uninitialize();
 
   /// Sets appKey in order to have access to the Jyphoon API.
   void setAppKey(String appKey);

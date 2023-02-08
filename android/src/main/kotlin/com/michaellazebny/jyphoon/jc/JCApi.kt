@@ -28,11 +28,6 @@ interface JyphoonApi {
    * Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
    */
   fun initialize(): Boolean
-  /**
-   * Returns [Void]
-   * Deinitialize the engine. After call this method you can't use call mechanics
-   */
-  fun uninitialize()
   /** Sets appKey in order to have access to the Jyphoon API. */
   fun setAppKey(appKey: String)
   /**
@@ -164,23 +159,6 @@ interface JyphoonApi {
             var wrapped = listOf<Any?>()
             try {
               wrapped = listOf<Any?>(api.initialize())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.uninitialize", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              api.uninitialize()
-              wrapped = listOf<Any?>(null)
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

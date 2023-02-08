@@ -73,9 +73,6 @@ class JyphoonSDKImpl implements JyphoonSDK {
   Future<void> switchCamera() => _api.switchCamera();
 
   @override
-  Future<void> uninitialize() => _api.uninitialize();
-
-  @override
   Future<bool> video() => _api.video();
 
   @override

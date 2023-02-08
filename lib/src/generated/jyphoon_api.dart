@@ -80,30 +80,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void]
-  /// Deinitialize the engine. After call this method you can't use call mechanics
-  Future<void> uninitialize() async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JyphoonApi.uninitialize', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
   /// Sets appKey in order to have access to the Jyphoon API.
   Future<void> setAppKey(String arg_appKey) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
