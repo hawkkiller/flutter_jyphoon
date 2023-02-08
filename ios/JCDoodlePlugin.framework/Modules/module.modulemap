@@ -1,0 +1,6 @@
+framework module JCDoodlePlugin {
+  umbrella header "JCDoodlePlugin.h"
+
+  export *
+  module * { export * }
+}
