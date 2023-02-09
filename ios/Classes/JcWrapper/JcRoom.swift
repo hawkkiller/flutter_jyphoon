@@ -12,13 +12,31 @@ class JCRoom: NSObject {
     public static var shared : JCRoom {
         return self.instance
     }
+    
+    var client: JCClient {
+        get {
+            return _client!
+        }
+    }
+    
+    var mediaDevice: JCMediaDevice {
+        get {
+            return _mediaDevice!
+        }
+    }
+    
+    var mediaChannel: JCMediaChannel {
+        get {
+            return _mediaChannel!
+        }
+    }
 
-    var client : JCClient?
-    var mediaDevice : JCMediaDevice?
-    var mediaChannel : JCMediaChannel?
+    private var _client : JCClient?
+    private var _mediaDevice : JCMediaDevice?
+    private var _mediaChannel : JCMediaChannel?
     
     public func setDisplayName(name: String) {
-        client?.displayName = name
+        client.displayName = name
     }
 
     public func initialize() -> Bool {
@@ -28,13 +46,13 @@ class JCRoom: NSObject {
         let client = JCClient.create(appkey, callback: self, createParam: nil)
         client?.serverAddress = server
         let mediaDevice = JCMediaDevice.create(client!, callback: self)
-        mediaDevice!.setCameraProperty(1280, height:720, framerate:30)
+        mediaDevice!.setCameraProperty(1280, height:720, framerate:24)
         let mediaChannel = JCMediaChannel.create(client!, mediaDevice: mediaDevice!, callback: self)
         JCNet.shared()?.add(self)
         
-        self.client = client
-        self.mediaDevice = mediaDevice
-        self.mediaChannel = mediaChannel
+        _client = client
+        _mediaDevice = mediaDevice
+        _mediaChannel = mediaChannel
         
         UserDefaults.standard.setValue(appkey, forKey: "kAppkey")
         UserDefaults.standard.setValue(server, forKey: "kServer")
@@ -117,7 +135,7 @@ extension JCRoom: JCMediaChannelCallback {
 
     func onJoin(_ result: Bool, reason: JCMediaChannelReason, channelId: String!) {
         if result {
-            self.mediaDevice?.enableSpeaker(true)
+            self.mediaDevice.enableSpeaker(true)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnJoinSuccessNotification), object: nil, userInfo: nil);
         } else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnJoinFailNotification), object: nil, userInfo: nil);

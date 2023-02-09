@@ -12,17 +12,17 @@ public class SwiftJcPlugin: NSObject, FlutterPlugin {
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 }
-extension String: Error {}
 
 private class JcApi: JyphoonApi {
   
   lazy var initialization = Initialization()
   lazy var userInfo = UserInfo()
+  lazy var mediaChannel = MediaChannel()
   
   private var _isInited = false
   
   func isInited() -> Bool {
-    return _isInited
+    _isInited
   }
   
   func initialize() -> Bool {
@@ -39,15 +39,15 @@ private class JcApi: JyphoonApi {
   }
   
   func setAccountNumber(accountNumber: String) -> Bool {
-    return false
+    userInfo.setAccountNumber(number: accountNumber)
   }
   
   func setTimeout(timeout: Int32) {
-    
+    userInfo.setTimeout(timeout: timeout)
   }
   
   func confJoin(confId: String, password: String) -> Bool {
-    return false
+    mediaChannel.join(channelId: confId, password: password)
   }
   
   func setServerAddress(serverAddress: String) {
@@ -55,48 +55,46 @@ private class JcApi: JyphoonApi {
   }
   
   func setVideo(video: Bool) {
-    
+    mediaChannel.setVideo(video: video)
   }
   
   func setAudio(audio: Bool) {
-    
+    mediaChannel.setAudio(audio: audio)
   }
   
   func setSpeaker(speaker: Bool) {
-    
+    mediaChannel.setSpeaker(speaker: speaker)
   }
   
   func audio() -> Bool {
-    return false
+    mediaChannel.audio()
   }
   
   func otherAudio() -> Bool {
-    return false
+    mediaChannel.otherAudio()
   }
   
   func video() -> Bool {
-    return false
+    mediaChannel.video()
   }
   
   func getCurrentUserId() -> String? {
-    return ""
+    userInfo.getCurrentUserId()
   }
   
   func confLeave() -> Bool {
-    return false
+    mediaChannel.leave()
   }
   
   func otherVideo() -> Bool {
-    return false
+    mediaChannel.otherVideo()
   }
   
   func confStatus() -> String {
-    return ""
+    mediaChannel.confStatus()
   }
   
   func switchCamera() {
-    
+    mediaChannel.switchCamera()
   }
-  
-  
 }
