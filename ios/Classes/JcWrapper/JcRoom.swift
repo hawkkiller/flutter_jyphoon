@@ -44,7 +44,6 @@ class JCRoom: NSObject {
         let server: String = UserDefaults.standard.string(forKey: "kServer") ?? JCRoom.SERVER_ADDRESS
 
         let client = JCClient.create(appkey, callback: self, createParam: nil)
-        client?.serverAddress = server
         let mediaDevice = JCMediaDevice.create(client!, callback: self)
         mediaDevice!.setCameraProperty(1280, height:720, framerate:24)
         let mediaChannel = JCMediaChannel.create(client!, mediaDevice: mediaDevice!, callback: self)

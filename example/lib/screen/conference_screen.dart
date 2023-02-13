@@ -43,8 +43,9 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      _sdk.confJoin(_sessionId.text, '123456');
+                    onPressed: () async {
+                      await _sdk.setVideo(true);
+                      await _sdk.confJoin(_sessionId.text, '123456');
                     },
                     child: const Text('Join'),
                   ),
@@ -82,15 +83,6 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                                 return StreamBuilder<ConferenceStatus>(
                                     stream: _sdk.state.conference,
                                     builder: (context, snapshot) {
-                                      if (snapshot.data ==
-                                          ConferenceStatus.waiting) {
-                                        return const CircularProgressIndicator
-                                            .adaptive();
-                                      }
-                                      if (snapshot.data !=
-                                          ConferenceStatus.on) {
-                                        return const SizedBox.shrink();
-                                      }
                                       return const SelfView();
                                     });
                               },

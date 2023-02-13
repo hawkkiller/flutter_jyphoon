@@ -22,8 +22,9 @@ A new Flutter plugin project.
   s.swift_version = '5.0'
   s.preserve_paths = 'JCSDKOC.framework'
   s.vendored_frameworks = 'JCSDKOC.framework'
-  # s.xcconfig = { 'OTHER_LDFLAGS' => '-framework JCSDKOC' }
-  # s.preserve_paths = 'JCSDKOC.framework,JCDoodlePlugin.framework'
-  # s.xcconfig = { 'OTHER_LDFLAGS' => '-framework JCSDKOC -framework JCDoodlePlugin' }
-  # s.vendored_frameworks = 'JCSDKOC.framework,JCDoodlePlugin.framework'
+  s.libraries = 'c++', 'z', 'resolv'
+  s.frameworks = 'SystemConfiguration', 'AssetsLibrary', 'AudioToolbox',
+  'VideoToolBox', 'AVFoundation', 'CFNetwork', 'CoreMedia', 'CoreMotion', 'CoreVideo', 'GLKit',
+  'ReplayKit', 'Security'
+  s.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) ZPLATFORM=ZPLATFORM_IOS'}
 end

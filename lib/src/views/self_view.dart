@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,9 +13,17 @@ class SelfView extends StatelessWidget {
   static const String viewType = 'self-view';
 
   @override
-  Widget build(BuildContext context) => const AndroidView(
+  Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return const SizedBox();
+    }
+    if (Platform.isAndroid) {
+      return const AndroidView(
         viewType: viewType,
         layoutDirection: TextDirection.ltr,
         creationParamsCodec: StandardMessageCodec(),
       );
+    }
+    throw UnsupportedError('Unsupported platform');
+  }
 }
