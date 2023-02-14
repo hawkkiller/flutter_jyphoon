@@ -25,15 +25,9 @@ class _FeedScreenState extends State<FeedScreen> {
   bool _appKeySet = false;
   bool _displayNameSet = false;
   bool _accountNumberSet = false;
-  bool _timeoutSet = false;
-  bool _serverAddressSet = false;
 
   bool _allFieldsSet() {
-    return _appKeySet &&
-        _displayNameSet &&
-        _accountNumberSet &&
-        _timeoutSet &&
-        _serverAddressSet;
+    return _appKeySet && _displayNameSet && _accountNumberSet;
   }
 
   @override
@@ -44,8 +38,6 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var allFieldsSet = _allFieldsSet();
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -98,31 +90,13 @@ class _FeedScreenState extends State<FeedScreen> {
                 ),
             isActive: isInitialized,
           ),
-          SDKField(
-            label: 'ServerAddress',
-            onTap: (str) => _sdk.setServerAddress(str).then(
-                  (value) => setState(
-                    () => _serverAddressSet = true,
-                  ),
-                ),
-            isActive: isInitialized,
-          ),
-          SDKField(
-            label: 'Timeout',
-            onTap: (str) => _sdk.setTimeout(int.parse(str)).then(
-                  (value) => setState(
-                    () => _timeoutSet = true,
-                  ),
-                ),
-            isActive: isInitialized,
-          ),
           _MaterialButton(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ConferenceScreen(),
               ));
             },
-            enabled: allFieldsSet,
+            enabled: _allFieldsSet(),
             title: 'Go to Conference Screen',
           )
         ],
