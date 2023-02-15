@@ -1,7 +1,7 @@
 import Flutter
 import UIKit
 
-class SelfViewFactory: NSObject, FlutterPlatformViewFactory {
+class CompanionViewFactory: NSObject, FlutterPlatformViewFactory {
     private var messenger: FlutterBinaryMessenger
 
     init(messenger: FlutterBinaryMessenger) {
@@ -14,7 +14,7 @@ class SelfViewFactory: NSObject, FlutterPlatformViewFactory {
         viewIdentifier viewId: Int64,
         arguments args: Any?
     ) -> FlutterPlatformView {
-        return SelfView(
+        return CompanionView(
             frame: frame,
             viewIdentifier: viewId,
             arguments: args,
@@ -22,7 +22,7 @@ class SelfViewFactory: NSObject, FlutterPlatformViewFactory {
     }
 }
 
-class SelfView: NSObject, FlutterPlatformView {
+class CompanionView: NSObject, FlutterPlatformView {
     private var _view: UIView
 
     init(
@@ -35,7 +35,11 @@ class SelfView: NSObject, FlutterPlatformView {
         super.init()
         // iOS views can be created here
         _view.frame = frame
-        let canvas = JCRoom.shared.mediaDevice.startCameraVideo(.fullScreen, view: _view)
+        let canvas = JCRoomUtils.otherParticipant?.startVideo(.fullScreen, pictureSize: .min)
+        if (canvas?.videoView != nil) {
+            _view.addSubview(canvas!.videoView)
+        }
+        
     }
 
     func view() -> UIView {

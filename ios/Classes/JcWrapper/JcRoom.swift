@@ -129,12 +129,13 @@ extension JCRoom: JCMediaChannelCallback {
     }
 
     func onMediaChannelPropertyChange(_ changeParam: JCMediaChannelPropChangeParam!) {
-    
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_PROP_CHANGE)
     }
 
     func onJoin(_ result: Bool, reason: JCMediaChannelReason, channelId: String!) {
         if result {
-            self.mediaDevice.enableSpeaker(true)
+            JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_JOIN)
+//            self.mediaDevice.enableSpeaker(true)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnJoinSuccessNotification), object: nil, userInfo: nil);
         } else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnJoinFailNotification), object: nil, userInfo: nil);
@@ -150,6 +151,7 @@ extension JCRoom: JCMediaChannelCallback {
     }
 
     func onStop(_ result: Bool, reason: JCMediaChannelReason) {
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_STOP)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnStopNotification), object: nil, userInfo: nil);
     }
 
@@ -158,14 +160,17 @@ extension JCRoom: JCMediaChannelCallback {
     }
 
     func onParticipantJoin(_ participant: JCMediaChannelParticipant!) {
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_PARTP_JOIN)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnParticipantJoinNotification), object: participant, userInfo: nil);
     }
 
     func onParticipantLeft(_ participant: JCMediaChannelParticipant!) {
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_PARTP_LEAVE)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnParticipantLeftNotification), object: participant, userInfo: nil);
     }
 
     func onParticipantUpdate(_ participant: JCMediaChannelParticipant!, participantChangeParam: JCMediaChannelParticipantChangeParam!) {
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_PARTP_UPDATE)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnParticipantUpdateNotification), object: nil, userInfo: nil);
     }
 

@@ -66,8 +66,8 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         Badge(
                           label: const Text('Self'),
                           child: Container(
-                            width: 100,
-                            height: 100,
+                            width: 200,
+                            height: 300,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.grey[300]!,

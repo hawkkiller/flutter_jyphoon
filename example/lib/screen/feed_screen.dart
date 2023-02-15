@@ -38,69 +38,67 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          MaterialButton(
-            color: Colors.green,
-            child: const Text('Is Inited'),
-            onPressed: () async {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    await _sdk.isInited().then((value) => value.toString()),
-                  ),
+    return Column(
+      children: [
+        MaterialButton(
+          color: Colors.green,
+          child: const Text('Is Inited'),
+          onPressed: () async {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  await _sdk.isInited().then((value) => value.toString()),
                 ),
-              );
-            },
-          ),
-          _MaterialButton(
-            color: Colors.deepPurple,
-            onTap: () => _sdk.initialize().then(
-                  (value) => setState(
-                    () => isInitialized = true,
-                  ),
+              ),
+            );
+          },
+        ),
+        _MaterialButton(
+          color: Colors.deepPurple,
+          onTap: () => _sdk.initialize().then(
+                (value) => setState(
+                  () => isInitialized = true,
                 ),
-            title: 'initialize',
-            enabled: _appKeySet,
-          ),
-          SDKField(
-            label: 'AppKey',
-            onTap: (str) => _sdk.setAppKey(str).then(
-                  (value) => setState(
-                    () => _appKeySet = true,
-                  ),
+              ),
+          title: 'initialize',
+          enabled: _appKeySet,
+        ),
+        SDKField(
+          label: 'AppKey',
+          onTap: (str) => _sdk.setAppKey(str).then(
+                (value) => setState(
+                  () => _appKeySet = true,
                 ),
-          ),
-          SDKField(
-            label: 'DisplayName',
-            onTap: (str) => _sdk.setDisplayName(str).then(
-                  (value) => setState(
-                    () => _displayNameSet = true,
-                  ),
+              ),
+        ),
+        SDKField(
+          label: 'DisplayName',
+          onTap: (str) => _sdk.setDisplayName(str).then(
+                (value) => setState(
+                  () => _displayNameSet = true,
                 ),
-            isActive: isInitialized,
-          ),
-          SDKField(
-            label: 'AccountNumber',
-            onTap: (str) => _sdk.setAccountNumber(str).then(
-                  (value) => setState(
-                    () => _accountNumberSet = true,
-                  ),
+              ),
+          isActive: isInitialized,
+        ),
+        SDKField(
+          label: 'AccountNumber',
+          onTap: (str) => _sdk.setAccountNumber(str).then(
+                (value) => setState(
+                  () => _accountNumberSet = true,
                 ),
-            isActive: isInitialized,
-          ),
-          _MaterialButton(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ConferenceScreen(),
-              ));
-            },
-            enabled: _allFieldsSet(),
-            title: 'Go to Conference Screen',
-          )
-        ],
-      ),
+              ),
+          isActive: isInitialized,
+        ),
+        _MaterialButton(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ConferenceScreen(),
+            ));
+          },
+          enabled: _allFieldsSet(),
+          title: 'Go to Conference Screen',
+        ),
+      ],
     );
   }
 } // FeedScreen
