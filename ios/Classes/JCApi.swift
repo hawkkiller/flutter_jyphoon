@@ -361,6 +361,30 @@ class JyphoonReceiver {
     }
   }
 }
+/// Generated protocol from Pigeon that represents a handler of messages from Flutter.
+protocol JyphoonViewApi {
+  func setFrame(width: Double, height: Double)
+}
+
+/// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
+class JyphoonViewApiSetup {
+  /// The codec used by JyphoonViewApi.
+  /// Sets up an instance of `JyphoonViewApi` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: JyphoonViewApi?) {
+    let setFrameChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonViewApi.setFrame", binaryMessenger: binaryMessenger)
+    if let api = api {
+      setFrameChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let widthArg = args[0] as! Double
+        let heightArg = args[1] as! Double
+        api.setFrame(width: widthArg, height: heightArg)
+        reply(wrapResult(nil))
+      }
+    } else {
+      setFrameChannel.setMessageHandler(nil)
+    }
+  }
+}
 
 private func wrapResult(_ result: Any?) -> [Any?] {
   return [result]

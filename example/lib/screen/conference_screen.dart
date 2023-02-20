@@ -56,12 +56,10 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     child: const Text('Leave'),
                   ),
                   Container(
-                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Badge(
                           label: const Text('Self'),
@@ -92,7 +90,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         Badge(
                           label: const Text('Companion'),
                           child: Container(
-                            width: 150,
+                            width: 200,
                             height: 300,
                             decoration: BoxDecoration(
                               border: Border.all(

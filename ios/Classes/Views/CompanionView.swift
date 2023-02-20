@@ -1,8 +1,13 @@
 import Flutter
 import UIKit
+import JCSDKOC
 
 class CompanionViewFactory: NSObject, FlutterPlatformViewFactory {
     private var messenger: FlutterBinaryMessenger
+    
+    public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
+          return FlutterStandardMessageCodec.sharedInstance()
+    }
 
     init(messenger: FlutterBinaryMessenger) {
         self.messenger = messenger
@@ -22,7 +27,14 @@ class CompanionViewFactory: NSObject, FlutterPlatformViewFactory {
     }
 }
 
-class CompanionView: NSObject, FlutterPlatformView {
+class CompanionView: NSObject, FlutterPlatformView, JyphoonViewApi {
+    
+    private var canvas: JCMediaDeviceVideoCanvas? = nil
+    
+    func setFrame(width: Double, height: Double) {
+        canvas?.videoView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+    }
+    
     private var _view: UIView
 
     init(
@@ -33,13 +45,13 @@ class CompanionView: NSObject, FlutterPlatformView {
     ) {
         _view = UIView()
         super.init()
+        JyphoonViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
         // iOS views can be created here
-        
         let participant = JCRoomUtils.otherParticipant!
-        let canvas = participant.startVideo(.fullContent, pictureSize: .large)
+        canvas = participant.startVideo(.fullContent, pictureSize: .large)
         JCRoom.shared.mediaChannel.requestVideo(participant, pictureSize: .large)
         _view.addSubview(canvas!.videoView)
-        canvas?.videoView.frame = CGRect(x: 0, y: 0, width: 100, height: 200)
+        
     }
 
     func view() -> UIView {

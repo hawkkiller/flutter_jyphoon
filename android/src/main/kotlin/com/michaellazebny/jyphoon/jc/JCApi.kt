@@ -486,6 +486,41 @@ class JyphoonReceiver(private val binaryMessenger: BinaryMessenger) {
     }
   }
 }
+/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+interface JyphoonViewApi {
+  fun setFrame(width: Double, height: Double)
+
+  companion object {
+    /** The codec used by JyphoonViewApi. */
+    val codec: MessageCodec<Any?> by lazy {
+      StandardMessageCodec()
+    }
+    /** Sets up an instance of `JyphoonViewApi` to handle messages through the `binaryMessenger`. */
+    @Suppress("UNCHECKED_CAST")
+    fun setUp(binaryMessenger: BinaryMessenger, api: JyphoonViewApi?) {
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonViewApi.setFrame", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              val args = message as List<Any?>
+              val widthArg = args[0] as Double
+              val heightArg = args[1] as Double
+              api.setFrame(widthArg, heightArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+    }
+  }
+}
 
 private fun wrapResult(result: Any?): List<Any?> {
   return listOf(result)

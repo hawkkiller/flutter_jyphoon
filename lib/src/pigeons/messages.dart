@@ -112,3 +112,8 @@ abstract class JyphoonApi {
 abstract class JyphoonReceiver {
   void onEvent(String event);
 }
+
+@HostApi()
+abstract class JyphoonViewApi {
+  void setFrame(double width, double height);
+}
