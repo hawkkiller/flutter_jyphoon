@@ -33,9 +33,8 @@ class SelfView: NSObject, FlutterPlatformView {
     ) {
         _view = UIView()
         super.init()
-        // iOS views can be created here
         _view.frame = frame
-        let canvas = JCRoom.shared.mediaDevice.startCameraVideo(.fullScreen, view: _view)
+        JCRoom.shared.mediaDevice.startCameraVideo(.fullScreen, view: _view)
     }
 
     func view() -> UIView {

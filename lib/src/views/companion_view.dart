@@ -17,7 +17,11 @@ class CompanionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
-      return const SizedBox();
+      return const UiKitView(
+        viewType: viewType,
+        layoutDirection: TextDirection.ltr,
+        creationParamsCodec: StandardMessageCodec(),
+      );
     }
     if (Platform.isAndroid) {
       return const AndroidView(

@@ -9,6 +9,7 @@ public class SwiftJcPlugin: NSObject, FlutterPlugin {
     let instance = SwiftJcPlugin()
     let api = JcApi()
     JyphoonApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
+    JCHandler.initialize(receiver: JyphoonReceiver.init(binaryMessenger: registrar.messenger()))
     registrar.addMethodCallDelegate(instance, channel: channel)
     let selfViewFactory = SelfViewFactory(messenger: registrar.messenger())
     registrar.register(selfViewFactory, withId: "self-view")

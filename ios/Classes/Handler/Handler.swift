@@ -29,6 +29,8 @@ class JCHandler {
     }
     
     public func onEvent(event: String) {
-       
+        receiver.onEvent(event: event) {
+            
+        }
     }
 }

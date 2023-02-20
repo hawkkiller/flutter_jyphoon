@@ -36,7 +36,9 @@ class JyphoonControllerImpl implements JyphoonReceiver, JyphoonController {
           ..updateConfStatus();
         break;
       case 'CONFERENCE_PARTP_JOIN':
-        state.updateVideoStatus();
+        state
+          ..updateVideoStatus()
+          ..updateConfStatus();
         break;
       case 'CONFERENCE_PARTP_LEAVE':
         state

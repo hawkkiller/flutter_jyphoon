@@ -44,8 +44,8 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _sdk.setVideo(true);
                       await _sdk.confJoin(_sessionId.text, '123456');
+                      await _sdk.setVideo(true);
                     },
                     child: const Text('Join'),
                   ),
@@ -92,8 +92,8 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         Badge(
                           label: const Text('Companion'),
                           child: Container(
-                            width: 100,
-                            height: 100,
+                            width: 150,
+                            height: 300,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.grey[300]!,

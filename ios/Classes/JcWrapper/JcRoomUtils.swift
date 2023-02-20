@@ -22,10 +22,11 @@ class JCRoomUtils: NSObject {
     static var otherParticipant: JCMediaChannelParticipant? {
         get {
             let participants = JCRoom.shared.mediaChannel.participants
+            let selfParticipant = JCRoom.shared.mediaChannel.selfParticipant
             for participant in participants {
                 let jcParticipant = participant as! JCMediaChannelParticipant?
-                if (selfParticipant != jcParticipant) {
-                    return jcParticipant
+                if (selfParticipant?.userId != jcParticipant?.userId) {
+                    return jcParticipant!
                 }
             }
             return nil

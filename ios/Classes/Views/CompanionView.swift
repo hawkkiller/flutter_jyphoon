@@ -34,12 +34,12 @@ class CompanionView: NSObject, FlutterPlatformView {
         _view = UIView()
         super.init()
         // iOS views can be created here
-        _view.frame = frame
-        let canvas = JCRoomUtils.otherParticipant?.startVideo(.fullScreen, pictureSize: .min)
-        if (canvas?.videoView != nil) {
-            _view.addSubview(canvas!.videoView)
-        }
         
+        let participant = JCRoomUtils.otherParticipant!
+        let canvas = participant.startVideo(.fullContent, pictureSize: .large)
+        JCRoom.shared.mediaChannel.requestVideo(participant, pictureSize: .large)
+        _view.addSubview(canvas!.videoView)
+        canvas?.videoView.frame = CGRect(x: 0, y: 0, width: 100, height: 200)
     }
 
     func view() -> UIView {
