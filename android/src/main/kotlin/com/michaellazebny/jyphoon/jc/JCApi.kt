@@ -28,11 +28,6 @@ interface JyphoonApi {
    * Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
    */
   fun initialize(): Boolean
-  /**
-   * Returns [Void]
-   * Deinitialize the engine. After call this method you can't use call mechanics
-   */
-  fun uninitialize()
   /** Sets appKey in order to have access to the Jyphoon API. */
   fun setAppKey(appKey: String)
   /**
@@ -164,23 +159,6 @@ interface JyphoonApi {
             var wrapped = listOf<Any?>()
             try {
               wrapped = listOf<Any?>(api.initialize())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.uninitialize", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              api.uninitialize()
-              wrapped = listOf<Any?>(null)
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }
@@ -505,6 +483,41 @@ class JyphoonReceiver(private val binaryMessenger: BinaryMessenger) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonReceiver.onEvent", codec)
     channel.send(listOf(eventArg)) {
       callback()
+    }
+  }
+}
+/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+interface JyphoonViewApi {
+  fun setFrame(width: Double, height: Double)
+
+  companion object {
+    /** The codec used by JyphoonViewApi. */
+    val codec: MessageCodec<Any?> by lazy {
+      StandardMessageCodec()
+    }
+    /** Sets up an instance of `JyphoonViewApi` to handle messages through the `binaryMessenger`. */
+    @Suppress("UNCHECKED_CAST")
+    fun setUp(binaryMessenger: BinaryMessenger, api: JyphoonViewApi?) {
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonViewApi.setFrame", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              val args = message as List<Any?>
+              val widthArg = args[0] as Double
+              val heightArg = args[1] as Double
+              api.setFrame(widthArg, heightArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
     }
   }
 }

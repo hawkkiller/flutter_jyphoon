@@ -23,6 +23,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: refactor camera request
     Permission.camera.request();
+    Permission.microphone.request();
     super.initState();
   }
 

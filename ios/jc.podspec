@@ -20,4 +20,11 @@ A new Flutter plugin project.
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
+  s.preserve_paths = 'JCSDKOC.framework'
+  s.vendored_frameworks = 'JCSDKOC.framework'
+  s.libraries = 'c++', 'z', 'resolv'
+  s.frameworks = 'SystemConfiguration', 'AssetsLibrary', 'AudioToolbox',
+  'VideoToolBox', 'AVFoundation', 'CFNetwork', 'CoreMedia', 'CoreMotion', 'CoreVideo', 'GLKit',
+  'ReplayKit', 'Security'
+  s.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) ZPLATFORM=ZPLATFORM_IOS'}
 end

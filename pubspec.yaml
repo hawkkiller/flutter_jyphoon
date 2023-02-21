@@ -10,8 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  pigeon: ^4.2.14
   rxdart: ^0.27.7
+  pigeon: ^4.2.14
 
 dev_dependencies:
   flutter_test:

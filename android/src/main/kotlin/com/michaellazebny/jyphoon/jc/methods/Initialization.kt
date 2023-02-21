@@ -29,12 +29,6 @@ class Initialization {
     fun setAppKey(appKey: String) {
         JCManager.sAppkey = appKey
     }
-
-    /**
-     * Returns [Void]
-     * Deinitialize the engine. After call this method you can't use call mechanics
-     */
-    fun uninitialize() = jcManager.uninitialize()
 }
 
 

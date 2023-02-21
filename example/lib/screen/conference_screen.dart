@@ -43,8 +43,9 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      _sdk.confJoin(_sessionId.text, '123456');
+                    onPressed: () async {
+                      await _sdk.confJoin(_sessionId.text, '123456');
+                      await _sdk.setVideo(true);
                     },
                     child: const Text('Join'),
                   ),
@@ -55,18 +56,16 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     child: const Text('Leave'),
                   ),
                   Container(
-                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Badge(
                           label: const Text('Self'),
                           child: Container(
-                            width: 100,
-                            height: 100,
+                            width: 200,
+                            height: 300,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.grey[300]!,
@@ -82,15 +81,6 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                                 return StreamBuilder<ConferenceStatus>(
                                     stream: _sdk.state.conference,
                                     builder: (context, snapshot) {
-                                      if (snapshot.data ==
-                                          ConferenceStatus.waiting) {
-                                        return const CircularProgressIndicator
-                                            .adaptive();
-                                      }
-                                      if (snapshot.data !=
-                                          ConferenceStatus.on) {
-                                        return const SizedBox.shrink();
-                                      }
                                       return const SelfView();
                                     });
                               },
@@ -100,8 +90,8 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         Badge(
                           label: const Text('Companion'),
                           child: Container(
-                            width: 100,
-                            height: 100,
+                            width: 200,
+                            height: 300,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.grey[300]!,

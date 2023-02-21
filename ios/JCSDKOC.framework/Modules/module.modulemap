@@ -1,0 +1,6 @@
+framework module JCSDKOC {
+  umbrella header "JCSDKOC.h"
+
+  export *
+  module * { export * }
+}
