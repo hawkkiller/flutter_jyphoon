@@ -21,5 +21,6 @@ class JyphoonControllerImpl implements JyphoonReceiver, JyphoonController {
   Future<void> onEvent(String event) async {
     await state.updateConfStatus();
     await state.updateVideoStatus();
+    await state.updateVoiceStatus();
   }
 }

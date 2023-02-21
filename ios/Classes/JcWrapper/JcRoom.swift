@@ -143,6 +143,7 @@ extension JCRoom: JCMediaChannelCallback {
     }
 
     func onLeave(_ reason: JCMediaChannelReason, channelId: String!) {
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_LEAVE)
         if reason == .over {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelOnLeaveOverNotification), object: nil, userInfo: nil);
         } else {
