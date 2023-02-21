@@ -110,6 +110,7 @@ abstract class JyphoonApi {
 
 @FlutterApi()
 abstract class JyphoonReceiver {
+  @async
   void onEvent(String event);
 }
 

@@ -18,45 +18,17 @@ class JyphoonControllerImpl implements JyphoonReceiver, JyphoonController {
   final InnerJyphoonState state;
 
   @override
-  void onEvent(String event) {
+  Future<void> onEvent(String event) async {
     switch (event) {
       case 'CONFERENCE_JOIN':
-        state
-          ..updateVideoStatus()
-          ..updateConfStatus();
-        break;
       case 'CONFERENCE_LEAVE':
-        state
-          ..updateVideoStatus()
-          ..updateConfStatus();
-        break;
       case 'CONFERENCE_STOP':
-        state
-          ..updateVideoStatus()
-          ..updateConfStatus();
-        break;
       case 'CONFERENCE_PARTP_JOIN':
-        state
-          ..updateVideoStatus()
-          ..updateConfStatus();
-        break;
       case 'CONFERENCE_PARTP_LEAVE':
-        state
-          ..updateVideoStatus()
-          ..updateConfStatus();
-        break;
       case 'CONFERENCE_PARTP_UPDATE':
-        state
-          ..updateVideoStatus()
-          ..updateConfStatus();
-        break;
       case 'CONFERENCE_PROP_CHANGE':
-        state
-          ..updateVideoStatus()
-          ..updateVoiceStatus();
-        break;
       case 'CONFERENCE_MESSAGE_RECEIVED':
-        break;
+        await state.updateConfStatus();
     }
   }
 }
