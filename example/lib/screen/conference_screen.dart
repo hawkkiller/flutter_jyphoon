@@ -112,6 +112,23 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                       ],
                     ),
                   ),
+                  StreamBuilder<AudioStatus>(
+                      stream: _sdk.state.selfAudio,
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null) {
+                          return const Text('data is null');
+                        }
+                        return TextButton(
+                          onPressed: () {
+                            _sdk.setAudio(
+                              snapshot.data == AudioStatus.on ? false : true,
+                            );
+                          },
+                          child: Text(
+                            snapshot.data == AudioStatus.on ? 'Mute' : 'Unmute',
+                          ),
+                        );
+                      }),
                 ],
               ),
             ),

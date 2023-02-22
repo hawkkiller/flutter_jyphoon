@@ -98,7 +98,7 @@ extension JCRoom: JCClientCallback {
 extension JCRoom: JCMediaDeviceCallback {
 
     func onCameraUpdate() {
-        
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_PROP_CHANGE)
     }
 
     func onAudioOutputTypeChange(_ audioOutputType: String!) {
@@ -114,7 +114,7 @@ extension JCRoom: JCMediaDeviceCallback {
     }
 
     func onAudioInerruptAndResume(_ interrupt: Bool) {
-        
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_PROP_CHANGE)
     }
 }
 

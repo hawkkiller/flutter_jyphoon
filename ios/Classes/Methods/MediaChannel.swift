@@ -15,6 +15,7 @@ class MediaChannel {
         joinParam.customVideoResolution = ""
         joinParam.videoRatio = 1.78
         JCRoom.shared.mediaDevice.enableSpeaker(true)
+        JCRoom.shared.mediaChannel.enableUploadAudioStream(true)
         return JCRoom.shared.mediaChannel.join(channelId, joinParam: joinParam)
     }
     
@@ -39,11 +40,7 @@ class MediaChannel {
     }
     
     public func setAudio(audio: Bool) {
-        if (audio) {
-            JCRoom.shared.mediaDevice.startAudio()
-        } else {
-            JCRoom.shared.mediaDevice.stopAudio()
-        }
+        JCRoom.shared.mediaChannel.enableUploadAudioStream(audio)
     }
     
     public func setVideo(video: Bool) {
