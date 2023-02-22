@@ -45,19 +45,14 @@ class __UiKitViewState extends State<_UiKitView> {
     super.initState();
   }
 
-  void _setFrame(double width, double height) => _controller.setFrame(
-        width,
-        height,
-      );
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      _setFrame(constraints.maxWidth, constraints.maxHeight);
+      _controller.setFrame(constraints.maxWidth, constraints.maxHeight);
       return UiKitView(
         viewType: CompanionView.viewType,
         layoutDirection: TextDirection.ltr,
-        onPlatformViewCreated: (_) => _setFrame(
+        onPlatformViewCreated: (_) => _controller.setFrame(
           constraints.maxWidth,
           constraints.maxHeight,
         ),
