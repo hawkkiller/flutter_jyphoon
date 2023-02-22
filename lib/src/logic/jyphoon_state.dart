@@ -14,9 +14,9 @@ abstract class JyphoonState {
 }
 
 abstract class InnerJyphoonState implements JyphoonState {
-  void updateVideoStatus();
-  void updateVoiceStatus();
-  void updateConfStatus();
+  Future<void> updateVideoStatus();
+  Future<void> updateVoiceStatus();
+  Future<void> updateConfStatus();
 }
 
 class InnerJyphoonStateImpl implements InnerJyphoonState {
@@ -48,8 +48,8 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
   Stream<ConferenceStatus> get conference => _conference.distinct();
 
   @override
-  void updateVideoStatus() {
-    Future.wait([
+  Future<void> updateVideoStatus() {
+    return Future.wait([
       _api.video(),
       _api.otherVideo(),
     ]).then((l) {
@@ -59,8 +59,8 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
   }
 
   @override
-  void updateVoiceStatus() {
-    Future.wait([
+  Future<void> updateVoiceStatus() {
+    return Future.wait([
       _api.audio(),
       _api.otherAudio(),
     ]).then((l) {
@@ -70,8 +70,8 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
   }
 
   @override
-  void updateConfStatus() {
-    _api.confStatus().then((value) => _conference.add(
+  Future<void> updateConfStatus() {
+    return _api.confStatus().then((value) => _conference.add(
           ConferenceStatus.fromString(value),
         ));
   }

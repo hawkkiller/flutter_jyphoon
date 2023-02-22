@@ -549,7 +549,7 @@ class JyphoonApi {
 abstract class JyphoonReceiver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  void onEvent(String event);
+  Future<void> onEvent(String event);
 
   static void setup(JyphoonReceiver? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -565,7 +565,7 @@ abstract class JyphoonReceiver {
           final List<Object?> args = (message as List<Object?>?)!;
           final String? arg_event = (args[0] as String?);
           assert(arg_event != null, 'Argument for dev.flutter.pigeon.JyphoonReceiver.onEvent was null, expected non-null String.');
-          api.onEvent(arg_event!);
+          await api.onEvent(arg_event!);
           return;
         });
       }
