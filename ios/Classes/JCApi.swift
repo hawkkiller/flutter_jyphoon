@@ -45,7 +45,7 @@ protocol JyphoonApi {
   /// Takes [String] confId in. It is the conference identifier.
   /// Takes [String] password in. It is the password for the conference.
   /// Starts the "call".
-  func confJoin(confId: String, password: String) -> Bool
+  func confJoin(confId: String, password: String, video: Bool) -> Bool
   /// Returns [Void].
   /// Takes [String] account in. It is the account identifier of the person you want to call.
   func setServerAddress(serverAddress: String)
@@ -191,7 +191,8 @@ class JyphoonApiSetup {
         let args = message as! [Any?]
         let confIdArg = args[0] as! String
         let passwordArg = args[1] as! String
-        let result = api.confJoin(confId: confIdArg, password: passwordArg)
+        let videoArg = args[2] as! Bool
+        let result = api.confJoin(confId: confIdArg, password: passwordArg, video: videoArg)
         reply(wrapResult(result))
       }
     } else {
@@ -362,26 +363,50 @@ class JyphoonReceiver {
   }
 }
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-protocol JyphoonViewApi {
-  func setFrame(width: Double, height: Double)
+protocol CompanionViewApi {
+  func setCompanionFrame(width: Double, height: Double)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
-class JyphoonViewApiSetup {
-  /// The codec used by JyphoonViewApi.
-  /// Sets up an instance of `JyphoonViewApi` to handle messages through the `binaryMessenger`.
-  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: JyphoonViewApi?) {
-    let setFrameChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonViewApi.setFrame", binaryMessenger: binaryMessenger)
+class CompanionViewApiSetup {
+  /// The codec used by CompanionViewApi.
+  /// Sets up an instance of `CompanionViewApi` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: CompanionViewApi?) {
+    let setCompanionFrameChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.CompanionViewApi.setCompanionFrame", binaryMessenger: binaryMessenger)
     if let api = api {
-      setFrameChannel.setMessageHandler { message, reply in
+      setCompanionFrameChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let widthArg = args[0] as! Double
         let heightArg = args[1] as! Double
-        api.setFrame(width: widthArg, height: heightArg)
+        api.setCompanionFrame(width: widthArg, height: heightArg)
         reply(wrapResult(nil))
       }
     } else {
-      setFrameChannel.setMessageHandler(nil)
+      setCompanionFrameChannel.setMessageHandler(nil)
+    }
+  }
+}
+/// Generated protocol from Pigeon that represents a handler of messages from Flutter.
+protocol SelfViewApi {
+  func setSelfFrame(width: Double, height: Double)
+}
+
+/// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
+class SelfViewApiSetup {
+  /// The codec used by SelfViewApi.
+  /// Sets up an instance of `SelfViewApi` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: SelfViewApi?) {
+    let setSelfFrameChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.SelfViewApi.setSelfFrame", binaryMessenger: binaryMessenger)
+    if let api = api {
+      setSelfFrameChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let widthArg = args[0] as! Double
+        let heightArg = args[1] as! Double
+        api.setSelfFrame(width: widthArg, height: heightArg)
+        reply(wrapResult(nil))
+      }
+    } else {
+      setSelfFrameChannel.setMessageHandler(nil)
     }
   }
 }

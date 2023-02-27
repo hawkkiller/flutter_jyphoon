@@ -27,11 +27,11 @@ class CompanionViewFactory: NSObject, FlutterPlatformViewFactory {
     }
 }
 
-class CompanionView: NSObject, FlutterPlatformView, JyphoonViewApi {
+class CompanionView: NSObject, FlutterPlatformView, CompanionViewApi {
     
     private var canvas: JCMediaDeviceVideoCanvas? = nil
     
-    func setFrame(width: Double, height: Double) {
+    func setCompanionFrame(width: Double, height: Double) {
         canvas?.videoView.frame = CGRect(x: 0, y: 0, width: width, height: height)
     }
     
@@ -45,7 +45,7 @@ class CompanionView: NSObject, FlutterPlatformView, JyphoonViewApi {
     ) {
         _view = UIView()
         super.init()
-        JyphoonViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
+        CompanionViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
         // iOS views can be created here
         let participant = JCRoomUtils.otherParticipant!
         canvas = participant.startVideo(.fullContent, pictureSize: .large)

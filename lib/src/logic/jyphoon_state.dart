@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:jc/src/generated/jyphoon_api.dart';
 import 'package:jc/src/model/enum.dart';
 import 'package:rxdart/subjects.dart';
@@ -64,6 +66,7 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
       _api.audio(),
       _api.otherAudio(),
     ]).then((l) {
+      inspect(l);
       _selfAudio.add(AudioStatus.fromBool(l[0]));
       _companionAudio.add(AudioStatus.fromBool(l[1]));
     });
@@ -71,8 +74,9 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
 
   @override
   Future<void> updateConfStatus() {
-    return _api.confStatus().then((value) => _conference.add(
-          ConferenceStatus.fromString(value),
-        ));
+    return _api.confStatus().then((value) {
+      final conf = ConferenceStatus.fromString(value);
+      _conference.add(conf);
+    });
   }
 }

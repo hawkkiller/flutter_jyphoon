@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import JCSDKOC
 
 class SelfViewFactory: NSObject, FlutterPlatformViewFactory {
     private var messenger: FlutterBinaryMessenger
@@ -22,8 +23,14 @@ class SelfViewFactory: NSObject, FlutterPlatformViewFactory {
     }
 }
 
-class SelfView: NSObject, FlutterPlatformView {
+class SelfView: NSObject, FlutterPlatformView, SelfViewApi {
     private var _view: UIView
+    
+    private var canvas: JCMediaDeviceVideoCanvas? = nil
+    
+    func setSelfFrame(width: Double, height: Double) {
+        canvas?.videoView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+    }
 
     init(
         frame: CGRect,
@@ -33,8 +40,12 @@ class SelfView: NSObject, FlutterPlatformView {
     ) {
         _view = UIView()
         super.init()
-        _view.frame = frame
-        JCRoom.shared.mediaDevice.startCameraVideo(.fullScreen, view: _view)
+        SelfViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
+        // iOS views can be created here
+        let participant = JCRoomUtils.selfParticipant!
+        canvas = participant.startVideo(.fullContent, pictureSize: .large)
+        JCRoom.shared.mediaChannel.requestVideo(participant, pictureSize: .large)
+        _view.addSubview(canvas!.videoView)
     }
 
     func view() -> UIView {

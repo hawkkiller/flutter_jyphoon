@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jc/src/generated/jyphoon_api.dart';
+import 'package:jc/src/views/controller.dart';
 
 /// {@template companion_view}
 /// CompanionView widget
@@ -17,7 +17,7 @@ class CompanionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) return const _UiKitView();
+    if (Platform.isIOS) return const _CompanionUiKitView();
     if (Platform.isAndroid) {
       return const AndroidView(
         viewType: viewType,
@@ -29,45 +29,38 @@ class CompanionView extends StatelessWidget {
   }
 }
 
-class _UiKitView extends StatefulWidget {
-  const _UiKitView();
+class _CompanionUiKitView extends StatefulWidget {
+  const _CompanionUiKitView();
 
   @override
-  State<_UiKitView> createState() => __UiKitViewState();
+  State<_CompanionUiKitView> createState() => _CompanionUiKitViewState();
 }
 
-class __UiKitViewState extends State<_UiKitView> {
-  late final _UiKitController _controller;
+class _CompanionUiKitViewState extends State<_CompanionUiKitView> {
+  late final UiKitController _controller;
 
   @override
   void initState() {
-    _controller = _UiKitController();
+    _controller = UiKitController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      _controller.setFrame(constraints.maxWidth, constraints.maxHeight);
+      _controller.setCompanionFrame(
+        constraints.maxWidth,
+        constraints.maxHeight,
+      );
       return UiKitView(
         viewType: CompanionView.viewType,
         layoutDirection: TextDirection.ltr,
-        onPlatformViewCreated: (_) => _controller.setFrame(
+        onPlatformViewCreated: (_) => _controller.setCompanionFrame(
           constraints.maxWidth,
           constraints.maxHeight,
         ),
         creationParamsCodec: const StandardMessageCodec(),
       );
     });
-  }
-}
-
-class _UiKitController {
-  _UiKitController() : _jyphoonViewApi = JyphoonViewApi();
-
-  final JyphoonViewApi _jyphoonViewApi;
-
-  void setFrame(double width, double height) {
-    _jyphoonViewApi.setFrame(width, height);
   }
 }

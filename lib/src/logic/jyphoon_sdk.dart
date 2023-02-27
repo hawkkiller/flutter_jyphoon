@@ -27,8 +27,9 @@ class JyphoonSDKImpl implements JyphoonSDK {
   Future<bool> confJoin(
     String argConfid,
     String argPassword,
+    bool video,
   ) =>
-      _api.confJoin(argConfid, argPassword);
+      _api.confJoin(argConfid, argPassword, video);
 
   @override
   Future<bool> confLeave() => _api.confLeave();

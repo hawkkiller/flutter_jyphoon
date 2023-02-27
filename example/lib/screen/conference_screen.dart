@@ -44,68 +44,70 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _sdk.confJoin(_sessionId.text, '123456');
-                      await _sdk.setVideo(true);
+                      await _sdk.confJoin(_sessionId.text, '123456', true);
                     },
                     child: const Text('Join'),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      _sdk.confLeave();
+                    onPressed: () async {
+                      await _sdk.confLeave();
                     },
                     child: const Text('Leave'),
                   ),
                   Container(
+                    height: 300,
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                     ),
                     child: Row(
                       children: [
-                        Badge(
-                          label: const Text('Self'),
-                          child: Container(
-                            width: 200,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey[300]!,
-                                width: 5,
+                        Expanded(
+                          child: Badge(
+                            label: const Text('Self'),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey[300]!,
+                                  width: 5,
+                                ),
                               ),
-                            ),
-                            child: StreamBuilder(
-                              stream: _sdk.state.selfVideo,
-                              builder: (context, snapshot) {
-                                if (snapshot.data != VideoStatus.on) {
-                                  return const SizedBox.shrink();
-                                }
-                                return StreamBuilder<ConferenceStatus>(
+                              child: StreamBuilder(
+                                stream: _sdk.state.selfVideo,
+                                builder: (context, snapshot) {
+                                  if (snapshot.data != VideoStatus.on) {
+                                    return const SizedBox.expand();
+                                  }
+                                  return StreamBuilder<ConferenceStatus>(
                                     stream: _sdk.state.conference,
                                     builder: (context, snapshot) {
                                       return const SelfView();
-                                    });
-                              },
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
-                        Badge(
-                          label: const Text('Companion'),
-                          child: Container(
-                            width: 200,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey[300]!,
-                                width: 5,
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Badge(
+                            label: const Text('Companion'),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey[300]!,
+                                  width: 5,
+                                ),
                               ),
-                            ),
-                            child: StreamBuilder(
-                              stream: _sdk.state.companionVideo,
-                              builder: (context, snapshot) {
-                                if (snapshot.data != VideoStatus.on) {
-                                  return const SizedBox.shrink();
-                                }
-                                return const CompanionView();
-                              },
+                              child: StreamBuilder(
+                                stream: _sdk.state.companionVideo,
+                                builder: (context, snapshot) {
+                                  if (snapshot.data != VideoStatus.on) {
+                                    return const SizedBox.expand();
+                                  }
+                                  return const CompanionView();
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -113,22 +115,43 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     ),
                   ),
                   StreamBuilder<AudioStatus>(
-                      stream: _sdk.state.selfAudio,
-                      builder: (context, snapshot) {
-                        if (snapshot.data == null) {
-                          return const Text('data is null');
-                        }
-                        return TextButton(
-                          onPressed: () {
-                            _sdk.setAudio(
-                              snapshot.data == AudioStatus.on ? false : true,
-                            );
-                          },
-                          child: Text(
-                            snapshot.data == AudioStatus.on ? 'Mute' : 'Unmute',
-                          ),
-                        );
-                      }),
+                    stream: _sdk.state.selfAudio,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Text('data is null');
+                      }
+                      return TextButton(
+                        onPressed: () {
+                          _sdk.setAudio(
+                            snapshot.data == AudioStatus.on ? false : true,
+                          );
+                        },
+                        child: Text(
+                          snapshot.data == AudioStatus.on ? 'Mute' : 'Unmute',
+                        ),
+                      );
+                    },
+                  ),
+                  StreamBuilder<VideoStatus>(
+                    stream: _sdk.state.selfVideo,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Text('data is null');
+                      }
+                      return TextButton(
+                        onPressed: () {
+                          _sdk.setVideo(
+                            snapshot.data == VideoStatus.on ? false : true,
+                          );
+                        },
+                        child: Text(
+                          snapshot.data == VideoStatus.on
+                              ? 'Turn video off'
+                              : 'Turn video on',
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             ),

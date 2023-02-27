@@ -8,7 +8,7 @@ import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
 class MediaChannel {
     private val jcManager = JCManager.getInstance()
 
-    fun join(channelId: String, password: String): Boolean {
+    fun join(channelId: String, password: String, video: Boolean): Boolean {
         // 生成 join 参数
         val joinParam = JCMediaChannel.JoinParam()
         joinParam.capacity = 2
@@ -22,7 +22,11 @@ class MediaChannel {
         joinParam.customVideoResolution = ""
         joinParam.videoRatio = 1.78f
         jcManager.mediaDevice.enableSpeaker(true)
-        return jcManager.mediaChannel.join(channelId, joinParam)
+        val res = jcManager.mediaChannel.join(channelId, joinParam)
+        if (res && video) {
+            setVideo(true)
+        }
+        return res
     }
 
     fun leave(): Boolean {

@@ -48,7 +48,7 @@ abstract class JyphoonApi {
   /// Takes [String] confId in. It is the conference identifier.
   /// Takes [String] password in. It is the password for the conference.
   /// Starts the "call".
-  bool confJoin(String confId, String password);
+  bool confJoin(String confId, String password, bool video);
 
   /// Returns [Void].
   /// Takes [String] account in. It is the account identifier of the person you want to call.
@@ -115,6 +115,11 @@ abstract class JyphoonReceiver {
 }
 
 @HostApi()
-abstract class JyphoonViewApi {
-  void setFrame(double width, double height);
+abstract class CompanionViewApi {
+  void setCompanionFrame(double width, double height);
+}
+
+@HostApi()
+abstract class SelfViewApi {
+  void setSelfFrame(double width, double height);
 }
