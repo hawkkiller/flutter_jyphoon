@@ -43,7 +43,7 @@ class SelfView: NSObject, FlutterPlatformView, SelfViewApi {
         SelfViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
         // iOS views can be created here
         let participant = JCRoomUtils.selfParticipant!
-        canvas = participant.startVideo(.fullContent, pictureSize: .large)
+        canvas = participant.startVideo(.fullScreen, pictureSize: .large)
         JCRoom.shared.mediaChannel.requestVideo(participant, pictureSize: .large)
         _view.addSubview(canvas!.videoView)
     }

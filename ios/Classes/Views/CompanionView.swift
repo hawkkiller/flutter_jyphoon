@@ -48,7 +48,7 @@ class CompanionView: NSObject, FlutterPlatformView, CompanionViewApi {
         CompanionViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
         // iOS views can be created here
         let participant = JCRoomUtils.otherParticipant!
-        canvas = participant.startVideo(.fullContent, pictureSize: .large)
+        canvas = participant.startVideo(.fullScreen, pictureSize: .large)
         JCRoom.shared.mediaChannel.requestVideo(participant, pictureSize: .large)
         _view.addSubview(canvas!.videoView)
         
