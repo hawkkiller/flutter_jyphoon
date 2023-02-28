@@ -13,7 +13,7 @@ import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
-class CompanionView() : PlatformView {
+class CompanionView : PlatformView {
     private var view: View?
     override fun getView() = view
 

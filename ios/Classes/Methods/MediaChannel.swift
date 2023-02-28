@@ -23,13 +23,17 @@ class MediaChannel {
     }
     
     public func audio() -> Bool {
-        let audio = (jc.mediaChannel.selfParticipant?.audio ?? false) && jc.mediaDevice.audioStart && jc.mediaChannel.uploadLocalAudio
-        return audio
+        let selfAudio = jc.mediaChannel.selfParticipant?.audio ?? false
+        let audioStart = jc.mediaDevice.audioStart
+        let uploadLocalAudio = jc.mediaChannel.uploadLocalAudio
+        return selfAudio && audioStart && uploadLocalAudio
     }
     
     public func video() -> Bool {
-        let video = (jc.mediaChannel.selfParticipant?.video ?? false) && jc.mediaDevice.cameraOpen && jc.mediaChannel.uploadLocalVideo
-        return video
+        let selfVideo = jc.mediaChannel.selfParticipant?.video ?? false
+        let cameraOpen = jc.mediaDevice.cameraOpen
+        let uploadLocalVideo = jc.mediaChannel.uploadLocalVideo
+        return selfVideo && cameraOpen && uploadLocalVideo
     }
     
     public func otherAudio() -> Bool {
