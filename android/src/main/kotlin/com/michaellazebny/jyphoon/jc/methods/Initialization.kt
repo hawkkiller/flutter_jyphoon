@@ -1,6 +1,7 @@
 package com.michaellazebny.jyphoon.jc.methods
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.NonNull
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import io.flutter.plugin.common.MethodCall
@@ -20,7 +21,12 @@ class Initialization {
      * Returns [Boolean].
      * Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
      */
-    fun initialize(context: Context) = jcManager.initialize(context)
+    fun initialize(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT >= 31){
+            JCManager.getInstance().mediaDevice.useInternalAudioDeviceLogic = false;
+        }
+        return jcManager.initialize(context)
+    }
 
     /**
      * Returns [Boolean].
