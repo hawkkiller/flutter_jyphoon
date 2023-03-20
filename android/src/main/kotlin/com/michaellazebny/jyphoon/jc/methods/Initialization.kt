@@ -22,10 +22,11 @@ class Initialization {
      * Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
      */
     fun initialize(context: Context): Boolean {
+        val res = jcManager.initialize(context)
         if (Build.VERSION.SDK_INT >= 31){
             JCManager.getInstance().mediaDevice.useInternalAudioDeviceLogic = false;
         }
-        return jcManager.initialize(context)
+        return res;
     }
 
     /**
