@@ -57,7 +57,7 @@ interface JyphoonApi {
    * Takes [String] password in. It is the password for the conference.
    * Starts the "call".
    */
-  fun confJoin(confId: String, password: String): Boolean
+  fun confJoin(confId: String, password: String, video: Boolean): Boolean
   /**
    * Returns [Void].
    * Takes [String] account in. It is the account identifier of the person you want to call.
@@ -252,7 +252,8 @@ interface JyphoonApi {
               val args = message as List<Any?>
               val confIdArg = args[0] as String
               val passwordArg = args[1] as String
-              wrapped = listOf<Any?>(api.confJoin(confIdArg, passwordArg))
+              val videoArg = args[2] as Boolean
+              wrapped = listOf<Any?>(api.confJoin(confIdArg, passwordArg, videoArg))
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }
@@ -487,19 +488,19 @@ class JyphoonReceiver(private val binaryMessenger: BinaryMessenger) {
   }
 }
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
-interface JyphoonViewApi {
-  fun setFrame(width: Double, height: Double)
+interface CompanionViewApi {
+  fun setCompanionFrame(width: Double, height: Double)
 
   companion object {
-    /** The codec used by JyphoonViewApi. */
+    /** The codec used by CompanionViewApi. */
     val codec: MessageCodec<Any?> by lazy {
       StandardMessageCodec()
     }
-    /** Sets up an instance of `JyphoonViewApi` to handle messages through the `binaryMessenger`. */
+    /** Sets up an instance of `CompanionViewApi` to handle messages through the `binaryMessenger`. */
     @Suppress("UNCHECKED_CAST")
-    fun setUp(binaryMessenger: BinaryMessenger, api: JyphoonViewApi?) {
+    fun setUp(binaryMessenger: BinaryMessenger, api: CompanionViewApi?) {
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonViewApi.setFrame", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.CompanionViewApi.setCompanionFrame", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             var wrapped = listOf<Any?>()
@@ -507,7 +508,42 @@ interface JyphoonViewApi {
               val args = message as List<Any?>
               val widthArg = args[0] as Double
               val heightArg = args[1] as Double
-              api.setFrame(widthArg, heightArg)
+              api.setCompanionFrame(widthArg, heightArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+    }
+  }
+}
+/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+interface SelfViewApi {
+  fun setSelfFrame(width: Double, height: Double)
+
+  companion object {
+    /** The codec used by SelfViewApi. */
+    val codec: MessageCodec<Any?> by lazy {
+      StandardMessageCodec()
+    }
+    /** Sets up an instance of `SelfViewApi` to handle messages through the `binaryMessenger`. */
+    @Suppress("UNCHECKED_CAST")
+    fun setUp(binaryMessenger: BinaryMessenger, api: SelfViewApi?) {
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.SelfViewApi.setSelfFrame", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              val args = message as List<Any?>
+              val widthArg = args[0] as Double
+              val heightArg = args[1] as Double
+              api.setSelfFrame(widthArg, heightArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Error) {
               wrapped = wrapError(exception)

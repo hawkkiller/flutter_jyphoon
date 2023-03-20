@@ -190,12 +190,12 @@ class JyphoonApi {
   /// Takes [String] confId in. It is the conference identifier.
   /// Takes [String] password in. It is the password for the conference.
   /// Starts the "call".
-  Future<bool> confJoin(String arg_confId, String arg_password) async {
+  Future<bool> confJoin(String arg_confId, String arg_password, bool arg_video) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonApi.confJoin', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_confId, arg_password]) as List<Object?>?;
+        await channel.send(<Object?>[arg_confId, arg_password, arg_video]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -574,19 +574,53 @@ abstract class JyphoonReceiver {
 }
 
 
-class JyphoonViewApi {
-  /// Constructor for [JyphoonViewApi].  The [binaryMessenger] named argument is
+class CompanionViewApi {
+  /// Constructor for [CompanionViewApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  JyphoonViewApi({BinaryMessenger? binaryMessenger})
+  CompanionViewApi({BinaryMessenger? binaryMessenger})
       : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  Future<void> setFrame(double arg_width, double arg_height) async {
+  Future<void> setCompanionFrame(double arg_width, double arg_height) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JyphoonViewApi.setFrame', codec,
+        'dev.flutter.pigeon.CompanionViewApi.setCompanionFrame', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_width, arg_height]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+}
+
+
+class SelfViewApi {
+  /// Constructor for [SelfViewApi].  The [binaryMessenger] named argument is
+  /// available for dependency injection.  If it is left null, the default
+  /// BinaryMessenger will be used which routes to the host platform.
+  SelfViewApi({BinaryMessenger? binaryMessenger})
+      : _binaryMessenger = binaryMessenger;
+  final BinaryMessenger? _binaryMessenger;
+
+  static const MessageCodec<Object?> codec = StandardMessageCodec();
+
+  Future<void> setSelfFrame(double arg_width, double arg_height) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.SelfViewApi.setSelfFrame', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_width, arg_height]) as List<Object?>?;

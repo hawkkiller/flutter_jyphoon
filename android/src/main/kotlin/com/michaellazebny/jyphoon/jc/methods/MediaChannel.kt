@@ -8,21 +8,18 @@ import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
 class MediaChannel {
     private val jcManager = JCManager.getInstance()
 
-    fun join(channelId: String, password: String): Boolean {
+    fun join(channelId: String, password: String, video: Boolean): Boolean {
         // 生成 join 参数
         val joinParam = JCMediaChannel.JoinParam()
         joinParam.capacity = 2
-        joinParam.smooth = true
-        joinParam.password = password
-        joinParam.maxResolution = 0
-        joinParam.heartbeatTime = 20
-        joinParam.heartbeatTimeout = 60
-        joinParam.uriMode = false
-        joinParam.framerate = 24
-        joinParam.customVideoResolution = ""
-        joinParam.videoRatio = 1.78f
         jcManager.mediaDevice.enableSpeaker(true)
-        return jcManager.mediaChannel.join(channelId, joinParam)
+        jcManager.mediaChannel.enableUploadAudioStream(true)
+        jcManager.mediaChannel.enableUploadVideoStream(true)
+        val res = jcManager.mediaChannel.join(channelId, joinParam)
+        if (res && video) {
+            setVideo(true)
+        }
+        return res
     }
 
     fun leave(): Boolean {
@@ -30,15 +27,21 @@ class MediaChannel {
     }
 
     fun audio(): Boolean {
-        return jcManager.mediaChannel.selfParticipant?.isAudio ?: false
+        val selfAudio = jcManager.mediaChannel.selfParticipant?.isAudio ?: false
+        val audioStart = jcManager.mediaDevice.isAudioStart
+        val uploadLocalAudio = jcManager.mediaChannel.uploadLocalAudio
+        return selfAudio && audioStart && uploadLocalAudio
+    }
+
+    fun video(): Boolean {
+        val selfVideo = jcManager.mediaChannel.selfParticipant?.isVideo ?: false
+        val videoStart = jcManager.mediaDevice.isCameraOpen
+        val uploadLocalVideo = jcManager.mediaChannel.uploadLocalVideo
+        return selfVideo && videoStart && uploadLocalVideo
     }
 
     fun otherAudio(): Boolean {
         return JCCallUtils.otherParticipant?.isAudio ?: false
-    }
-
-    fun video(): Boolean {
-        return jcManager.mediaChannel.selfParticipant?.isVideo ?: false
     }
 
     fun otherVideo(): Boolean {
@@ -46,21 +49,20 @@ class MediaChannel {
     }
 
     fun setAudio(audio: Boolean) {
-        // TODO: check if this really mutes audio
-        val activeCall = JCCallUtils.activeCall
-        if (activeCall != null) {
-            jcManager.call.muteMicrophone(activeCall, !audio)
+        jcManager.mediaChannel.enableUploadAudioStream(audio)
+        if (audio) {
+            jcManager.mediaDevice.startAudio()
+        } else {
+            jcManager.mediaDevice.stopAudio()
         }
     }
 
     fun setVideo(video: Boolean) {
+        jcManager.mediaChannel.enableUploadVideoStream(video)
         if (video) {
-            jcManager.mediaChannel.selfParticipant?.stopVideo()
+            jcManager.mediaDevice.startCamera()
         } else {
-            jcManager.mediaChannel.selfParticipant?.startVideo(
-                JCMediaDevice.RENDER_FULL_CONTENT,
-                JCMediaChannel.PICTURESIZE_MIN
-            )
+            jcManager.mediaDevice.stopCamera()
         }
     }
 

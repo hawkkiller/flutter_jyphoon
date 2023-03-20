@@ -2,33 +2,38 @@ import Foundation
 import JCSDKOC.JCMediaChannel
 
 class MediaChannel {
+    private let jc = JCRoom.shared
     /// Must be called after initialization
-    public func join(channelId: String, password: String) -> Bool {
+    public func join(channelId: String, password: String, video: Bool) -> Bool {
         let joinParam = JCMediaChannelJoinParam()
         joinParam.capacity = 2
-        joinParam.smooth = true
-        joinParam.password = password
-        joinParam.heartbeatTime = 20
-        joinParam.heartbeatTimeout = 60
-        joinParam.uriMode = false
-        joinParam.framerate = 24
-        joinParam.customVideoResolution = ""
-        joinParam.videoRatio = 1.78
-        JCRoom.shared.mediaDevice.enableSpeaker(true)
-        JCRoom.shared.mediaChannel.enableUploadAudioStream(true)
-        return JCRoom.shared.mediaChannel.join(channelId, joinParam: joinParam)
+        jc.mediaDevice.enableSpeaker(true)
+        jc.mediaChannel.enableUploadAudioStream(true)
+        jc.mediaChannel.enableUploadVideoStream(true)
+        let res = jc.mediaChannel.join(channelId, joinParam: joinParam)
+        if (res && video) {
+            let videoRes = setVideo(video: true)
+            print("VIDEORES: \(videoRes)")
+        }
+        return res
     }
     
     public func leave() -> Bool {
-        JCRoom.shared.mediaChannel.leave()
+        return JCRoom.shared.mediaChannel.leave()
     }
     
     public func audio() -> Bool {
-        JCRoom.shared.mediaChannel.selfParticipant?.audio ?? false
+        let selfAudio = jc.mediaChannel.selfParticipant?.audio ?? false
+        let audioStart = jc.mediaDevice.audioStart
+        let uploadLocalAudio = jc.mediaChannel.uploadLocalAudio
+        return selfAudio && audioStart && uploadLocalAudio
     }
     
     public func video() -> Bool {
-        JCRoom.shared.mediaChannel.selfParticipant?.video ?? false
+        let selfVideo = jc.mediaChannel.selfParticipant?.video ?? false
+        let cameraOpen = jc.mediaDevice.cameraOpen
+        let uploadLocalVideo = jc.mediaChannel.uploadLocalVideo
+        return selfVideo && cameraOpen && uploadLocalVideo
     }
     
     public func otherAudio() -> Bool {
@@ -43,11 +48,12 @@ class MediaChannel {
         JCRoom.shared.mediaChannel.enableUploadAudioStream(audio)
     }
     
-    public func setVideo(video: Bool) {
+    public func setVideo(video: Bool) -> Bool {
+        JCRoom.shared.mediaChannel.enableUploadVideoStream(video)
         if (video) {
-            JCRoom.shared.mediaDevice.startCameraVideo(.fullScreen)
+            return JCRoom.shared.mediaDevice.startCamera()
         } else {
-            JCRoom.shared.mediaDevice.stopAudio()
+            return JCRoom.shared.mediaDevice.stopCamera()
         }
     }
     

@@ -12,7 +12,7 @@ import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
-class SelfView() : PlatformView {
+class SelfView : PlatformView {
     private var view: View?
     init {
         val jcManager = JCManager.getInstance()

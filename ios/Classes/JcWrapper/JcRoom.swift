@@ -125,6 +125,7 @@ extension JCRoom: JCMediaChannelCallback {
     }
     
     func onMediaChannelStateChange(_ state: JCMediaChannelState, oldState: JCMediaChannelState) {
+        JCHandler.instance.onEvent(event: JCHandler.CONFERENCE_MD_CHANNEL_STATE_CHANGE)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kMediaChannelStateChangeNotification), object: nil, userInfo: nil);
     }
 

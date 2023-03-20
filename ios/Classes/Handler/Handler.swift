@@ -9,6 +9,7 @@ class JCHandler {
     static let CONFERENCE_PARTP_LEAVE = "CONFERENCE_PARTP_LEAVE"
     static let CONFERENCE_PARTP_JOIN = "CONFERENCE_PARTP_JOIN"
     static let CONFERENCE_PROP_CHANGE = "CONFERENCE_PROP_CHANGE"
+    static let CONFERENCE_MD_CHANNEL_STATE_CHANGE = "CONFERENCE_MD_CHANNEL_STATE_CHANGE"
     
     
     static private var _instance: JCHandler?
