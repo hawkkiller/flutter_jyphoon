@@ -60,7 +60,8 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
 
     override fun setAudio(audio: Boolean) = mediaChannel.setAudio(audio)
 
-    override fun confJoin(confId: String, password: String, video: Boolean) = mediaChannel.join(confId, password, video)
+    override fun confJoin(confId: String, password: String, video: Boolean, asr: Boolean) =
+        mediaChannel.join(confId, password, video, asr);
 
     override fun getCurrentUserId() = userInfo.getUserId()
 

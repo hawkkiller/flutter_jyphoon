@@ -4,13 +4,17 @@ import JCSDKOC.JCMediaChannel
 class MediaChannel {
     private let jc = JCRoom.shared
     /// Must be called after initialization
-    public func join(channelId: String, password: String, video: Bool) -> Bool {
+    public func join(channelId: String, password: String, video: Bool, asr: Bool) -> Bool {
         let joinParam = JCMediaChannelJoinParam()
         joinParam.capacity = 2
         jc.mediaDevice.enableSpeaker(true)
         jc.mediaChannel.enableUploadAudioStream(true)
         jc.mediaChannel.enableUploadVideoStream(true)
-        let res = jc.mediaChannel.join(channelId, joinParam: joinParam)
+        let userID = channelId.components(separatedBy: "_").last
+        let jcCallParam = JCCallParam(extraParam: video ? "video" : "audio", ticket: channelId)
+        let res = asr ?
+        jc.call.call(userID!, video: video, callParam: jcCallParam) :
+        jc.mediaChannel.join(channelId, joinParam: joinParam)
         if (res && video) {
             let videoRes = setVideo(video: true)
             print("VIDEORES: \(videoRes)")

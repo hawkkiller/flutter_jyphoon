@@ -1,5 +1,6 @@
 package com.michaellazebny.jyphoon.jc.methods
 
+import com.juphoon.cloud.JCCall
 import com.juphoon.cloud.JCMediaChannel
 import com.juphoon.cloud.JCMediaDevice
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
@@ -8,14 +9,20 @@ import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
 class MediaChannel {
     private val jcManager = JCManager.getInstance()
 
-    fun join(channelId: String, password: String, video: Boolean): Boolean {
+    fun join(channelId: String, password: String, video: Boolean, asr: Boolean): Boolean {
         // 生成 join 参数
         val joinParam = JCMediaChannel.JoinParam()
         joinParam.capacity = 2
         jcManager.mediaDevice.enableSpeaker(true)
         jcManager.mediaChannel.enableUploadAudioStream(true)
         jcManager.mediaChannel.enableUploadVideoStream(true)
-        val res = jcManager.mediaChannel.join(channelId, joinParam)
+        val accountId = channelId.split("_").last()
+        val res =
+            if (asr) jcManager.call.call(
+                accountId,
+                video,
+                JCCall.CallParam(if (video) "video" else "audio", channelId),
+            ) else jcManager.mediaChannel.join(channelId, joinParam)
         if (res && video) {
             setVideo(true)
         }

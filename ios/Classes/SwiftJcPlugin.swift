@@ -51,8 +51,8 @@ private class JcApi: JyphoonApi {
     userInfo.setTimeout(timeout: timeout)
   }
   
-func confJoin(confId: String, password: String, video: Bool) -> Bool {
-    mediaChannel.join(channelId: confId, password: password, video: video)
+func confJoin(confId: String, password: String, video: Bool, asr: Bool) -> Bool {
+    mediaChannel.join(channelId: confId, password: password, video: video, asr: asr)
   }
   
   func setServerAddress(serverAddress: String) {

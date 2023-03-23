@@ -3,7 +3,31 @@ import UIKit
 import JCSDKOC.JCClient
 
 @objcMembers
-class JCRoom: NSObject {
+class JCRoom: NSObject, JCCallCallback {
+    func onCallItemAdd(_ item: JCCallItem) {
+        // TODO
+    }
+    
+    func onCallItemRemove(_ item: JCCallItem, reason: JCCallReason, description: String?) {
+        
+    }
+    
+    func onCallItemUpdate(_ item: JCCallItem, changeParam: JCCallChangeParam?) {
+        
+    }
+    
+    func onMessageReceive(_ item: JCCallItem, type: String, content: String) {
+        
+    }
+    
+    func onMissedCallItem(_ item: JCCallItem) {
+        
+    }
+    
+    func onDtmfReceived(_ item: JCCallItem, value: JCCallDtmf) {
+        
+    }
+    
     // 通过关键字 static 来保存实例引用
     private static let instance = JCRoom()
     public static var APP_KEY = ""
@@ -30,10 +54,17 @@ class JCRoom: NSObject {
             return _mediaChannel!
         }
     }
+    
+    var call: JCCall {
+        get {
+            return _jcCall!
+        }
+    }
 
     private var _client : JCClient?
     private var _mediaDevice : JCMediaDevice?
     private var _mediaChannel : JCMediaChannel?
+    private var _jcCall: JCCall?
     
     public func setDisplayName(name: String) {
         client.displayName = name
@@ -52,6 +83,7 @@ class JCRoom: NSObject {
         _client = client
         _mediaDevice = mediaDevice
         _mediaChannel = mediaChannel
+        _jcCall = JCCall.create(_client!, mediaDevice: _mediaDevice!, callback: self)
         
         UserDefaults.standard.setValue(appkey, forKey: "kAppkey")
         UserDefaults.standard.setValue(server, forKey: "kServer")
