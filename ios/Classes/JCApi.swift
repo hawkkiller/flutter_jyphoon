@@ -45,7 +45,7 @@ protocol JyphoonApi {
   /// Takes [String] confId in. It is the conference identifier.
   /// Takes [String] password in. It is the password for the conference.
   /// Starts the "call".
-  func confJoin(confId: String, password: String, video: Bool) -> Bool
+  func confJoin(confId: String, password: String, video: Bool, asr: Bool) -> Bool
   /// Returns [Void].
   /// Takes [String] account in. It is the account identifier of the person you want to call.
   func setServerAddress(serverAddress: String)
@@ -192,7 +192,8 @@ class JyphoonApiSetup {
         let confIdArg = args[0] as! String
         let passwordArg = args[1] as! String
         let videoArg = args[2] as! Bool
-        let result = api.confJoin(confId: confIdArg, password: passwordArg, video: videoArg)
+        let asrArg = args[3] as! Bool
+        let result = api.confJoin(confId: confIdArg, password: passwordArg, video: videoArg, asr: asrArg)
         reply(wrapResult(result))
       }
     } else {

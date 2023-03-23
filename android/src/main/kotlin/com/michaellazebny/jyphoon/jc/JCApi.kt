@@ -57,7 +57,7 @@ interface JyphoonApi {
    * Takes [String] password in. It is the password for the conference.
    * Starts the "call".
    */
-  fun confJoin(confId: String, password: String, video: Boolean): Boolean
+  fun confJoin(confId: String, password: String, video: Boolean, asr: Boolean): Boolean
   /**
    * Returns [Void].
    * Takes [String] account in. It is the account identifier of the person you want to call.
@@ -253,7 +253,8 @@ interface JyphoonApi {
               val confIdArg = args[0] as String
               val passwordArg = args[1] as String
               val videoArg = args[2] as Boolean
-              wrapped = listOf<Any?>(api.confJoin(confIdArg, passwordArg, videoArg))
+              val asrArg = args[3] as Boolean
+              wrapped = listOf<Any?>(api.confJoin(confIdArg, passwordArg, videoArg, asrArg))
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

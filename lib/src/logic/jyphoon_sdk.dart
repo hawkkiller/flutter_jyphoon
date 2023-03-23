@@ -2,12 +2,55 @@ import 'package:jc/src/generated/jyphoon_api.dart';
 import 'package:jc/src/logic/jyphoon_controller.dart';
 import 'package:jc/src/logic/jyphoon_state.dart';
 
-abstract class JyphoonSDK implements JyphoonApi {
-  JyphoonState get state;
-
+abstract class JyphoonSDK {
   static final JyphoonSDK _instance = JyphoonSDKImpl._();
 
   factory JyphoonSDK() => _instance;
+
+  JyphoonState get state;
+
+  Future<bool> initialize();
+
+  Future<bool> isInited();
+
+  Future<bool> confJoin(
+    String confId, {
+    required bool asr,
+    String password = '',
+    bool video = false,
+  });
+
+  Future<bool> confLeave();
+
+  Future<String> confStatus();
+
+  Future<String?> getCurrentUserId();
+
+  Future<bool> otherAudio();
+
+  Future<bool> otherVideo();
+
+  Future<bool> audio();
+
+  Future<bool> video();
+
+  Future<void> setAudio(bool audio);
+
+  Future<void> setVideo(bool video);
+
+  Future<void> setSpeaker(bool speaker);
+
+  Future<bool> setAccountNumber(String accountNumber);
+
+  Future<void> setServerAddress(String serverAddress);
+
+  Future<void> setAppKey(String appkey);
+
+  Future<void> setDisplayName(String displayName);
+
+  Future<void> setTimeout(int timeout);
+
+  Future<void> switchCamera();
 }
 
 class JyphoonSDKImpl implements JyphoonSDK {
@@ -25,11 +68,12 @@ class JyphoonSDKImpl implements JyphoonSDK {
 
   @override
   Future<bool> confJoin(
-    String argConfid,
-    String argPassword,
-    bool video,
-  ) =>
-      _api.confJoin(argConfid, argPassword, video);
+    String confId, {
+    required bool asr,
+    String password = '',
+    bool video = false,
+  }) =>
+      _api.confJoin(confId, password, video, asr);
 
   @override
   Future<bool> confLeave() => _api.confLeave();

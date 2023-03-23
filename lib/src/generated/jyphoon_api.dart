@@ -190,12 +190,12 @@ class JyphoonApi {
   /// Takes [String] confId in. It is the conference identifier.
   /// Takes [String] password in. It is the password for the conference.
   /// Starts the "call".
-  Future<bool> confJoin(String arg_confId, String arg_password, bool arg_video) async {
+  Future<bool> confJoin(String arg_confId, String arg_password, bool arg_video, bool arg_asr) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonApi.confJoin', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_confId, arg_password, arg_video]) as List<Object?>?;
+        await channel.send(<Object?>[arg_confId, arg_password, arg_video, arg_asr]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

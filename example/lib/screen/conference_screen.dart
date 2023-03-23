@@ -44,7 +44,11 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _sdk.confJoin(_sessionId.text, '123456', true);
+                      await _sdk.confJoin(
+                        _sessionId.text,
+                        asr: false,
+                        video: true,
+                      );
                     },
                     child: const Text('Join'),
                   ),
