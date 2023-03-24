@@ -2,12 +2,6 @@
 
 ## 1.0.0 (next)
 
-- Refactored library structure
-- Redesigned API
-- Added lints & analyzer
-- Added comments and documentation
-- Removed rxDart dependency
-- Refactored native codes (kotlin & swift)
 - Organized code & designed new communication system:
 
 (before, when new event comes)
@@ -15,6 +9,17 @@ native -> Dart -> native -> Dart
 
 (now, when new event comes)
 native -> Dart
+
+## 0.4.0
+
+- BREAKING: renamed methods to be more consistent with the native SDKs
+- BREAKING: changed methods signatures
+- Refactored library structure
+- Redesigned API
+- Added lints & analyzer
+- Added comments and documentation
+- Removed rxDart dependency
+- Refactored native codes (kotlin & swift)
 
 ## 0.0.3
 
