@@ -125,11 +125,11 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         return const Text('data is null');
                       }
                       return TextButton(
-                        onPressed: () {
-                          _sdk.setAudio(audio: !snapshot.data!.value);
+                        onPressed: () async {
+                          await _sdk.setAudio(audio: !snapshot.data!.value);
                         },
                         child: Text(
-                          snapshot.data == AudioStatus.on ? 'Mute' : 'Unmute',
+                          snapshot.data!.value ? 'Mute' : 'Unmute',
                         ),
                       );
                     },

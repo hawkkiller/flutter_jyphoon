@@ -1,5 +1,6 @@
 import 'package:jc/generated/jyphoon_api.dart';
 import 'package:jc/src/logic/jyphoon_state.dart';
+import 'package:jc/src/model/call_state.dart';
 
 abstract class JyphoonController {
   JyphoonState get state;
@@ -17,9 +18,8 @@ class JyphoonControllerImpl implements JyphoonReceiver, JyphoonController {
   final InnerJyphoonState state;
 
   @override
-  Future<void> onEvent(String event, Map<String?, Object?> map) async {
-    await state.updateConfStatus();
-    await state.updateVideoStatus();
-    await state.updateVoiceStatus();
+  void onEvent(String event, Map<String?, Object?> map) {
+    final callState = CallState.fromJson(map);
+    state.updateState(callState);
   }
 }

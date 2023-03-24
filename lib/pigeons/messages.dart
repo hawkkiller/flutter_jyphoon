@@ -87,7 +87,6 @@ abstract class JyphoonApi {
 @FlutterApi()
 abstract class JyphoonReceiver {
   /// Called when the call status changes.
-  @async
   void onEvent(String event, Map<String?, Object?> data);
 }
 

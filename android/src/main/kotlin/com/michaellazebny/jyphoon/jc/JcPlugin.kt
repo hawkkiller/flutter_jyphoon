@@ -38,7 +38,7 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
             RemoteViewFactory(),
         )
         receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
-        handler = Handler(receiver)
+        handler = Handler(receiver, this)
         handler.init()
     }
 

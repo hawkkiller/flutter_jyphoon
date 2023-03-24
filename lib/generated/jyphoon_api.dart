@@ -521,7 +521,7 @@ abstract class JyphoonReceiver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   /// Called when the call status changes.
-  Future<void> onEvent(String event, Map<String?, Object?> data);
+  void onEvent(String event, Map<String?, Object?> data);
 
   static void setup(JyphoonReceiver? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -539,7 +539,7 @@ abstract class JyphoonReceiver {
           assert(arg_event != null, 'Argument for dev.flutter.pigeon.JyphoonReceiver.onEvent was null, expected non-null String.');
           final Map<String?, Object?>? arg_data = (args[1] as Map<Object?, Object?>?)?.cast<String?, Object?>();
           assert(arg_data != null, 'Argument for dev.flutter.pigeon.JyphoonReceiver.onEvent was null, expected non-null Map<String?, Object?>.');
-          await api.onEvent(arg_event!, arg_data!);
+          api.onEvent(arg_event!, arg_data!);
           return;
         });
       }
