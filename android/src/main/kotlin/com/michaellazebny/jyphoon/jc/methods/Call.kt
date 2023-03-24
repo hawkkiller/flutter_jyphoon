@@ -6,7 +6,7 @@ import com.juphoon.cloud.JCMediaDevice
 import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
 
-class MediaChannel {
+class Call {
     private val jcManager = JCManager.getInstance()
 
     fun join(channelId: String, password: String, video: Boolean, asr: Boolean): Boolean {

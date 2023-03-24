@@ -46,21 +46,21 @@ class __UiKitSelfViewState extends State<_UiKitSelfView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      _controller.setSelfFrame(
-        constraints.maxWidth,
-        constraints.maxHeight,
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) {
+          _controller.setSelfFrame(
+            constraints.maxWidth,
+            constraints.maxHeight,
+          );
+          return UiKitView(
+            viewType: SelfView.viewType,
+            layoutDirection: TextDirection.ltr,
+            onPlatformViewCreated: (_) => _controller.setSelfFrame(
+              constraints.maxWidth,
+              constraints.maxHeight,
+            ),
+            creationParamsCodec: const StandardMessageCodec(),
+          );
+        },
       );
-      return UiKitView(
-        viewType: SelfView.viewType,
-        layoutDirection: TextDirection.ltr,
-        onPlatformViewCreated: (_) => _controller.setSelfFrame(
-          constraints.maxWidth,
-          constraints.maxHeight,
-        ),
-        creationParamsCodec: const StandardMessageCodec(),
-      );
-    });
-  }
 }

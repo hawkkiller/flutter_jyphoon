@@ -21,6 +21,6 @@ class Handler(private val receiver: JyphoonReceiver) {
     @Subscribe
     fun onEvent(event: JCEvent) {
         Log.d("JcPlugin::Handler", "onEvent: ${event.eventType}")
-        receiver.onEvent(event.eventType.name) {}
+        receiver.onEvent(event.eventType.name, mapOf("one" to 1)) {}
     }
 }

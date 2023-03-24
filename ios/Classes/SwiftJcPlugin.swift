@@ -51,7 +51,7 @@ private class JcApi: JyphoonApi {
     userInfo.setTimeout(timeout: timeout)
   }
   
-func confJoin(confId: String, password: String, video: Bool, asr: Bool) -> Bool {
+  func call(confId: String, password: String, video: Bool, asr: Bool) -> Bool {
     mediaChannel.join(channelId: confId, password: password, video: video, asr: asr)
   }
   
@@ -87,7 +87,7 @@ func confJoin(confId: String, password: String, video: Bool, asr: Bool) -> Bool 
     userInfo.getCurrentUserId()
   }
   
-  func confLeave() -> Bool {
+  func leave() -> Bool {
     mediaChannel.leave()
   }
   
@@ -95,8 +95,8 @@ func confJoin(confId: String, password: String, video: Bool, asr: Bool) -> Bool 
     mediaChannel.otherVideo()
   }
   
-  func confStatus() -> String {
-    mediaChannel.confStatus()
+  func callStatus() -> String {
+    mediaChannel.callStatus()
   }
   
   func switchCamera() {

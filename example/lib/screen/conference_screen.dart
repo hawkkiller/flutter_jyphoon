@@ -44,7 +44,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _sdk.confJoin(
+                      await _sdk.call(
                         _sessionId.text,
                         asr: false,
                         video: true,
@@ -54,7 +54,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _sdk.confLeave();
+                      await _sdk.leave();
                     },
                     child: const Text('Leave'),
                   ),
@@ -81,8 +81,8 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                                   if (snapshot.data != VideoStatus.on) {
                                     return const SizedBox.expand();
                                   }
-                                  return StreamBuilder<ConferenceStatus>(
-                                    stream: _sdk.state.conference,
+                                  return StreamBuilder<CallStatus>(
+                                    stream: _sdk.state.call,
                                     builder: (context, snapshot) {
                                       return const SelfView();
                                     },
@@ -126,9 +126,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                       }
                       return TextButton(
                         onPressed: () {
-                          _sdk.setAudio(
-                            snapshot.data == AudioStatus.on ? false : true,
-                          );
+                          _sdk.setAudio(audio: !snapshot.data!.value);
                         },
                         child: Text(
                           snapshot.data == AudioStatus.on ? 'Mute' : 'Unmute',
@@ -144,9 +142,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                       }
                       return TextButton(
                         onPressed: () {
-                          _sdk.setVideo(
-                            snapshot.data == VideoStatus.on ? false : true,
-                          );
+                          _sdk.setVideo(video: !snapshot.data!.value);
                         },
                         child: Text(
                           snapshot.data == VideoStatus.on

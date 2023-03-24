@@ -1,11 +1,12 @@
-import 'package:jc/src/generated/jyphoon_api.dart';
+import 'package:jc/generated/jyphoon_api.dart';
 import 'package:jc/src/logic/jyphoon_controller.dart';
 import 'package:jc/src/logic/jyphoon_state.dart';
+import 'package:jc/src/model/enum.dart';
 
 abstract class JyphoonSDK {
-  static final JyphoonSDK _instance = JyphoonSDKImpl._();
-
   factory JyphoonSDK() => _instance;
+
+  static final JyphoonSDK _instance = JyphoonSDKImpl._();
 
   JyphoonState get state;
 
@@ -13,16 +14,16 @@ abstract class JyphoonSDK {
 
   Future<bool> isInited();
 
-  Future<bool> confJoin(
+  Future<bool> call(
     String confId, {
     required bool asr,
     String password = '',
     bool video = false,
   });
 
-  Future<bool> confLeave();
+  Future<bool> leave();
 
-  Future<String> confStatus();
+  Future<CallStatus> callStatus();
 
   Future<String?> getCurrentUserId();
 
@@ -34,11 +35,11 @@ abstract class JyphoonSDK {
 
   Future<bool> video();
 
-  Future<void> setAudio(bool audio);
+  Future<void> setAudio({required bool audio});
 
-  Future<void> setVideo(bool video);
+  Future<void> setVideo({required bool video});
 
-  Future<void> setSpeaker(bool speaker);
+  Future<void> setSpeaker({required bool speaker});
 
   Future<bool> setAccountNumber(String accountNumber);
 
@@ -67,19 +68,20 @@ class JyphoonSDKImpl implements JyphoonSDK {
   late final JyphoonState state;
 
   @override
-  Future<bool> confJoin(
+  Future<bool> call(
     String confId, {
     required bool asr,
     String password = '',
     bool video = false,
   }) =>
-      _api.confJoin(confId, password, video, asr);
+      _api.call(confId, password, video, asr);
 
   @override
-  Future<bool> confLeave() => _api.confLeave();
+  Future<bool> leave() => _api.leave();
 
   @override
-  Future<String> confStatus() => _api.confStatus();
+  Future<CallStatus> callStatus() =>
+      _api.callStatus().then(CallStatus.fromString);
 
   @override
   Future<String?> getCurrentUserId() => _api.getCurrentUserId();
@@ -124,11 +126,11 @@ class JyphoonSDKImpl implements JyphoonSDK {
   Future<bool> audio() => _api.audio();
 
   @override
-  Future<void> setAudio(bool audio) => _api.setAudio(audio);
+  Future<void> setAudio({required bool audio}) => _api.setAudio(audio);
 
   @override
-  Future<void> setVideo(bool video) => _api.setVideo(video);
+  Future<void> setVideo({required bool video}) => _api.setVideo(video);
 
   @override
-  Future<void> setSpeaker(bool speaker) => _api.setSpeaker(speaker);
+  Future<void> setSpeaker({required bool speaker}) => _api.setSpeaker(speaker);
 }

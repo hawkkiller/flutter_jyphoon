@@ -1,4 +1,4 @@
-import 'package:jc/src/generated/jyphoon_api.dart';
+import 'package:jc/generated/jyphoon_api.dart';
 import 'package:jc/src/logic/jyphoon_state.dart';
 
 abstract class JyphoonController {
@@ -6,19 +6,18 @@ abstract class JyphoonController {
 }
 
 class JyphoonControllerImpl implements JyphoonReceiver, JyphoonController {
-  static final JyphoonControllerImpl _instance = JyphoonControllerImpl._();
-
   factory JyphoonControllerImpl() => _instance;
 
   JyphoonControllerImpl._() : state = InnerJyphoonStateImpl() {
     JyphoonReceiver.setup(this);
   }
+  static final JyphoonControllerImpl _instance = JyphoonControllerImpl._();
 
   @override
   final InnerJyphoonState state;
 
   @override
-  Future<void> onEvent(String event) async {
+  Future<void> onEvent(String event, Map<String?, Object?> map) async {
     await state.updateConfStatus();
     await state.updateVideoStatus();
     await state.updateVoiceStatus();

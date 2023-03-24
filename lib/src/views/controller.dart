@@ -1,4 +1,4 @@
-import 'package:jc/src/generated/jyphoon_api.dart';
+import 'package:jc/generated/jyphoon_api.dart';
 
 class UiKitController {
   factory UiKitController() => instance;

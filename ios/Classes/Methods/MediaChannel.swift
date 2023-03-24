@@ -17,7 +17,6 @@ class MediaChannel {
         jc.mediaChannel.join(channelId, joinParam: joinParam)
         if (res && video) {
             let videoRes = setVideo(video: true)
-            print("VIDEORES: \(videoRes)")
         }
         return res
     }
@@ -65,7 +64,7 @@ class MediaChannel {
         JCRoom.shared.mediaDevice.enableSpeaker(speaker)
     }
     
-    public func confStatus() -> String {
+    public func callStatus() -> String {
         let participants = JCRoom.shared.mediaChannel.participants
         if (participants.isEmpty) {
             return "off"

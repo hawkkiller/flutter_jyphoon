@@ -46,21 +46,21 @@ class _CompanionUiKitViewState extends State<_CompanionUiKitView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      _controller.setCompanionFrame(
-        constraints.maxWidth,
-        constraints.maxHeight,
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) {
+          _controller.setCompanionFrame(
+            constraints.maxWidth,
+            constraints.maxHeight,
+          );
+          return UiKitView(
+            viewType: CompanionView.viewType,
+            layoutDirection: TextDirection.ltr,
+            onPlatformViewCreated: (_) => _controller.setCompanionFrame(
+              constraints.maxWidth,
+              constraints.maxHeight,
+            ),
+            creationParamsCodec: const StandardMessageCodec(),
+          );
+        },
       );
-      return UiKitView(
-        viewType: CompanionView.viewType,
-        layoutDirection: TextDirection.ltr,
-        onPlatformViewCreated: (_) => _controller.setCompanionFrame(
-          constraints.maxWidth,
-          constraints.maxHeight,
-        ),
-        creationParamsCodec: const StandardMessageCodec(),
-      );
-    });
-  }
 }
