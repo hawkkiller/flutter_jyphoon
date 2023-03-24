@@ -1,14 +1,14 @@
 # Jyphoon Changelog
 
-## 1.0.0 (next)
+## 1.0.0
 
 - Organized code & designed new communication system:
 
 (before, when new event comes)
-native -> Dart -> native -> Dart
+Native -> Dart -> Native -> Dart
 
 (now, when new event comes)
-native -> Dart
+Native -> Dart
 
 ## 0.4.0
 
