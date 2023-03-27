@@ -21,7 +21,7 @@ class SelfView(messenger: BinaryMessenger) : PlatformView, SelfViewApi {
         val selfParticipant = jcManager.mediaChannel?.selfParticipant
         view = selfParticipant?.startVideo(
             JCMediaDevice.RENDER_FULL_SCREEN,
-            JCMediaChannel.PICTURESIZE_LARGE
+            JCMediaChannel.PICTURESIZE_MIN
         )?.videoView
     }
 

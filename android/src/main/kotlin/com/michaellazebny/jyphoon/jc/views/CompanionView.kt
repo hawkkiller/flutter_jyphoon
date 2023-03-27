@@ -24,7 +24,7 @@ class CompanionView(messenger: BinaryMessenger) : PlatformView, CompanionViewApi
         val otherParticipant = JCCallUtils.otherParticipant
         view = otherParticipant?.startVideo(
             JCMediaDevice.RENDER_FULL_SCREEN,
-            JCMediaChannel.PICTURESIZE_LARGE
+            JCMediaChannel.PICTURESIZE_MIN
         )?.videoView
     }
 
