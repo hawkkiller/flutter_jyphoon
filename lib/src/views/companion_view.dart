@@ -16,32 +16,22 @@ class CompanionView extends StatelessWidget {
   static const String viewType = 'companion-view';
 
   @override
-  Widget build(BuildContext context) {
-    if (Platform.isIOS) return const _CompanionUiKitView();
-    if (Platform.isAndroid) {
-      return const AndroidView(
-        viewType: viewType,
-        layoutDirection: TextDirection.ltr,
-        creationParamsCodec: StandardMessageCodec(),
-      );
-    }
-    throw UnsupportedError('Unsupported platform');
-  }
+  Widget build(BuildContext context) => const _CompanionView();
 }
 
-class _CompanionUiKitView extends StatefulWidget {
-  const _CompanionUiKitView();
+class _CompanionView extends StatefulWidget {
+  const _CompanionView();
 
   @override
-  State<_CompanionUiKitView> createState() => _CompanionUiKitViewState();
+  State<_CompanionView> createState() => _CompanionViewState();
 }
 
-class _CompanionUiKitViewState extends State<_CompanionUiKitView> {
-  late final UiKitController _controller;
+class _CompanionViewState extends State<_CompanionView> {
+  late final CompanionController _controller;
 
   @override
   void initState() {
-    _controller = UiKitController();
+    _controller = CompanionController();
     super.initState();
   }
 
@@ -52,15 +42,29 @@ class _CompanionUiKitViewState extends State<_CompanionUiKitView> {
             constraints.maxWidth,
             constraints.maxHeight,
           );
-          return UiKitView(
-            viewType: CompanionView.viewType,
-            layoutDirection: TextDirection.ltr,
-            onPlatformViewCreated: (_) => _controller.setCompanionFrame(
-              constraints.maxWidth,
-              constraints.maxHeight,
-            ),
-            creationParamsCodec: const StandardMessageCodec(),
-          );
+          if (Platform.isIOS) {
+            return UiKitView(
+              viewType: CompanionView.viewType,
+              layoutDirection: TextDirection.ltr,
+              onPlatformViewCreated: (_) => _controller.setCompanionFrame(
+                constraints.maxWidth,
+                constraints.maxHeight,
+              ),
+              creationParamsCodec: const StandardMessageCodec(),
+            );
+          }
+          if (Platform.isAndroid) {
+            return AndroidView(
+              viewType: CompanionView.viewType,
+              layoutDirection: TextDirection.ltr,
+              onPlatformViewCreated: (_) => _controller.setCompanionFrame(
+                constraints.maxWidth,
+                constraints.maxHeight,
+              ),
+              creationParamsCodec: const StandardMessageCodec(),
+            );
+          }
+          throw UnsupportedError('Unsupported platform');
         },
       );
 }

@@ -7,7 +7,7 @@ import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
 import com.michaellazebny.jyphoon.jc.views.SelfViewFactory
-import com.michaellazebny.jyphoon.jc.views.RemoteViewFactory
+import com.michaellazebny.jyphoon.jc.views.CompanionViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 
@@ -31,11 +31,11 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
         JyphoonApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "self-view",
-            SelfViewFactory(),
+            SelfViewFactory(flutterPluginBinding.binaryMessenger),
         )
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "companion-view",
-            RemoteViewFactory(),
+            CompanionViewFactory(flutterPluginBinding.binaryMessenger),
         )
         receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
         handler = Handler(receiver, this)
