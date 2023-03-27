@@ -1,5 +1,9 @@
 # Jyphoon Changelog
 
+## 2.0.0 (NEXT)
+
+- Introduced ASR calls
+
 ## 1.1.1
 
 - Return picture size to min
