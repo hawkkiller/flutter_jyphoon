@@ -1,5 +1,9 @@
 # Jyphoon Changelog
 
+## 1.1.1
+
+- Return picture size to min
+
 ## 1.1.0
 
 - Changed rendering to FULL_SCREEN
