@@ -1,5 +1,11 @@
 # Jyphoon Changelog
 
+## 1.1.0
+
+- Changed rendering to FULL_SCREEN
+- Added dp to pixels extension
+- Introduced the same approach for Android & iOS for videocalls
+
 ## 1.0.0
 
 - Organized code & designed new communication system:
