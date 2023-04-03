@@ -104,8 +104,3 @@ class Call {
         }
         return "on"
     }
-
-    fun switchCamera() {
-        jcManager.mediaDevice.switchCamera()
-    }
-}

@@ -58,41 +58,43 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     child: const Text('Leave'),
                   ),
                   Container(
-                    height: 300,
+                    height: 500,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                     ),
-                    child: Row(
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: Badge(
-                            label: const Text('Self'),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey[300]!,
-                                  width: 5,
-                                ),
+                        Badge(
+                          label: const Text('Self'),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey[300]!,
+                                width: 5,
                               ),
-                              child: StreamBuilder(
-                                stream: _sdk.state.selfVideo,
-                                builder: (context, snapshot) {
-                                  if (snapshot.data != VideoStatus.on) {
-                                    return const SizedBox.expand();
-                                  }
-                                  return StreamBuilder<CallStatus>(
-                                    stream: _sdk.state.call,
-                                    builder: (context, snapshot) {
-                                      return const SelfView();
-                                    },
-                                  );
-                                },
-                              ),
+                            ),
+                            child: StreamBuilder(
+                              stream: _sdk.state.selfVideo,
+                              builder: (context, snapshot) {
+                                if (snapshot.data != VideoStatus.on) {
+                                  return const SizedBox.expand();
+                                }
+                                return StreamBuilder<CallStatus>(
+                                  stream: _sdk.state.call,
+                                  builder: (context, snapshot) {
+                                    return const SelfView();
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ),
-                        const SizedBox(width: 20),
-                        Expanded(
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          width: 100,
+                          height: 100,
                           child: Badge(
                             label: const Text('Companion'),
                             child: DecoratedBox(
@@ -116,6 +118,14 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         ),
                       ],
                     ),
+                    // child: Row(
+                    //   children: [
+                    //     ,
+                    //   Expanded(
+                    //     child: ,
+                    //   ),
+                    // ],
+                    // ),
                   ),
                   StreamBuilder<AudioStatus>(
                     stream: _sdk.state.selfAudio,
