@@ -1,10 +1,10 @@
-package com.michaellazebny.jyphoon.jc.tools;
+package com.michaellazebny.jyphoon.jc.utils;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager;
 import com.justalk.cloud.zmf.ZmfAudio;
 
 import java.nio.ByteBuffer;

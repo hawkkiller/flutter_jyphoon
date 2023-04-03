@@ -1,5 +1,10 @@
 import 'package:pigeon/pigeon.dart';
 
+enum CallType {
+  oneToOne,
+  group,
+}
+
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/generated/jyphoon_api.dart',
@@ -35,7 +40,7 @@ abstract class JyphoonApi {
     String confId,
     String password,
     bool video,
-    bool asr,
+    CallType type,
   );
 
   /// Set Jyphoon backend server address.

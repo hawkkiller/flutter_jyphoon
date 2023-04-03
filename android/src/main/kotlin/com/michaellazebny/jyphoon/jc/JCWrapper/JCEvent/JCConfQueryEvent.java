@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent;
+package com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent;
 
 import com.juphoon.cloud.JCMediaChannel;
 import com.juphoon.cloud.JCMediaChannelQueryInfo;

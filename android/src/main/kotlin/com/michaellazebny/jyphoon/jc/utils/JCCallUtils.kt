@@ -1,8 +1,7 @@
-package com.michaellazebny.jyphoon.jc.tools
+package com.michaellazebny.jyphoon.jc.utils
 
 import com.juphoon.cloud.*
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
-import java.util.*
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 
 object JCCallUtils {
     val activeCall: JCCallItem?

@@ -18,7 +18,7 @@ abstract class JyphoonSDK {
 
   Future<bool> call(
     String confId, {
-    required bool asr,
+    CallType type = CallType.group,
     String password = '',
     bool video = false,
   });
@@ -72,11 +72,11 @@ class JyphoonSDKImpl implements JyphoonSDK {
   @override
   Future<bool> call(
     String confId, {
-    required bool asr,
     String password = '',
     bool video = false,
+    CallType type = CallType.group,
   }) =>
-      _api.call(confId, password, video, asr);
+      _api.call(confId, password, video, type);
 
   @override
   Future<bool> leave() => _api.leave();

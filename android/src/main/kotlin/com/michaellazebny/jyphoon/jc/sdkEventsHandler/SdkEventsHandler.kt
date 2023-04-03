@@ -1,13 +1,13 @@
-package com.michaellazebny.jyphoon.jc.handler
+package com.michaellazebny.jyphoon.jc.sdkEventsHandler
 
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.JyphoonApi
 import com.michaellazebny.jyphoon.jc.JyphoonReceiver
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class Handler(private val receiver: JyphoonReceiver, private val api: JyphoonApi) {
+class SdkEventsHandler(private val receiver: JyphoonReceiver, private val api: JyphoonApi) {
     val jcManager: JCManager = JCManager.getInstance()
 
     fun init() {

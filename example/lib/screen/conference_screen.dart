@@ -46,7 +46,6 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     onPressed: () async {
                       await _sdk.call(
                         _sessionId.text,
-                        asr: false,
                         video: true,
                       );
                     },

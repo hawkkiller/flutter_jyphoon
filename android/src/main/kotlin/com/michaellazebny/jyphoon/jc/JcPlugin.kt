@@ -1,16 +1,17 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import com.michaellazebny.jyphoon.jc.handler.Handler
+import com.michaellazebny.jyphoon.jc.sdkEventsHandler.SdkEventsHandler
 
-import com.michaellazebny.jyphoon.jc.methods.Call
-import com.michaellazebny.jyphoon.jc.methods.Initialization
-import com.michaellazebny.jyphoon.jc.methods.UserInfo
-import com.michaellazebny.jyphoon.jc.views.SelfViewFactory
-import com.michaellazebny.jyphoon.jc.views.CompanionViewFactory
+import com.michaellazebny.jyphoon.jc.api.Call
+import com.michaellazebny.jyphoon.jc.api.GroupCall
+import com.michaellazebny.jyphoon.jc.api.Initialization
+import com.michaellazebny.jyphoon.jc.api.UserInfo
+import com.michaellazebny.jyphoon.jc.platformViews.SelfViewFactory
+import com.michaellazebny.jyphoon.jc.platformViews.CompanionViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-
+class G(B: JyphoonApi) : JyphoonApi by B
 /** JcPlugin */
 class JcPlugin : FlutterPlugin, JyphoonApi {
     private lateinit var applicationContext: Context
@@ -19,11 +20,12 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
     private val initialization = Initialization()
     private val userInfo = UserInfo()
     private val call = Call()
-    private lateinit var handler: Handler
+    private lateinit var sdkEventsHandler: SdkEventsHandler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+
         JyphoonApi.setUp(binding.binaryMessenger, null)
-        handler.dispose()
+        sdkEventsHandler.dispose()
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -38,8 +40,8 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
             CompanionViewFactory(flutterPluginBinding.binaryMessenger),
         )
         receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
-        handler = Handler(receiver, this)
-        handler.init()
+        sdkEventsHandler = SdkEventsHandler(receiver, this)
+        sdkEventsHandler.init()
     }
 
     override fun isInited() = initialization.isInited()
@@ -60,8 +62,8 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
 
     override fun setAudio(audio: Boolean) = call.setAudio(audio)
 
-    override fun call(confId: String, password: String, video: Boolean, asr: Boolean) =
-        call.join(confId, password, video, asr);
+    override fun call(confId: String, password: String, video: Boolean, type: CallType) =
+        call.join(confId, password, video, type)
 
     override fun getCurrentUserId() = userInfo.getUserId()
 

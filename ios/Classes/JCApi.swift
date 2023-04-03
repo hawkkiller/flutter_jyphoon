@@ -12,6 +12,11 @@ import FlutterMacOS
 
 
 /// Generated class from Pigeon.
+
+enum CallType: Int {
+  case oneToOne = 0
+  case group = 1
+}
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol JyphoonApi {
   /// Returns whether JC was inited.
@@ -28,7 +33,7 @@ protocol JyphoonApi {
   /// Sets the timeout for the call request.
   func setTimeout(timeout: Int32)
   /// Starts the "call".
-  func call(confId: String, password: String, video: Bool, asr: Bool) -> Bool
+  func call(confId: String, password: String, video: Bool, type: CallType) -> Bool
   /// Set Jyphoon backend server address.
   func setServerAddress(serverAddress: String)
   /// Starts or stops to send video
@@ -146,8 +151,8 @@ class JyphoonApiSetup {
         let confIdArg = args[0] as! String
         let passwordArg = args[1] as! String
         let videoArg = args[2] as! Bool
-        let asrArg = args[3] as! Bool
-        let result = api.call(confId: confIdArg, password: passwordArg, video: videoArg, asr: asrArg)
+        let typeArg = CallType(rawValue: args[3] as! Int)!
+        let result = api.call(confId: confIdArg, password: passwordArg, video: videoArg, type: typeArg)
         reply(wrapResult(result))
       }
     } else {

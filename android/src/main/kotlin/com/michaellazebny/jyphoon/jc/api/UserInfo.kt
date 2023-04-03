@@ -1,9 +1,7 @@
-package com.michaellazebny.jyphoon.jc.methods
+package com.michaellazebny.jyphoon.jc.api
 
 import com.juphoon.cloud.JCClient.LoginParam
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 
 class UserInfo {
     private val jcManager = JCManager.getInstance()

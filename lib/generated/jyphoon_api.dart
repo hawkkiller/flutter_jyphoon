@@ -7,6 +7,11 @@ import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
+enum CallType {
+  oneToOne,
+  group,
+}
+
 
 class JyphoonApi {
   /// Constructor for [JyphoonApi].  The [binaryMessenger] named argument is
@@ -173,12 +178,12 @@ class JyphoonApi {
   }
 
   /// Starts the "call".
-  Future<bool> call(String arg_confId, String arg_password, bool arg_video, bool arg_asr) async {
+  Future<bool> call(String arg_confId, String arg_password, bool arg_video, CallType arg_type) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonApi.call', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_confId, arg_password, arg_video, arg_asr]) as List<Object?>?;
+        await channel.send(<Object?>[arg_confId, arg_password, arg_video, arg_type.index]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

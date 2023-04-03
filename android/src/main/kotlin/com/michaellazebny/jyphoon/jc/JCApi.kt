@@ -12,6 +12,17 @@ import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 
 /** Generated class from Pigeon. */
+
+enum class CallType(val raw: Int) {
+  ONETOONE(0),
+  GROUP(1);
+
+  companion object {
+    fun ofRaw(raw: Int): CallType? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface JyphoonApi {
   /** Returns whether JC was inited. */
@@ -30,7 +41,7 @@ interface JyphoonApi {
   /** Sets the timeout for the call request. */
   fun setTimeout(timeout: Long)
   /** Starts the "call". */
-  fun call(confId: String, password: String, video: Boolean, asr: Boolean): Boolean
+  fun call(confId: String, password: String, video: Boolean, type: CallType): Boolean
   /** Set Jyphoon backend server address. */
   fun setServerAddress(serverAddress: String)
   /** Starts or stops to send video */
@@ -200,8 +211,8 @@ interface JyphoonApi {
               val confIdArg = args[0] as String
               val passwordArg = args[1] as String
               val videoArg = args[2] as Boolean
-              val asrArg = args[3] as Boolean
-              wrapped = listOf<Any?>(api.call(confIdArg, passwordArg, videoArg, asrArg))
+              val typeArg = CallType.ofRaw(args[3] as Int)!!
+              wrapped = listOf<Any?>(api.call(confIdArg, passwordArg, videoArg, typeArg))
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

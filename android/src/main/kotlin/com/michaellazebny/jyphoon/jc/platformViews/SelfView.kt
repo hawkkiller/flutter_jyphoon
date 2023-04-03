@@ -1,32 +1,31 @@
-package com.michaellazebny.jyphoon.jc.views
+package com.michaellazebny.jyphoon.jc.platformViews
 
 import android.content.Context
-import android.content.res.Resources
-import android.util.DisplayMetrics
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import com.juphoon.cloud.JCMediaChannel
 import com.juphoon.cloud.JCMediaDevice
-import com.michaellazebny.jyphoon.jc.CompanionViewApi
-import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.SelfViewApi
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
-class CompanionView(messenger: BinaryMessenger) : PlatformView, CompanionViewApi {
+class SelfView(messenger: BinaryMessenger) : PlatformView, SelfViewApi {
     private var view: View?
-    override fun getView() = view
 
     init {
-        CompanionViewApi.setUp(messenger, this)
-        val otherParticipant = JCCallUtils.otherParticipant
-        view = otherParticipant?.startVideo(
+        SelfViewApi.setUp(messenger, this)
+        val jcManager = JCManager.getInstance()
+        val selfParticipant = jcManager.mediaChannel?.selfParticipant
+        view = selfParticipant?.startVideo(
             JCMediaDevice.RENDER_FULL_SCREEN,
             JCMediaChannel.PICTURESIZE_MIN
         )?.videoView
     }
+
+    override fun getView() = view
 
     override fun dispose() {
         // remove a view of its parent
@@ -34,15 +33,15 @@ class CompanionView(messenger: BinaryMessenger) : PlatformView, CompanionViewApi
         parent?.removeView(view)
     }
 
-    override fun setCompanionFrame(width: Double, height: Double) {
+    override fun setSelfFrame(width: Double, height: Double) {
         view?.layoutParams?.width = ViewHelper.convertDpToPixel(width).toInt()
         view?.layoutParams?.height = ViewHelper.convertDpToPixel(height).toInt()
     }
 }
 
-class CompanionViewFactory(private val messenger: BinaryMessenger) :
+class SelfViewFactory(private val messenger: BinaryMessenger) :
     PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
-        return CompanionView(messenger)
+        return SelfView(messenger)
     }
 }

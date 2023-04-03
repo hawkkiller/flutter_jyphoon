@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.JCWrapper;
+package com.michaellazebny.jyphoon.jc.jcWrapper;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

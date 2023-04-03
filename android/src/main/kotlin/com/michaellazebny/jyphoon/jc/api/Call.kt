@@ -1,32 +1,49 @@
-package com.michaellazebny.jyphoon.jc.methods
+package com.michaellazebny.jyphoon.jc.api
 
 import com.juphoon.cloud.JCCall
 import com.juphoon.cloud.JCMediaChannel
-import com.juphoon.cloud.JCMediaDevice
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
-import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
+import com.michaellazebny.jyphoon.jc.CallType
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.utils.JCCallUtils
 
 class Call {
     private val jcManager = JCManager.getInstance()
 
-    fun join(channelId: String, password: String, video: Boolean, asr: Boolean): Boolean {
-        // 生成 join 参数
-        val joinParam = JCMediaChannel.JoinParam()
-        joinParam.capacity = 2
-        jcManager.mediaDevice.enableSpeaker(true)
-        jcManager.mediaChannel.enableUploadAudioStream(true)
-        jcManager.mediaChannel.enableUploadVideoStream(true)
+    fun join(channelId: String, password: String, video: Boolean, type: CallType): Boolean {
+        val res: Boolean
         val accountId = channelId.split("_").last()
-        val res =
-            if (asr) jcManager.call.call(
-                accountId,
-                video,
-                JCCall.CallParam(if (video) "video" else "audio", channelId),
-            ) else jcManager.mediaChannel.join(channelId, joinParam)
+        when (type) {
+            CallType.ONETOONE -> {
+                res = jcManager.call.call(
+                    accountId,
+                    video,
+                    JCCall.CallParam(if (video) "video" else "audio", channelId),
+                )
+            }
+            CallType.GROUP -> {
+                val joinParam = JCMediaChannel.JoinParam()
+                joinParam.capacity = 2
+                joinParam.password = password
+                jcManager.mediaDevice.enableSpeaker(true)
+                jcManager.mediaChannel.enableUploadAudioStream(true)
+                jcManager.mediaChannel.enableUploadVideoStream(true)
+                res = jcManager.mediaChannel.join(channelId, joinParam)
+            }
+        }
         if (res && video) {
             setVideo(true)
         }
         return res
+    }
+
+    fun getCallType(): CallType? {
+        return if (jcManager.call.callItems.isNotEmpty()) {
+            CallType.ONETOONE
+        } else if (jcManager.mediaChannel.selfParticipant != null) {
+            CallType.GROUP
+        } else {
+            null
+        }
     }
 
     fun leave(): Boolean {
