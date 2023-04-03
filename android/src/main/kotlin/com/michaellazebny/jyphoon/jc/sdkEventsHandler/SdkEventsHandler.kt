@@ -1,15 +1,12 @@
 package com.michaellazebny.jyphoon.jc.sdkEventsHandler
 
-import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent
-import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
-import com.michaellazebny.jyphoon.jc.JyphoonApi
+import com.michaellazebny.jyphoon.jc.JyphoonCallApi
 import com.michaellazebny.jyphoon.jc.JyphoonReceiver
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class SdkEventsHandler(private val receiver: JyphoonReceiver, private val api: JyphoonApi) {
-    val jcManager: JCManager = JCManager.getInstance()
-
+class SdkEventsHandler(private val receiver: JyphoonReceiver, private val callApi: JyphoonCallApi) {
     fun init() {
         EventBus.getDefault().register(this)
     }
@@ -23,11 +20,11 @@ class SdkEventsHandler(private val receiver: JyphoonReceiver, private val api: J
         // do not trigger updates on log events
         if (event.eventType == JCEvent.EventType.JCLOG) return;
         val map = mapOf<String?, Any>(
-            "video" to api.video(),
-            "audio" to api.audio(),
-            "otherAudio" to api.otherAudio(),
-            "otherVideo" to api.otherVideo(),
-            "callStatus" to api.callStatus(),
+            "video" to callApi.video(),
+            "audio" to callApi.audio(),
+            "otherAudio" to callApi.otherAudio(),
+            "otherVideo" to callApi.otherVideo(),
+            "callStatus" to callApi.callStatus(),
         )
         receiver.onEvent(event.eventType.name, map) {}
     }

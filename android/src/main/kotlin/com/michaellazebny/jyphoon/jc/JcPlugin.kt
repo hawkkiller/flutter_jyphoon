@@ -1,36 +1,40 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import com.michaellazebny.jyphoon.jc.sdkEventsHandler.SdkEventsHandler
-
-import com.michaellazebny.jyphoon.jc.api.Call
 import com.michaellazebny.jyphoon.jc.api.GroupCall
 import com.michaellazebny.jyphoon.jc.api.Initialization
-import com.michaellazebny.jyphoon.jc.api.UserInfo
+import com.michaellazebny.jyphoon.jc.api.OneToOneCall
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.sdkEventsHandler.SdkEventsHandler
+
 import com.michaellazebny.jyphoon.jc.platformViews.SelfViewFactory
 import com.michaellazebny.jyphoon.jc.platformViews.CompanionViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-class G(B: JyphoonApi) : JyphoonApi by B
+
 /** JcPlugin */
-class JcPlugin : FlutterPlugin, JyphoonApi {
+class JcPlugin : FlutterPlugin, JyphoonInitializationApi, JyphoonCallApi {
     private lateinit var applicationContext: Context
     private lateinit var receiver: JyphoonReceiver
+    private lateinit var initializationApi: Initialization
+    private lateinit var oneToOneCall: OneToOneCall
+    private lateinit var groupCall: GroupCall
 
-    private val initialization = Initialization()
-    private val userInfo = UserInfo()
-    private val call = Call()
     private lateinit var sdkEventsHandler: SdkEventsHandler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-
-        JyphoonApi.setUp(binding.binaryMessenger, null)
+        JyphoonInitializationApi.setUp(binding.binaryMessenger, null)
+        JyphoonCallApi.setUp(binding.binaryMessenger, null)
         sdkEventsHandler.dispose()
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = flutterPluginBinding.applicationContext
-        JyphoonApi.setUp(flutterPluginBinding.binaryMessenger, this)
+        initializationApi = Initialization(applicationContext)
+        oneToOneCall = OneToOneCall()
+        groupCall = GroupCall()
+        JyphoonCallApi.setUp(flutterPluginBinding.binaryMessenger, this)
+        JyphoonInitializationApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "self-view",
             SelfViewFactory(flutterPluginBinding.binaryMessenger),
@@ -44,42 +48,70 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
         sdkEventsHandler.init()
     }
 
-    override fun isInited() = initialization.isInited()
+    override fun isInited() = initializationApi.isInited()
 
-    override fun initialize() = initialization.initialize(applicationContext)
+    override fun initialize() = initializationApi.initialize()
 
-    override fun setAppKey(appKey: String) = initialization.setAppKey(appKey)
+    override fun setAppKey(appKey: String) = initializationApi.setAppKey(appKey)
 
-    override fun setDisplayName(displayName: String) = userInfo.setDisplayName(displayName)
+    override fun setDisplayName(displayName: String) = initializationApi.setDisplayName(displayName)
 
-    override fun setAccountNumber(accountNumber: String) = userInfo.setAccountNumber(accountNumber)
+    override fun setAccountNumber(accountNumber: String) =
+        initializationApi.setAccountNumber(accountNumber)
 
-    override fun setTimeout(timeout: Long) = userInfo.setTimeout(timeout)
+    override fun setTimeout(timeout: Long) = initializationApi.setTimeout(timeout)
 
-    override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
+    override fun getCurrentUserId() = initializationApi.getCurrentUserId()
 
-    override fun setVideo(video: Boolean) = call.setVideo(video)
+    override fun setServerAddress(serverAddress: String) =
+        initializationApi.setServerAddress(serverAddress)
 
-    override fun setAudio(audio: Boolean) = call.setAudio(audio)
+    override fun call(destination: String, password: String, video: Boolean, type: CallType) : Boolean {
+        val callApi = when (type) {
+            CallType.ONETOONE -> oneToOneCall
+            CallType.GROUP -> groupCall
+        }
+        return callApi.call(destination, password, video, type)
 
-    override fun call(confId: String, password: String, video: Boolean, type: CallType) =
-        call.join(confId, password, video, type)
+    }
 
-    override fun getCurrentUserId() = userInfo.getUserId()
+    override fun setVideo(video: Boolean) = callApi.setVideo(video)
 
-    override fun leave() = call.leave()
+    override fun setAudio(audio: Boolean) = callApi.setAudio(audio)
 
-    override fun audio() = call.audio()
+    override fun leave() = callApi.leave()
 
-    override fun otherAudio() = call.otherAudio()
+    override fun audio() = callApi.audio()
 
-    override fun video() = call.video()
+    override fun otherAudio() = callApi.otherAudio()
 
-    override fun otherVideo() = call.otherVideo()
+    override fun video() = callApi.video()
 
-    override fun callStatus() = call.confStatus()
+    override fun otherVideo() = callApi.otherVideo()
 
-    override fun switchCamera() = call.switchCamera()
+    override fun callStatus() = callApi.callStatus()
 
-    override fun setSpeaker(speaker: Boolean) = call.setSpeaker(speaker)
+    override fun switchCamera() = callApi.switchCamera()
+
+    override fun setSpeaker(speaker: Boolean) = callApi.setSpeaker(speaker)
+
+    // TODO: think about it, how to work with it when there is no call
+    private fun getCallType(): CallType? {
+        return if (JCManager.getInstance().call.callItems.isNotEmpty()) {
+            CallType.ONETOONE
+        } else if (JCManager.getInstance().mediaChannel.selfParticipant != null) {
+            CallType.GROUP
+        } else {
+            null
+        }
+    }
+
+    private val callApi: JyphoonCallApi
+        get() {
+            return when (getCallType()) {
+                CallType.ONETOONE -> oneToOneCall
+                CallType.GROUP -> groupCall
+                else -> throw Exception("Call type is not set")
+            }
+        }
 }

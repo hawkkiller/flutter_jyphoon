@@ -15,67 +15,54 @@ enum CallType {
   ),
 )
 @HostApi()
-abstract class JyphoonApi {
-  /// Returns whether JC was inited.
+abstract class JyphoonInitializationApi {
+  /// Returns whether jyphoon sdk was inited.
   bool isInited();
 
-  /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
+  /// Initializes the engine.
+  ///
+  /// It is needed to call [setAppKey] before.
   bool initialize();
 
-  /// Sets appKey in order to have access to the Jyphoon API.
+  /// Sets appKey for the SDK.
   void setAppKey(String appKey);
 
   /// Sets the name that is visible to another participant(s).
   void setDisplayName(String displayName);
 
   /// Sets account number. It acts like uuid. It launches login process.
-  /// It is needed to set appKey before. Otherwise, it will fail.
+  ///
+  /// It is needed to call [setAppKey] before.
   bool setAccountNumber(String accountNumber);
 
   /// Sets the timeout for the call request.
   void setTimeout(int timeout);
 
+  /// Set Jyphoon backend server address.
+  void setServerAddress(String serverAddress);
+
+  /// Get current user id
+  String? getCurrentUserId();
+}
+
+@HostApi()
+abstract class JyphoonCallApi {
   /// Starts the "call".
+  /// Returns true if the call was started successfully.
+  ///
+  /// [destination] - the identifier of the companion or the conference.
+  ///
+  /// [password] - the password for the conference.
+  ///
+  /// [video] - initiate call as videocall or audiocall.
+  ///
+  /// [type] - oneToOne or group.
   bool call(
-    String confId,
+    String destination,
     String password,
     bool video,
     CallType type,
   );
-
-  /// Set Jyphoon backend server address.
-  void setServerAddress(String serverAddress);
-
-  /// Starts or stops to send video
-  void setVideo(bool video);
-
-  /// Starts or stops to send audio.
-  void setAudio(bool audio);
-
-  /// Configures the speaker mode.
-  void setSpeaker(bool speaker);
-
-  /// True if the user is in the call and is not muted.
-  /// Otherwise, returns false.
-  bool audio();
-
-  /// True if the companion is in the call and is not muted.
-  /// Otherwise, returns false.
-  bool otherAudio();
-
-  /// True if the user is in the call and shares video.
-  /// Otherwise, returns false.
-  bool video();
-
-  /// Get current user id
-  String? getCurrentUserId();
-
-  /// Hangs up the "call".
-  bool leave();
-
-  /// True if the companion is in the call and shares video.
-  /// Otherwise, returns false.
-  bool otherVideo();
 
   /// Returns CallStatus.
   /// Returns the current call status.
@@ -84,6 +71,35 @@ abstract class JyphoonApi {
   /// - CallStatus.off
   /// - CallStatus.waiting
   String callStatus();
+
+  /// Enables \ disables video.
+  void setVideo(bool video);
+
+  /// Enables \ disables audio.
+  void setAudio(bool audio);
+
+  /// Enables \ disables speaker.
+  void setSpeaker(bool speaker);
+
+  /// True if the user is in the call and is not muted.
+  /// Otherwise, returns false.
+  bool audio();
+
+  /// True if the user is in the call and shares video.
+  /// Otherwise, returns false.
+  bool video();
+
+  /// True if the companion is in the call and is not muted.
+  /// Otherwise, returns false.
+  bool otherAudio();
+
+  /// True if the companion is in the call and shares video.
+  /// Otherwise, returns false.
+  bool otherVideo();
+
+  /// Hangs up the call or leaves the conference
+  /// depending on the call type.
+  bool leave();
 
   /// Switches the camera (front/back)
   void switchCamera();

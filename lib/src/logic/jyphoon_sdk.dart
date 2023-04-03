@@ -17,7 +17,7 @@ abstract class JyphoonSDK {
   Future<bool> isInited();
 
   Future<bool> call(
-    String confId, {
+    String destination, {
     CallType type = CallType.group,
     String password = '',
     bool video = false,
@@ -58,12 +58,14 @@ abstract class JyphoonSDK {
 
 class JyphoonSDKImpl implements JyphoonSDK {
   JyphoonSDKImpl._() {
-    _api = JyphoonApi();
+    _callApi = JyphoonCallApi();
+    _initializationApi = JyphoonInitializationApi();
     _controller = JyphoonControllerImpl();
     state = _controller.state;
   }
 
-  late final JyphoonApi _api;
+  late final JyphoonCallApi _callApi;
+  late final JyphoonInitializationApi _initializationApi;
   late final JyphoonController _controller;
 
   @override
@@ -71,68 +73,89 @@ class JyphoonSDKImpl implements JyphoonSDK {
 
   @override
   Future<bool> call(
-    String confId, {
+    String destination, {
     String password = '',
     bool video = false,
     CallType type = CallType.group,
   }) =>
-      _api.call(confId, password, video, type);
+      _callApi.call(destination, password, video, type);
 
   @override
-  Future<bool> leave() => _api.leave();
+  Future<bool> leave() => _callApi.leave();
 
   @override
   Future<CallStatus> callStatus() =>
-      _api.callStatus().then(CallStatus.fromString);
+      _callApi.callStatus().then(CallStatus.fromString);
 
   @override
-  Future<String?> getCurrentUserId() => _api.getCurrentUserId();
+  Future<String?> getCurrentUserId() => _initializationApi.getCurrentUserId();
 
   @override
-  Future<bool> initialize() => _api.initialize();
+  Future<bool> initialize() => _initializationApi.initialize();
 
   @override
-  Future<bool> isInited() => _api.isInited();
+  Future<bool> isInited() => _initializationApi.isInited();
 
   @override
-  Future<bool> otherAudio() => _api.otherAudio();
+  Future<bool> otherAudio() => _callApi.otherAudio();
 
   @override
-  Future<bool> otherVideo() => _api.otherVideo();
+  Future<bool> otherVideo() => _callApi.otherVideo();
 
   @override
-  Future<bool> setAccountNumber(String accountNumber) =>
-      _api.setAccountNumber(accountNumber);
+  Future<bool> setAccountNumber(
+    String accountNumber,
+  ) =>
+      _initializationApi.setAccountNumber(accountNumber);
 
   @override
-  Future<void> setAppKey(String appkey) => _api.setAppKey(appkey);
+  Future<void> setAppKey(
+    String appkey,
+  ) =>
+      _initializationApi.setAppKey(appkey);
 
   @override
-  Future<void> setDisplayName(String displayName) =>
-      _api.setDisplayName(displayName);
+  Future<void> setDisplayName(
+    String displayName,
+  ) =>
+      _initializationApi.setDisplayName(displayName);
 
   @override
-  Future<void> setServerAddress(String serverAddress) =>
-      _api.setServerAddress(serverAddress);
+  Future<void> setServerAddress(
+    String serverAddress,
+  ) =>
+      _initializationApi.setServerAddress(serverAddress);
 
   @override
-  Future<void> setTimeout(int timeout) => _api.setTimeout(timeout);
+  Future<void> setTimeout(
+    int timeout,
+  ) =>
+      _initializationApi.setTimeout(timeout);
 
   @override
-  Future<void> switchCamera() => _api.switchCamera();
+  Future<void> switchCamera() => _callApi.switchCamera();
 
   @override
-  Future<bool> video() => _api.video();
+  Future<bool> video() => _callApi.video();
 
   @override
-  Future<bool> audio() => _api.audio();
+  Future<bool> audio() => _callApi.audio();
 
   @override
-  Future<void> setAudio({required bool audio}) => _api.setAudio(audio);
+  Future<void> setAudio({
+    required bool audio,
+  }) =>
+      _callApi.setAudio(audio);
 
   @override
-  Future<void> setVideo({required bool video}) => _api.setVideo(video);
+  Future<void> setVideo({
+    required bool video,
+  }) =>
+      _callApi.setVideo(video);
 
   @override
-  Future<void> setSpeaker({required bool speaker}) => _api.setSpeaker(speaker);
+  Future<void> setSpeaker({
+    required bool speaker,
+  }) =>
+      _callApi.setSpeaker(speaker);
 }
