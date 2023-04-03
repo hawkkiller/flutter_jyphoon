@@ -3,7 +3,7 @@ package com.michaellazebny.jyphoon.jc.methods
 import com.juphoon.cloud.JCCall
 import com.juphoon.cloud.JCMediaChannel
 import com.juphoon.cloud.JCMediaDevice
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.tools.JCCallUtils
 
 class Call {

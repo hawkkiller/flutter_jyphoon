@@ -1,8 +1,8 @@
-package com.michaellazebny.jyphoon.jc.JCWrapper;
+package com.michaellazebny.jyphoon.jc.jcWrapper;
 
 import android.content.Context;
 
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent;
 import com.michaellazebny.jyphoon.jc.tools.JCAudioTrack;
 import com.juphoon.cloud.JCAudioFrameCallback;
 import com.juphoon.cloud.JCCall;

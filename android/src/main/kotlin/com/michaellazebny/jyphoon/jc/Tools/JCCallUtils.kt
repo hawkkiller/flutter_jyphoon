@@ -1,7 +1,7 @@
 package com.michaellazebny.jyphoon.jc.tools
 
 import com.juphoon.cloud.*
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 import java.util.*
 
 object JCCallUtils {

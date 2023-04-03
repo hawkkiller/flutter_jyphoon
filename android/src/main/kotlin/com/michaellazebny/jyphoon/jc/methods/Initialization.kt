@@ -3,7 +3,7 @@ package com.michaellazebny.jyphoon.jc.methods
 import android.content.Context
 import android.os.Build
 import androidx.annotation.NonNull
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.juphoon.cloud.JCMediaChannel
 import com.juphoon.cloud.JCMediaDevice
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.SelfViewApi
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.StandardMessageCodec
