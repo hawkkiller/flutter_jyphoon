@@ -72,15 +72,6 @@ abstract class JyphoonCallApi {
   /// - CallStatus.waiting
   String callStatus();
 
-  /// Enables \ disables video.
-  void setVideo(bool video);
-
-  /// Enables \ disables audio.
-  void setAudio(bool audio);
-
-  /// Enables \ disables speaker.
-  void setSpeaker(bool speaker);
-
   /// True if the user is in the call and is not muted.
   /// Otherwise, returns false.
   bool audio();
@@ -103,6 +94,15 @@ abstract class JyphoonCallApi {
 
   /// Switches the camera (front/back)
   void switchCamera();
+
+  /// Enables \ disables video.
+  void setVideo(bool video);
+
+  /// Enables \ disables audio.
+  void setAudio(bool audio);
+
+  /// Enables \ disables speaker.
+  void setSpeaker(bool speaker);
 }
 
 @FlutterApi()

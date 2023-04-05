@@ -227,12 +227,6 @@ interface JyphoonCallApi {
    * - CallStatus.waiting
    */
   fun callStatus(): String
-  /** Enables \ disables video. */
-  fun setVideo(video: Boolean)
-  /** Enables \ disables audio. */
-  fun setAudio(audio: Boolean)
-  /** Enables \ disables speaker. */
-  fun setSpeaker(speaker: Boolean)
   /**
    * True if the user is in the call and is not muted.
    * Otherwise, returns false.
@@ -260,6 +254,12 @@ interface JyphoonCallApi {
   fun leave(): Boolean
   /** Switches the camera (front/back) */
   fun switchCamera()
+  /** Enables \ disables video. */
+  fun setVideo(video: Boolean)
+  /** Enables \ disables audio. */
+  fun setAudio(audio: Boolean)
+  /** Enables \ disables speaker. */
+  fun setSpeaker(speaker: Boolean)
 
   companion object {
     /** The codec used by JyphoonCallApi. */
@@ -297,63 +297,6 @@ interface JyphoonCallApi {
             var wrapped = listOf<Any?>()
             try {
               wrapped = listOf<Any?>(api.callStatus())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonCallApi.setVideo", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              val args = message as List<Any?>
-              val videoArg = args[0] as Boolean
-              api.setVideo(videoArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonCallApi.setAudio", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              val args = message as List<Any?>
-              val audioArg = args[0] as Boolean
-              api.setAudio(audioArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonCallApi.setSpeaker", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              val args = message as List<Any?>
-              val speakerArg = args[0] as Boolean
-              api.setSpeaker(speakerArg)
-              wrapped = listOf<Any?>(null)
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }
@@ -450,6 +393,63 @@ interface JyphoonCallApi {
             var wrapped = listOf<Any?>()
             try {
               api.switchCamera()
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonCallApi.setVideo", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              val args = message as List<Any?>
+              val videoArg = args[0] as Boolean
+              api.setVideo(videoArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonCallApi.setAudio", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              val args = message as List<Any?>
+              val audioArg = args[0] as Boolean
+              api.setAudio(audioArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonCallApi.setSpeaker", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              val args = message as List<Any?>
+              val speakerArg = args[0] as Boolean
+              api.setSpeaker(speakerArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Error) {
               wrapped = wrapError(exception)

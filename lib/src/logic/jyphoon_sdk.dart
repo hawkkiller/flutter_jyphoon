@@ -133,13 +133,13 @@ class JyphoonSDKImpl implements JyphoonSDK {
       _initializationApi.setTimeout(timeout);
 
   @override
-  Future<void> switchCamera() => _callApi.switchCamera();
-
-  @override
   Future<bool> video() => _callApi.video();
 
   @override
   Future<bool> audio() => _callApi.audio();
+
+  @override
+  Future<void> switchCamera() => _callApi.switchCamera();
 
   @override
   Future<void> setAudio({

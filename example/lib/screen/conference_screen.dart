@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jc/generated/jyphoon_api.dart';
 import 'package:jc/jyphoon.dart';
 
 /// {@template conference_screen}
@@ -16,6 +17,10 @@ class ConferenceScreen extends StatefulWidget {
 class _ConferenceScreenState extends State<ConferenceScreen> {
   late final TextEditingController _sessionId;
   late final JyphoonSDK _sdk;
+
+  /// true -> 2
+  /// false -> 1
+  bool type = false;
 
   @override
   void initState() {
@@ -47,6 +52,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                       await _sdk.call(
                         _sessionId.text,
                         video: true,
+                        type: type ? CallType.oneToOne : CallType.group,
                       );
                     },
                     child: const Text('Join'),
@@ -56,6 +62,12 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                       await _sdk.leave();
                     },
                     child: const Text('Leave'),
+                  ),
+                  StreamBuilder<CallStatus>(
+                    stream: _sdk.state.call,
+                    builder: (context, snapshot) {
+                      return Text(snapshot.data.toString());
+                    },
                   ),
                   Container(
                     height: 500,
@@ -118,14 +130,6 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         ),
                       ],
                     ),
-                    // child: Row(
-                    //   children: [
-                    //     ,
-                    //   Expanded(
-                    //     child: ,
-                    //   ),
-                    // ],
-                    // ),
                   ),
                   StreamBuilder<AudioStatus>(
                     stream: _sdk.state.selfAudio,
@@ -160,7 +164,14 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         ),
                       );
                     },
-                  )
+                  ),
+                  Switch.adaptive(
+                      value: type,
+                      onChanged: (t) {
+                        setState(() {
+                          type = !type;
+                        });
+                      }),
                 ],
               ),
             ),

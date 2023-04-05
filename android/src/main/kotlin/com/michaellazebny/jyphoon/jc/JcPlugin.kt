@@ -1,24 +1,19 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import com.michaellazebny.jyphoon.jc.api.GroupCall
-import com.michaellazebny.jyphoon.jc.api.Initialization
-import com.michaellazebny.jyphoon.jc.api.OneToOneCall
-import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
+import com.michaellazebny.jyphoon.jc.api.*
+import com.michaellazebny.jyphoon.jc.platformViews.CallViewFactory
 import com.michaellazebny.jyphoon.jc.sdkEventsHandler.SdkEventsHandler
-
-import com.michaellazebny.jyphoon.jc.platformViews.SelfViewFactory
-import com.michaellazebny.jyphoon.jc.platformViews.CompanionViewFactory
-
+import com.michaellazebny.jyphoon.jc.utils.JCCallUtils
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 
 /** JcPlugin */
 class JcPlugin : FlutterPlugin, JyphoonInitializationApi, JyphoonCallApi {
     private lateinit var applicationContext: Context
     private lateinit var receiver: JyphoonReceiver
-    private lateinit var initializationApi: Initialization
-    private lateinit var oneToOneCall: OneToOneCall
-    private lateinit var groupCall: GroupCall
+    private lateinit var initializationApi: InitializationApi
+    private lateinit var oneToOneCallApi: OneToOneCallApi
+    private lateinit var groupCallApi: GroupCallApi
 
     private lateinit var sdkEventsHandler: SdkEventsHandler
 
@@ -30,18 +25,18 @@ class JcPlugin : FlutterPlugin, JyphoonInitializationApi, JyphoonCallApi {
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = flutterPluginBinding.applicationContext
-        initializationApi = Initialization(applicationContext)
-        oneToOneCall = OneToOneCall()
-        groupCall = GroupCall()
+        initializationApi = InitializationApi(applicationContext)
+        oneToOneCallApi = OneToOneCallApi()
+        groupCallApi = GroupCallApi()
         JyphoonCallApi.setUp(flutterPluginBinding.binaryMessenger, this)
         JyphoonInitializationApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "self-view",
-            SelfViewFactory(flutterPluginBinding.binaryMessenger),
+            CallViewFactory(flutterPluginBinding.binaryMessenger, ViewCanvasApi.SelfViewCanvasApi()),
         )
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "companion-view",
-            CompanionViewFactory(flutterPluginBinding.binaryMessenger),
+            CallViewFactory(flutterPluginBinding.binaryMessenger, ViewCanvasApi.CompanionViewCanvasApi()),
         )
         receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
         sdkEventsHandler = SdkEventsHandler(receiver, this)
@@ -68,8 +63,8 @@ class JcPlugin : FlutterPlugin, JyphoonInitializationApi, JyphoonCallApi {
 
     override fun call(destination: String, password: String, video: Boolean, type: CallType) : Boolean {
         val callApi = when (type) {
-            CallType.ONETOONE -> oneToOneCall
-            CallType.GROUP -> groupCall
+            CallType.ONETOONE -> oneToOneCallApi
+            CallType.GROUP -> groupCallApi
         }
         return callApi.call(destination, password, video, type)
 
@@ -95,22 +90,11 @@ class JcPlugin : FlutterPlugin, JyphoonInitializationApi, JyphoonCallApi {
 
     override fun setSpeaker(speaker: Boolean) = callApi.setSpeaker(speaker)
 
-    // TODO: think about it, how to work with it when there is no call
-    private fun getCallType(): CallType? {
-        return if (JCManager.getInstance().call.callItems.isNotEmpty()) {
-            CallType.ONETOONE
-        } else if (JCManager.getInstance().mediaChannel.selfParticipant != null) {
-            CallType.GROUP
-        } else {
-            null
-        }
-    }
-
     private val callApi: JyphoonCallApi
         get() {
-            return when (getCallType()) {
-                CallType.ONETOONE -> oneToOneCall
-                CallType.GROUP -> groupCall
+            return when (JCCallUtils.getCallType()) {
+                CallType.ONETOONE -> oneToOneCallApi
+                CallType.GROUP -> groupCallApi
                 else -> throw Exception("Call type is not set")
             }
         }

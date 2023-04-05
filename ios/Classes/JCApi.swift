@@ -162,12 +162,6 @@ protocol JyphoonCallApi {
   /// - CallStatus.off
   /// - CallStatus.waiting
   func callStatus() -> String
-  /// Enables \ disables video.
-  func setVideo(video: Bool)
-  /// Enables \ disables audio.
-  func setAudio(audio: Bool)
-  /// Enables \ disables speaker.
-  func setSpeaker(speaker: Bool)
   /// True if the user is in the call and is not muted.
   /// Otherwise, returns false.
   func audio() -> Bool
@@ -185,6 +179,12 @@ protocol JyphoonCallApi {
   func leave() -> Bool
   /// Switches the camera (front/back)
   func switchCamera()
+  /// Enables \ disables video.
+  func setVideo(video: Bool)
+  /// Enables \ disables audio.
+  func setAudio(audio: Bool)
+  /// Enables \ disables speaker.
+  func setSpeaker(speaker: Bool)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -230,42 +230,6 @@ class JyphoonCallApiSetup {
       }
     } else {
       callStatusChannel.setMessageHandler(nil)
-    }
-    /// Enables \ disables video.
-    let setVideoChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonCallApi.setVideo", binaryMessenger: binaryMessenger)
-    if let api = api {
-      setVideoChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let videoArg = args[0] as! Bool
-        api.setVideo(video: videoArg)
-        reply(wrapResult(nil))
-      }
-    } else {
-      setVideoChannel.setMessageHandler(nil)
-    }
-    /// Enables \ disables audio.
-    let setAudioChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonCallApi.setAudio", binaryMessenger: binaryMessenger)
-    if let api = api {
-      setAudioChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let audioArg = args[0] as! Bool
-        api.setAudio(audio: audioArg)
-        reply(wrapResult(nil))
-      }
-    } else {
-      setAudioChannel.setMessageHandler(nil)
-    }
-    /// Enables \ disables speaker.
-    let setSpeakerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonCallApi.setSpeaker", binaryMessenger: binaryMessenger)
-    if let api = api {
-      setSpeakerChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let speakerArg = args[0] as! Bool
-        api.setSpeaker(speaker: speakerArg)
-        reply(wrapResult(nil))
-      }
-    } else {
-      setSpeakerChannel.setMessageHandler(nil)
     }
     /// True if the user is in the call and is not muted.
     /// Otherwise, returns false.
@@ -331,6 +295,42 @@ class JyphoonCallApiSetup {
       }
     } else {
       switchCameraChannel.setMessageHandler(nil)
+    }
+    /// Enables \ disables video.
+    let setVideoChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonCallApi.setVideo", binaryMessenger: binaryMessenger)
+    if let api = api {
+      setVideoChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let videoArg = args[0] as! Bool
+        api.setVideo(video: videoArg)
+        reply(wrapResult(nil))
+      }
+    } else {
+      setVideoChannel.setMessageHandler(nil)
+    }
+    /// Enables \ disables audio.
+    let setAudioChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonCallApi.setAudio", binaryMessenger: binaryMessenger)
+    if let api = api {
+      setAudioChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let audioArg = args[0] as! Bool
+        api.setAudio(audio: audioArg)
+        reply(wrapResult(nil))
+      }
+    } else {
+      setAudioChannel.setMessageHandler(nil)
+    }
+    /// Enables \ disables speaker.
+    let setSpeakerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonCallApi.setSpeaker", binaryMessenger: binaryMessenger)
+    if let api = api {
+      setSpeakerChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let speakerArg = args[0] as! Bool
+        api.setSpeaker(speaker: speakerArg)
+        reply(wrapResult(nil))
+      }
+    } else {
+      setSpeakerChannel.setMessageHandler(nil)
     }
   }
 }

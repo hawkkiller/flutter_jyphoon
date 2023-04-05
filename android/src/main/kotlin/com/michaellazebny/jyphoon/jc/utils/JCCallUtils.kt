@@ -1,6 +1,7 @@
 package com.michaellazebny.jyphoon.jc.utils
 
 import com.juphoon.cloud.*
+import com.michaellazebny.jyphoon.jc.CallType
 import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 
 object JCCallUtils {
@@ -26,4 +27,13 @@ object JCCallUtils {
             }
             return otherParticipant
         }
+    fun getCallType(): CallType? {
+        return if (JCManager.getInstance().call.activeCallItem != null) {
+            CallType.ONETOONE
+        } else if (JCManager.getInstance().mediaChannel.selfParticipant != null) {
+            CallType.GROUP
+        } else {
+            null
+        }
+    }
 }

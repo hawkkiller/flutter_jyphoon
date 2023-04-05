@@ -6,7 +6,7 @@ import com.michaellazebny.jyphoon.jc.JyphoonCallApi
 import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.utils.JCCallUtils
 
-class GroupCall : JyphoonCallApi {
+class GroupCallApi : JyphoonCallApi {
     /**
      * Starts the "call".
      * Returns true if the call was started successfully.
@@ -56,31 +56,6 @@ class GroupCall : JyphoonCallApi {
             return "waiting"
         }
         return "on"
-    }
-
-    /** Enables \ disables video. */
-    override fun setVideo(video: Boolean) {
-        JCManager.getInstance().mediaChannel.enableUploadVideoStream(video)
-        if (video) {
-            JCManager.getInstance().mediaDevice.startCamera()
-        } else {
-            JCManager.getInstance().mediaDevice.stopCamera()
-        }
-    }
-
-    /** Enables \ disables audio. */
-    override fun setAudio(audio: Boolean) {
-        JCManager.getInstance().mediaChannel.enableUploadAudioStream(audio)
-        if (audio) {
-            JCManager.getInstance().mediaDevice.startAudio()
-        } else {
-            JCManager.getInstance().mediaDevice.stopAudio()
-        }
-    }
-
-    /** Enables \ disables speaker. */
-    override fun setSpeaker(speaker: Boolean) {
-        JCManager.getInstance().mediaDevice.enableSpeaker(speaker)
     }
 
     /**
@@ -133,5 +108,31 @@ class GroupCall : JyphoonCallApi {
     override fun switchCamera() {
         JCManager.getInstance().mediaDevice.switchCamera()
     }
+
+    /** Enables \ disables video. */
+    override fun setVideo(video: Boolean) {
+        JCManager.getInstance().mediaChannel.enableUploadVideoStream(video)
+        if (video) {
+            JCManager.getInstance().mediaDevice.startCamera()
+        } else {
+            JCManager.getInstance().mediaDevice.stopCamera()
+        }
+    }
+
+    /** Enables \ disables audio. */
+    override fun setAudio(audio: Boolean) {
+        JCManager.getInstance().mediaChannel.enableUploadAudioStream(audio)
+        if (audio) {
+            JCManager.getInstance().mediaDevice.startAudio()
+        } else {
+            JCManager.getInstance().mediaDevice.stopAudio()
+        }
+    }
+
+    /** Enables \ disables speaker. */
+    override fun setSpeaker(speaker: Boolean) {
+        JCManager.getInstance().mediaDevice.enableSpeaker(speaker)
+    }
+
 
 }

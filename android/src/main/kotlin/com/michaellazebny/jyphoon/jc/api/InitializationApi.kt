@@ -6,7 +6,7 @@ import com.juphoon.cloud.JCClient
 import com.michaellazebny.jyphoon.jc.JyphoonInitializationApi
 import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 
-class Initialization(private val context: Context) : JyphoonInitializationApi {
+class InitializationApi(private val context: Context) : JyphoonInitializationApi {
     /**
      * Returns whether JC was inited.
      * Returns true if JCManager.getInstance().initialize() was successfully called.
