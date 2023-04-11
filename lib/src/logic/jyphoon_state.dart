@@ -12,6 +12,8 @@ abstract class JyphoonState {
 
   /// Reactive stream of the conference status.
   abstract final Stream<CallStatus> call;
+
+  abstract final Stream<ClientState> clientState;
 }
 
 abstract class InnerJyphoonState implements JyphoonState {
@@ -25,6 +27,7 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
     _companionVideo.add(VideoStatus.off);
     _companionAudio.add(AudioStatus.off);
     _call.add(CallStatus.off);
+    _clientState.add(ClientState.notInit);
   }
 
   final _selfVideo = StreamController<VideoStatus>.broadcast();
@@ -34,6 +37,11 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
   final _companionAudio = StreamController<AudioStatus>.broadcast();
 
   final _call = StreamController<CallStatus>();
+
+  final _clientState = StreamController<ClientState>();
+
+  @override
+  late final clientState = _clientState.stream.asBroadcastStream();
 
   @override
   late final selfVideo = _selfVideo.stream.distinct().asBroadcastStream();
@@ -59,5 +67,6 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
     _companionVideo.add(state.otherVideo);
     _companionAudio.add(state.otherAudio);
     _call.add(state.callStatus);
+    _clientState.add(state.clientState);
   }
 }

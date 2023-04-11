@@ -74,6 +74,8 @@ interface JyphoonApi {
   fun callStatus(): String
   /** Switches the camera (front/back) */
   fun switchCamera()
+  /** Returns the current state of the client. */
+  fun clientState(): Long
 
   companion object {
     /** The codec used by JyphoonApi. */
@@ -407,6 +409,22 @@ interface JyphoonApi {
             try {
               api.switchCamera()
               wrapped = listOf<Any?>(null)
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.clientState", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              wrapped = listOf<Any?>(api.clientState())
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

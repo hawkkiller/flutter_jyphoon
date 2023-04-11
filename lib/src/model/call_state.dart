@@ -7,6 +7,7 @@ class CallState {
     required this.otherAudio,
     required this.otherVideo,
     required this.callStatus,
+    required this.clientState,
   });
 
   factory CallState.fromJson(Map<String?, Object?> json) => CallState(
@@ -15,6 +16,7 @@ class CallState {
         otherAudio: AudioStatus.fromBool(value: json['otherAudio']! as bool),
         otherVideo: VideoStatus.fromBool(value: json['otherVideo']! as bool),
         callStatus: CallStatus.fromString(json['callStatus']! as String),
+        clientState: ClientState.fromInt(json['clientState']! as int),
       );
 
   final AudioStatus audio;
@@ -22,4 +24,5 @@ class CallState {
   final AudioStatus otherAudio;
   final VideoStatus otherVideo;
   final CallStatus callStatus;
+  final ClientState clientState;
 }

@@ -62,6 +62,8 @@ protocol JyphoonApi {
   func callStatus() -> String
   /// Switches the camera (front/back)
   func switchCamera()
+  /// Returns the current state of the client.
+  func clientState() -> Int32
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -289,6 +291,16 @@ class JyphoonApiSetup {
       }
     } else {
       switchCameraChannel.setMessageHandler(nil)
+    }
+    /// Returns the current state of the client.
+    let clientStateChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.clientState", binaryMessenger: binaryMessenger)
+    if let api = api {
+      clientStateChannel.setMessageHandler { _, reply in
+        let result = api.clientState()
+        reply(wrapResult(result))
+      }
+    } else {
+      clientStateChannel.setMessageHandler(nil)
     }
   }
 }

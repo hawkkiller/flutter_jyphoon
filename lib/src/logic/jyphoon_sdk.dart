@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:jc/generated/jyphoon_api.dart';
 import 'package:jc/src/logic/jyphoon_controller.dart';
@@ -101,8 +102,22 @@ class JyphoonSDKImpl implements JyphoonSDK {
   Future<bool> otherVideo() => _api.otherVideo();
 
   @override
-  Future<bool> setAccountNumber(String accountNumber) =>
-      _api.setAccountNumber(accountNumber);
+  Future<bool> setAccountNumber(String accountNumber) async {
+    try {
+      final set = await _api.setAccountNumber(accountNumber);
+      if (!set) return false;
+
+      await state.clientState
+          .firstWhere((element) => element == ClientState.logined)
+          .timeout(
+            const Duration(seconds: 5),
+          );
+      return true;
+    } on Object catch (e, s) {
+      log('setAccountNumber error: $e', stackTrace: s);
+      return false;
+    }
+  }
 
   @override
   Future<void> setAppKey(String appkey) => _api.setAppKey(appkey);

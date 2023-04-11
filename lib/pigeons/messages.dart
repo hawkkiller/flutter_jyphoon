@@ -82,6 +82,9 @@ abstract class JyphoonApi {
 
   /// Switches the camera (front/back)
   void switchCamera();
+
+  /// Returns the current state of the client.
+  int clientState();
 }
 
 @FlutterApi()

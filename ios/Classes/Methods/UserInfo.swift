@@ -22,4 +22,8 @@ class UserInfo {
     public func getCurrentUserId() -> String? {
         return JCRoom.shared.client.userId
     }
+    
+    public func clientState() -> Int {
+        return JCRoom.shared.client.state.rawValue
+    }
 }

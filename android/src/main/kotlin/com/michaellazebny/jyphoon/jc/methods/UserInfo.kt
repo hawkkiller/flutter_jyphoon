@@ -66,4 +66,8 @@ class UserInfo {
         }
         return null
     }
+
+    fun clientState(): Long {
+        return jcManager.client.state.toLong()
+    }
 }
