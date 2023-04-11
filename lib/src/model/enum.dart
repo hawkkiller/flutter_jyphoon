@@ -1,8 +1,12 @@
 enum VideoStatus {
-  on,
-  off;
+  on(value: true),
+  off(value: false);
 
-  static VideoStatus fromBool(bool value) {
+  const VideoStatus({required this.value});
+
+  final bool value;
+
+  static VideoStatus fromBool({required bool value}) {
     if (value) {
       return VideoStatus.on;
     }
@@ -11,10 +15,14 @@ enum VideoStatus {
 }
 
 enum AudioStatus {
-  on,
-  off;
+  on(value: true),
+  off(value: false);
 
-  static AudioStatus fromBool(bool value) {
+  const AudioStatus({required this.value});
+
+  final bool value;
+
+  static AudioStatus fromBool({required bool value}) {
     if (value) {
       return AudioStatus.on;
     }
@@ -22,19 +30,19 @@ enum AudioStatus {
   }
 }
 
-enum ConferenceStatus {
+enum CallStatus {
   on,
   waiting,
   off;
 
-  static ConferenceStatus fromString(String value) {
+  static CallStatus fromString(String value) {
     switch (value) {
       case 'on':
-        return ConferenceStatus.on;
+        return CallStatus.on;
       case 'waiting':
-        return ConferenceStatus.waiting;
+        return CallStatus.waiting;
       case 'off':
-        return ConferenceStatus.off;
+        return CallStatus.off;
       default:
         throw Exception('Unknown conference status: $value');
     }

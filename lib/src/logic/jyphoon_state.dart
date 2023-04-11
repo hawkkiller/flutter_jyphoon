@@ -1,8 +1,7 @@
-import 'dart:developer';
+import 'dart:async';
 
-import 'package:jc/src/generated/jyphoon_api.dart';
+import 'package:jc/src/model/call_state.dart';
 import 'package:jc/src/model/enum.dart';
-import 'package:rxdart/subjects.dart';
 
 abstract class JyphoonState {
   abstract final Stream<VideoStatus> selfVideo;
@@ -12,71 +11,53 @@ abstract class JyphoonState {
   abstract final Stream<AudioStatus> companionAudio;
 
   /// Reactive stream of the conference status.
-  abstract final Stream<ConferenceStatus> conference;
+  abstract final Stream<CallStatus> call;
 }
 
 abstract class InnerJyphoonState implements JyphoonState {
-  Future<void> updateVideoStatus();
-  Future<void> updateVoiceStatus();
-  Future<void> updateConfStatus();
+  void updateState(CallState state);
 }
 
 class InnerJyphoonStateImpl implements InnerJyphoonState {
-  InnerJyphoonStateImpl() : _api = JyphoonApi();
-
-  final _selfVideo = BehaviorSubject<VideoStatus>();
-  final _selfAudio = BehaviorSubject<AudioStatus>();
-
-  final _companionVideo = BehaviorSubject<VideoStatus>();
-  final _companionAudio = BehaviorSubject<AudioStatus>();
-
-  final _conference = BehaviorSubject<ConferenceStatus>();
-
-  late final JyphoonApi _api;
-
-  @override
-  Stream<VideoStatus> get selfVideo => _selfVideo.distinct();
-
-  @override
-  Stream<AudioStatus> get selfAudio => _selfAudio.distinct();
-
-  @override
-  Stream<VideoStatus> get companionVideo => _companionVideo.distinct();
-
-  @override
-  Stream<AudioStatus> get companionAudio => _companionAudio.distinct();
-
-  @override
-  Stream<ConferenceStatus> get conference => _conference.distinct();
-
-  @override
-  Future<void> updateVideoStatus() {
-    return Future.wait([
-      _api.video(),
-      _api.otherVideo(),
-    ]).then((l) {
-      _selfVideo.add(VideoStatus.fromBool(l[0]));
-      _companionVideo.add(VideoStatus.fromBool(l[1]));
-    });
+  InnerJyphoonStateImpl() {
+    _selfVideo.add(VideoStatus.off);
+    _selfAudio.add(AudioStatus.off);
+    _companionVideo.add(VideoStatus.off);
+    _companionAudio.add(AudioStatus.off);
+    _call.add(CallStatus.off);
   }
 
-  @override
-  Future<void> updateVoiceStatus() {
-    return Future.wait([
-      _api.audio(),
-      _api.otherAudio(),
-    ]).then((l) {
-      inspect(l);
-      _selfAudio.add(AudioStatus.fromBool(l[0]));
-      _companionAudio.add(AudioStatus.fromBool(l[1]));
-    });
-  }
+  final _selfVideo = StreamController<VideoStatus>.broadcast();
+  final _selfAudio = StreamController<AudioStatus>.broadcast();
+
+  final _companionVideo = StreamController<VideoStatus>.broadcast();
+  final _companionAudio = StreamController<AudioStatus>.broadcast();
+
+  final _call = StreamController<CallStatus>();
 
   @override
-  Future<void> updateConfStatus() {
-    return _api.confStatus().then((value) {
-      final conf = ConferenceStatus.fromString(value);
-      _conference.add(conf);
-    });
+  late final selfVideo = _selfVideo.stream.distinct().asBroadcastStream();
+
+  @override
+  late final selfAudio = _selfAudio.stream.distinct().asBroadcastStream();
+
+  @override
+  late final companionVideo =
+      _companionVideo.stream.distinct().asBroadcastStream();
+
+  @override
+  late final companionAudio =
+      _companionAudio.stream.distinct().asBroadcastStream();
+
+  @override
+  late final call = _call.stream.distinct().asBroadcastStream();
+
+  @override
+  void updateState(CallState state) {
+    _selfVideo.add(state.video);
+    _selfAudio.add(state.audio);
+    _companionVideo.add(state.otherVideo);
+    _companionAudio.add(state.otherAudio);
+    _call.add(state.callStatus);
   }
 }

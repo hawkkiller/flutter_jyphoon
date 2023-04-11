@@ -3,7 +3,31 @@ import UIKit
 import JCSDKOC.JCClient
 
 @objcMembers
-class JCRoom: NSObject {
+class JCRoom: NSObject, JCCallCallback {
+    func onCallItemAdd(_ item: JCCallItem) {
+        JCHandler.instance.onEvent(event: JCHandler.ON_CALL_ITEM_ADD)
+    }
+    
+    func onCallItemRemove(_ item: JCCallItem, reason: JCCallReason, description: String?) {
+        JCHandler.instance.onEvent(event: JCHandler.ON_CALL_ITEM_REMOVE)
+    }
+    
+    func onCallItemUpdate(_ item: JCCallItem, changeParam: JCCallChangeParam?) {
+        JCHandler.instance.onEvent(event: JCHandler.ON_CALL_ITEM_UPDATE)
+    }
+    
+    func onMessageReceive(_ item: JCCallItem, type: String, content: String) {
+        
+    }
+    
+    func onMissedCallItem(_ item: JCCallItem) {
+        
+    }
+    
+    func onDtmfReceived(_ item: JCCallItem, value: JCCallDtmf) {
+        
+    }
+    
     // 通过关键字 static 来保存实例引用
     private static let instance = JCRoom()
     public static var APP_KEY = ""
@@ -30,10 +54,17 @@ class JCRoom: NSObject {
             return _mediaChannel!
         }
     }
+    
+    var call: JCCall {
+        get {
+            return _jcCall!
+        }
+    }
 
     private var _client : JCClient?
     private var _mediaDevice : JCMediaDevice?
     private var _mediaChannel : JCMediaChannel?
+    private var _jcCall: JCCall?
     
     public func setDisplayName(name: String) {
         client.displayName = name
@@ -52,6 +83,7 @@ class JCRoom: NSObject {
         _client = client
         _mediaDevice = mediaDevice
         _mediaChannel = mediaChannel
+        _jcCall = JCCall.create(_client!, mediaDevice: _mediaDevice!, callback: self)
         
         UserDefaults.standard.setValue(appkey, forKey: "kAppkey")
         UserDefaults.standard.setValue(server, forKey: "kServer")
@@ -63,15 +95,7 @@ class JCRoom: NSObject {
 extension JCRoom: JCClientCallback {
     
     func onLogin(_ result: Bool, reason: JCClientReason) {
-      if (result) {
-//           if let userid = client?.userId {
-//               JPUSHService.setAlias(userid, completion: { (iResCode, iAlias, seq) in
-//
-//               }, seq: 0)
-//           }
-        } else {
-           
-        }
+        
     }
 
     func onLogout(_ reason: JCClientReason) {
@@ -83,7 +107,7 @@ extension JCRoom: JCClientCallback {
     }
 
     func onClientStateChange(_ state: JCClientState, oldState: JCClientState) {
-
+        JCHandler.instance.onEvent(event: JCHandler.ON_CLIENT_STATE_CHANGE)
     }
     
     func onOnlineMessageReceive(_ userId: String!, content: String!) {
@@ -102,15 +126,15 @@ extension JCRoom: JCMediaDeviceCallback {
     }
 
     func onAudioOutputTypeChange(_ audioOutputType: String!) {
-        
+        JCHandler.instance.onEvent(event: JCHandler.ON_AUDIO_OUTPUT_TYPE_CHANGE)
     }
 
     func onRenderReceived(_ canvas: JCMediaDeviceVideoCanvas!) {
-        
+        JCHandler.instance.onEvent(event: JCHandler.ON_RENDER_RECEIVED)
     }
 
     func onRenderStart(_ canvas: JCMediaDeviceVideoCanvas!) {
-        
+        JCHandler.instance.onEvent(event: JCHandler.ON_RENDER_START)
     }
 
     func onAudioInerruptAndResume(_ interrupt: Bool) {

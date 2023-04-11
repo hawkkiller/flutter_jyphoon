@@ -1,13 +1,59 @@
-import 'package:jc/src/generated/jyphoon_api.dart';
+import 'dart:async';
+
+import 'package:jc/generated/jyphoon_api.dart';
 import 'package:jc/src/logic/jyphoon_controller.dart';
 import 'package:jc/src/logic/jyphoon_state.dart';
+import 'package:jc/src/model/enum.dart';
 
-abstract class JyphoonSDK implements JyphoonApi {
-  JyphoonState get state;
+abstract class JyphoonSDK {
+  factory JyphoonSDK() => _instance;
 
   static final JyphoonSDK _instance = JyphoonSDKImpl._();
 
-  factory JyphoonSDK() => _instance;
+  JyphoonState get state;
+
+  Future<bool> initialize();
+
+  Future<bool> isInited();
+
+  Future<bool> call(
+    String confId, {
+    required bool asr,
+    String password = '',
+    bool video = false,
+  });
+
+  Future<bool> leave();
+
+  Future<CallStatus> callStatus();
+
+  Future<String?> getCurrentUserId();
+
+  Future<bool> otherAudio();
+
+  Future<bool> otherVideo();
+
+  Future<bool> audio();
+
+  Future<bool> video();
+
+  Future<void> setAudio({required bool audio});
+
+  Future<void> setVideo({required bool video});
+
+  Future<void> setSpeaker({required bool speaker});
+
+  Future<bool> setAccountNumber(String accountNumber);
+
+  Future<void> setServerAddress(String serverAddress);
+
+  Future<void> setAppKey(String appkey);
+
+  Future<void> setDisplayName(String displayName);
+
+  Future<void> setTimeout(int timeout);
+
+  Future<void> switchCamera();
 }
 
 class JyphoonSDKImpl implements JyphoonSDK {
@@ -24,18 +70,20 @@ class JyphoonSDKImpl implements JyphoonSDK {
   late final JyphoonState state;
 
   @override
-  Future<bool> confJoin(
-    String argConfid,
-    String argPassword,
-    bool video,
-  ) =>
-      _api.confJoin(argConfid, argPassword, video);
+  Future<bool> call(
+    String confId, {
+    required bool asr,
+    String password = '',
+    bool video = false,
+  }) =>
+      _api.call(confId, password, video, asr);
 
   @override
-  Future<bool> confLeave() => _api.confLeave();
+  Future<bool> leave() => _api.leave();
 
   @override
-  Future<String> confStatus() => _api.confStatus();
+  Future<CallStatus> callStatus() =>
+      _api.callStatus().then(CallStatus.fromString);
 
   @override
   Future<String?> getCurrentUserId() => _api.getCurrentUserId();
@@ -80,11 +128,11 @@ class JyphoonSDKImpl implements JyphoonSDK {
   Future<bool> audio() => _api.audio();
 
   @override
-  Future<void> setAudio(bool audio) => _api.setAudio(audio);
+  Future<void> setAudio({required bool audio}) => _api.setAudio(audio);
 
   @override
-  Future<void> setVideo(bool video) => _api.setVideo(video);
+  Future<void> setVideo({required bool video}) => _api.setVideo(video);
 
   @override
-  Future<void> setSpeaker(bool speaker) => _api.setSpeaker(speaker);
+  Future<void> setSpeaker({required bool speaker}) => _api.setSpeaker(speaker);
 }

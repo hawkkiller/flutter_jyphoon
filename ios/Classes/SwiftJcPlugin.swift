@@ -9,7 +9,7 @@ public class SwiftJcPlugin: NSObject, FlutterPlugin {
     let instance = SwiftJcPlugin()
     let api = JcApi()
     JyphoonApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
-    JCHandler.initialize(receiver: JyphoonReceiver.init(binaryMessenger: registrar.messenger()))
+    JCHandler.initialize(receiver: JyphoonReceiver.init(binaryMessenger: registrar.messenger()), api: api)
     registrar.addMethodCallDelegate(instance, channel: channel)
     let selfViewFactory = SelfViewFactory(messenger: registrar.messenger())
     registrar.register(selfViewFactory, withId: "self-view")
@@ -51,8 +51,8 @@ private class JcApi: JyphoonApi {
     userInfo.setTimeout(timeout: timeout)
   }
   
-func confJoin(confId: String, password: String, video: Bool) -> Bool {
-    mediaChannel.join(channelId: confId, password: password, video: video)
+  func call(confId: String, password: String, video: Bool, asr: Bool) -> Bool {
+    mediaChannel.join(channelId: confId, password: password, video: video, asr: asr)
   }
   
   func setServerAddress(serverAddress: String) {
@@ -87,7 +87,7 @@ func confJoin(confId: String, password: String, video: Bool) -> Bool {
     userInfo.getCurrentUserId()
   }
   
-  func confLeave() -> Bool {
+  func leave() -> Bool {
     mediaChannel.leave()
   }
   
@@ -95,8 +95,8 @@ func confJoin(confId: String, password: String, video: Bool) -> Bool {
     mediaChannel.otherVideo()
   }
   
-  func confStatus() -> String {
-    mediaChannel.confStatus()
+  func callStatus() -> String {
+    mediaChannel.callStatus()
   }
   
   func switchCamera() {

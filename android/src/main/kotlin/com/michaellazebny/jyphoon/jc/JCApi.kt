@@ -14,118 +14,65 @@ import java.nio.ByteBuffer
 /** Generated class from Pigeon. */
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface JyphoonApi {
-  /**
-   * Returns whether JC was inited.
-   *
-   * On **Android**:
-   * Returns **true** if JCManager.initialize() was successfully called.
-   * Otherwise, returns **false** if initialize() was not called or failed.
-   */
+  /** Returns whether JC was inited. */
   fun isInited(): Boolean
-  /**
-   * Returns bool.
-   *
-   * Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
-   */
+  /** Initializes the engine. It is needed to set appKey before. Otherwise, it will fail. */
   fun initialize(): Boolean
   /** Sets appKey in order to have access to the Jyphoon API. */
   fun setAppKey(appKey: String)
-  /**
-   * Returns [Void].
-   *
-   * Takes [String] displayName in.
-   *
-   * Sets the name that is visible to another participant(s).
-   */
+  /** Sets the name that is visible to another participant(s). */
   fun setDisplayName(displayName: String)
   /**
-   * Returns [bool].
-   * Sets account number. It is needed to set appKey before. Otherwise, it will fail.
+   * Sets account number. It acts like uuid. It launches login process.
+   * It is needed to set appKey before. Otherwise, it will fail.
    */
   fun setAccountNumber(accountNumber: String): Boolean
-  /**
-   * Returns [Void].
-   *
-   * Takes [Int] timeout in.
-   *
-   * Sets the timeout for the call request.
-   */
+  /** Sets the timeout for the call request. */
   fun setTimeout(timeout: Long)
-  /**
-   * Returns [Boolean].
-   * Takes [String] confId in. It is the conference identifier.
-   * Takes [String] password in. It is the password for the conference.
-   * Starts the "call".
-   */
-  fun confJoin(confId: String, password: String, video: Boolean): Boolean
-  /**
-   * Returns [Void].
-   * Takes [String] account in. It is the account identifier of the person you want to call.
-   */
+  /** Starts the "call". */
+  fun call(confId: String, password: String, video: Boolean, asr: Boolean): Boolean
+  /** Set Jyphoon backend server address. */
   fun setServerAddress(serverAddress: String)
-  /**
-   * Returns [Void].
-   * Starts or stops to send video
-   */
+  /** Starts or stops to send video */
   fun setVideo(video: Boolean)
-  /**
-   * Returns [Void].
-   * Starts or stops to send audio.
-   */
+  /** Starts or stops to send audio. */
   fun setAudio(audio: Boolean)
-  /**
-   * Returns [Void].
-   *
-   * Configures the speaker mode.
-   */
+  /** Configures the speaker mode. */
   fun setSpeaker(speaker: Boolean)
   /**
-   * Returns [Boolean].
    * True if the user is in the call and is not muted.
    * Otherwise, returns false.
    */
   fun audio(): Boolean
   /**
-   * Returns [Boolean].
    * True if the companion is in the call and is not muted.
    * Otherwise, returns false.
    */
   fun otherAudio(): Boolean
   /**
-   * Returns [Boolean].
    * True if the user is in the call and shares video.
    * Otherwise, returns false.
    */
   fun video(): Boolean
-  /**
-   * Returns [String].
-   * Get current user id
-   */
+  /** Get current user id */
   fun getCurrentUserId(): String?
+  /** Hangs up the "call". */
+  fun leave(): Boolean
   /**
-   * Returns [Void].
-   * Hangs up the "call".
-   */
-  fun confLeave(): Boolean
-  /**
-   * Returns [Boolean].
    * True if the companion is in the call and shares video.
    * Otherwise, returns false.
    */
   fun otherVideo(): Boolean
   /**
-   * Returns [ConferenceStatus].
-   * Returns the current conference status.
+   * Returns CallStatus.
+   * Returns the current call status.
    * It can be one of the following:
-   * - [ConferenceStatus.on]
-   * - [ConferenceStatus.off]
-   * - [ConferenceStatus.waiting]
+   * - CallStatus.on
+   * - CallStatus.off
+   * - CallStatus.waiting
    */
-  fun confStatus(): String
-  /**
-   * Returns [Void].
-   * Switches the camera.
-   */
+  fun callStatus(): String
+  /** Switches the camera (front/back) */
   fun switchCamera()
 
   companion object {
@@ -244,7 +191,7 @@ interface JyphoonApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.confJoin", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.call", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             var wrapped = listOf<Any?>()
@@ -253,7 +200,8 @@ interface JyphoonApi {
               val confIdArg = args[0] as String
               val passwordArg = args[1] as String
               val videoArg = args[2] as Boolean
-              wrapped = listOf<Any?>(api.confJoin(confIdArg, passwordArg, videoArg))
+              val asrArg = args[3] as Boolean
+              wrapped = listOf<Any?>(api.call(confIdArg, passwordArg, videoArg, asrArg))
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }
@@ -404,12 +352,12 @@ interface JyphoonApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.confLeave", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.leave", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped = listOf<Any?>()
             try {
-              wrapped = listOf<Any?>(api.confLeave())
+              wrapped = listOf<Any?>(api.leave())
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }
@@ -436,12 +384,12 @@ interface JyphoonApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.confStatus", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.callStatus", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped = listOf<Any?>()
             try {
-              wrapped = listOf<Any?>(api.confStatus())
+              wrapped = listOf<Any?>(api.callStatus())
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }
@@ -480,9 +428,10 @@ class JyphoonReceiver(private val binaryMessenger: BinaryMessenger) {
       StandardMessageCodec()
     }
   }
-  fun onEvent(eventArg: String, callback: () -> Unit) {
+  /** Called when the call status changes. */
+  fun onEvent(eventArg: String, dataArg: Map<String?, Any?>, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonReceiver.onEvent", codec)
-    channel.send(listOf(eventArg)) {
+    channel.send(listOf(eventArg, dataArg)) {
       callback()
     }
   }

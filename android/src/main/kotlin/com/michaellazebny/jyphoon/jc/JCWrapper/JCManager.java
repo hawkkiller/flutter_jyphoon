@@ -1,22 +1,22 @@
-package com.michaellazebny.jyphoon.jc.JCWrapper;
+package com.michaellazebny.jyphoon.jc.jcWrapper;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCAccountQueryStatusEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCCallDtmfReceivedEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCCallMessageEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCConfMessageEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCConfQueryEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCConfStopEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCJoinEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCLogEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCLoginEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCMessageEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCOnlineMessageReceiveEvent;
-import com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent.JCStorageEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCAccountQueryStatusEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCCallDtmfReceivedEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCCallMessageEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCConfMessageEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCConfQueryEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCConfStopEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCJoinEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCLogEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCLoginEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCMessageEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCOnlineMessageReceiveEvent;
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCStorageEvent;
 import com.michaellazebny.jyphoon.jc.tools.SPUtils;
 import com.juphoon.cloud.JCAccount;
 import com.juphoon.cloud.JCAccountCallback;

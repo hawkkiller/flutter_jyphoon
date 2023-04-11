@@ -1,4 +1,8 @@
-include: package:flutter_lints/flutter.yaml
-
+include: package:sizzle_lints/sizzle_lints.yaml
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+
+analyzer:
+  exclude:
+    - "lib/pigeons/**"
+    - "lib/generated/**"

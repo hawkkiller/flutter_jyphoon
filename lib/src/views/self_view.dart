@@ -14,53 +14,55 @@ class SelfView extends StatelessWidget {
   static const String viewType = 'self-view';
 
   @override
-  Widget build(BuildContext context) {
-    if (Platform.isIOS) {
-      return const _UiKitSelfView();
-    }
-    if (Platform.isAndroid) {
-      return const AndroidView(
-        viewType: viewType,
-        layoutDirection: TextDirection.ltr,
-        creationParamsCodec: StandardMessageCodec(),
-      );
-    }
-    throw UnsupportedError('Unsupported platform');
-  }
+  Widget build(BuildContext context) => const _SelfView();
 }
 
-class _UiKitSelfView extends StatefulWidget {
-  const _UiKitSelfView();
+class _SelfView extends StatefulWidget {
+  const _SelfView();
 
   @override
-  State<_UiKitSelfView> createState() => __UiKitSelfViewState();
+  State<_SelfView> createState() => _SelfViewState();
 }
 
-class __UiKitSelfViewState extends State<_UiKitSelfView> {
-  late final UiKitController _controller;
+class _SelfViewState extends State<_SelfView> {
+  late final SelfController _controller;
 
   @override
   void initState() {
-    _controller = UiKitController();
+    _controller = SelfController();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      _controller.setSelfFrame(
-        constraints.maxWidth,
-        constraints.maxHeight,
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) {
+          _controller.setSelfFrame(
+            constraints.maxWidth,
+            constraints.maxHeight,
+          );
+          if (Platform.isIOS) {
+            return UiKitView(
+              viewType: SelfView.viewType,
+              layoutDirection: TextDirection.ltr,
+              onPlatformViewCreated: (_) => _controller.setSelfFrame(
+                constraints.maxWidth,
+                constraints.maxHeight,
+              ),
+              creationParamsCodec: const StandardMessageCodec(),
+            );
+          }
+          if (Platform.isAndroid) {
+            return AndroidView(
+              viewType: SelfView.viewType,
+              layoutDirection: TextDirection.ltr,
+              onPlatformViewCreated: (_) => _controller.setSelfFrame(
+                constraints.maxWidth,
+                constraints.maxHeight,
+              ),
+              creationParamsCodec: const StandardMessageCodec(),
+            );
+          }
+          throw UnsupportedError('Unsupported platform');
+        },
       );
-      return UiKitView(
-        viewType: SelfView.viewType,
-        layoutDirection: TextDirection.ltr,
-        onPlatformViewCreated: (_) => _controller.setSelfFrame(
-          constraints.maxWidth,
-          constraints.maxHeight,
-        ),
-        creationParamsCodec: const StandardMessageCodec(),
-      );
-    });
-  }
 }

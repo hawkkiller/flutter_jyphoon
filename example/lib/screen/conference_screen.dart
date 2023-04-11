@@ -44,52 +44,58 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _sdk.confJoin(_sessionId.text, '123456', true);
+                      await _sdk.call(
+                        _sessionId.text,
+                        asr: false,
+                        video: true,
+                      );
                     },
                     child: const Text('Join'),
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _sdk.confLeave();
+                      await _sdk.leave();
                     },
                     child: const Text('Leave'),
                   ),
                   Container(
-                    height: 300,
+                    height: 500,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                     ),
-                    child: Row(
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: Badge(
-                            label: const Text('Self'),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey[300]!,
-                                  width: 5,
-                                ),
+                        Badge(
+                          label: const Text('Self'),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey[300]!,
+                                width: 5,
                               ),
-                              child: StreamBuilder(
-                                stream: _sdk.state.selfVideo,
-                                builder: (context, snapshot) {
-                                  if (snapshot.data != VideoStatus.on) {
-                                    return const SizedBox.expand();
-                                  }
-                                  return StreamBuilder<ConferenceStatus>(
-                                    stream: _sdk.state.conference,
-                                    builder: (context, snapshot) {
-                                      return const SelfView();
-                                    },
-                                  );
-                                },
-                              ),
+                            ),
+                            child: StreamBuilder(
+                              stream: _sdk.state.selfVideo,
+                              builder: (context, snapshot) {
+                                if (snapshot.data != VideoStatus.on) {
+                                  return const SizedBox.expand();
+                                }
+                                return StreamBuilder<CallStatus>(
+                                  stream: _sdk.state.call,
+                                  builder: (context, snapshot) {
+                                    return const SelfView();
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ),
-                        const SizedBox(width: 20),
-                        Expanded(
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          width: 100,
+                          height: 100,
                           child: Badge(
                             label: const Text('Companion'),
                             child: DecoratedBox(
@@ -113,6 +119,14 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         ),
                       ],
                     ),
+                    // child: Row(
+                    //   children: [
+                    //     ,
+                    //   Expanded(
+                    //     child: ,
+                    //   ),
+                    // ],
+                    // ),
                   ),
                   StreamBuilder<AudioStatus>(
                     stream: _sdk.state.selfAudio,
@@ -121,13 +135,11 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         return const Text('data is null');
                       }
                       return TextButton(
-                        onPressed: () {
-                          _sdk.setAudio(
-                            snapshot.data == AudioStatus.on ? false : true,
-                          );
+                        onPressed: () async {
+                          await _sdk.setAudio(audio: !snapshot.data!.value);
                         },
                         child: Text(
-                          snapshot.data == AudioStatus.on ? 'Mute' : 'Unmute',
+                          snapshot.data!.value ? 'Mute' : 'Unmute',
                         ),
                       );
                     },
@@ -140,9 +152,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                       }
                       return TextButton(
                         onPressed: () {
-                          _sdk.setVideo(
-                            snapshot.data == VideoStatus.on ? false : true,
-                          );
+                          _sdk.setVideo(video: !snapshot.data!.value);
                         },
                         child: Text(
                           snapshot.data == VideoStatus.on

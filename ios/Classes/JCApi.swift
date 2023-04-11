@@ -15,81 +15,52 @@ import FlutterMacOS
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol JyphoonApi {
   /// Returns whether JC was inited.
-  ///
-  /// On **Android**:
-  /// Returns **true** if JCManager.initialize() was successfully called.
-  /// Otherwise, returns **false** if initialize() was not called or failed.
   func isInited() -> Bool
-  /// Returns bool.
-  ///
   /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
   func initialize() -> Bool
   /// Sets appKey in order to have access to the Jyphoon API.
   func setAppKey(appKey: String)
-  /// Returns [Void].
-  ///
-  /// Takes [String] displayName in.
-  ///
   /// Sets the name that is visible to another participant(s).
   func setDisplayName(displayName: String)
-  /// Returns [bool].
-  /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
+  /// Sets account number. It acts like uuid. It launches login process.
+  /// It is needed to set appKey before. Otherwise, it will fail.
   func setAccountNumber(accountNumber: String) -> Bool
-  /// Returns [Void].
-  ///
-  /// Takes [Int] timeout in.
-  ///
   /// Sets the timeout for the call request.
   func setTimeout(timeout: Int32)
-  /// Returns [Boolean].
-  /// Takes [String] confId in. It is the conference identifier.
-  /// Takes [String] password in. It is the password for the conference.
   /// Starts the "call".
-  func confJoin(confId: String, password: String, video: Bool) -> Bool
-  /// Returns [Void].
-  /// Takes [String] account in. It is the account identifier of the person you want to call.
+  func call(confId: String, password: String, video: Bool, asr: Bool) -> Bool
+  /// Set Jyphoon backend server address.
   func setServerAddress(serverAddress: String)
-  /// Returns [Void].
   /// Starts or stops to send video
   func setVideo(video: Bool)
-  /// Returns [Void].
   /// Starts or stops to send audio.
   func setAudio(audio: Bool)
-  /// Returns [Void].
-  ///
   /// Configures the speaker mode.
   func setSpeaker(speaker: Bool)
-  /// Returns [Boolean].
   /// True if the user is in the call and is not muted.
   /// Otherwise, returns false.
   func audio() -> Bool
-  /// Returns [Boolean].
   /// True if the companion is in the call and is not muted.
   /// Otherwise, returns false.
   func otherAudio() -> Bool
-  /// Returns [Boolean].
   /// True if the user is in the call and shares video.
   /// Otherwise, returns false.
   func video() -> Bool
-  /// Returns [String].
   /// Get current user id
   func getCurrentUserId() -> String?
-  /// Returns [Void].
   /// Hangs up the "call".
-  func confLeave() -> Bool
-  /// Returns [Boolean].
+  func leave() -> Bool
   /// True if the companion is in the call and shares video.
   /// Otherwise, returns false.
   func otherVideo() -> Bool
-  /// Returns [ConferenceStatus].
-  /// Returns the current conference status.
+  /// Returns CallStatus.
+  /// Returns the current call status.
   /// It can be one of the following:
-  /// - [ConferenceStatus.on]
-  /// - [ConferenceStatus.off]
-  /// - [ConferenceStatus.waiting]
-  func confStatus() -> String
-  /// Returns [Void].
-  /// Switches the camera.
+  /// - CallStatus.on
+  /// - CallStatus.off
+  /// - CallStatus.waiting
+  func callStatus() -> String
+  /// Switches the camera (front/back)
   func switchCamera()
 }
 
@@ -99,10 +70,6 @@ class JyphoonApiSetup {
   /// Sets up an instance of `JyphoonApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: JyphoonApi?) {
     /// Returns whether JC was inited.
-    ///
-    /// On **Android**:
-    /// Returns **true** if JCManager.initialize() was successfully called.
-    /// Otherwise, returns **false** if initialize() was not called or failed.
     let isInitedChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.isInited", binaryMessenger: binaryMessenger)
     if let api = api {
       isInitedChannel.setMessageHandler { _, reply in
@@ -112,8 +79,6 @@ class JyphoonApiSetup {
     } else {
       isInitedChannel.setMessageHandler(nil)
     }
-    /// Returns bool.
-    ///
     /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
     let initializeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.initialize", binaryMessenger: binaryMessenger)
     if let api = api {
@@ -136,10 +101,6 @@ class JyphoonApiSetup {
     } else {
       setAppKeyChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
-    ///
-    /// Takes [String] displayName in.
-    ///
     /// Sets the name that is visible to another participant(s).
     let setDisplayNameChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.setDisplayName", binaryMessenger: binaryMessenger)
     if let api = api {
@@ -152,8 +113,8 @@ class JyphoonApiSetup {
     } else {
       setDisplayNameChannel.setMessageHandler(nil)
     }
-    /// Returns [bool].
-    /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
+    /// Sets account number. It acts like uuid. It launches login process.
+    /// It is needed to set appKey before. Otherwise, it will fail.
     let setAccountNumberChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.setAccountNumber", binaryMessenger: binaryMessenger)
     if let api = api {
       setAccountNumberChannel.setMessageHandler { message, reply in
@@ -165,10 +126,6 @@ class JyphoonApiSetup {
     } else {
       setAccountNumberChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
-    ///
-    /// Takes [Int] timeout in.
-    ///
     /// Sets the timeout for the call request.
     let setTimeoutChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.setTimeout", binaryMessenger: binaryMessenger)
     if let api = api {
@@ -181,25 +138,22 @@ class JyphoonApiSetup {
     } else {
       setTimeoutChannel.setMessageHandler(nil)
     }
-    /// Returns [Boolean].
-    /// Takes [String] confId in. It is the conference identifier.
-    /// Takes [String] password in. It is the password for the conference.
     /// Starts the "call".
-    let confJoinChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.confJoin", binaryMessenger: binaryMessenger)
+    let callChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.call", binaryMessenger: binaryMessenger)
     if let api = api {
-      confJoinChannel.setMessageHandler { message, reply in
+      callChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let confIdArg = args[0] as! String
         let passwordArg = args[1] as! String
         let videoArg = args[2] as! Bool
-        let result = api.confJoin(confId: confIdArg, password: passwordArg, video: videoArg)
+        let asrArg = args[3] as! Bool
+        let result = api.call(confId: confIdArg, password: passwordArg, video: videoArg, asr: asrArg)
         reply(wrapResult(result))
       }
     } else {
-      confJoinChannel.setMessageHandler(nil)
+      callChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
-    /// Takes [String] account in. It is the account identifier of the person you want to call.
+    /// Set Jyphoon backend server address.
     let setServerAddressChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.setServerAddress", binaryMessenger: binaryMessenger)
     if let api = api {
       setServerAddressChannel.setMessageHandler { message, reply in
@@ -211,7 +165,6 @@ class JyphoonApiSetup {
     } else {
       setServerAddressChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
     /// Starts or stops to send video
     let setVideoChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.setVideo", binaryMessenger: binaryMessenger)
     if let api = api {
@@ -224,7 +177,6 @@ class JyphoonApiSetup {
     } else {
       setVideoChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
     /// Starts or stops to send audio.
     let setAudioChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.setAudio", binaryMessenger: binaryMessenger)
     if let api = api {
@@ -237,8 +189,6 @@ class JyphoonApiSetup {
     } else {
       setAudioChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
-    ///
     /// Configures the speaker mode.
     let setSpeakerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.setSpeaker", binaryMessenger: binaryMessenger)
     if let api = api {
@@ -251,7 +201,6 @@ class JyphoonApiSetup {
     } else {
       setSpeakerChannel.setMessageHandler(nil)
     }
-    /// Returns [Boolean].
     /// True if the user is in the call and is not muted.
     /// Otherwise, returns false.
     let audioChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.audio", binaryMessenger: binaryMessenger)
@@ -263,7 +212,6 @@ class JyphoonApiSetup {
     } else {
       audioChannel.setMessageHandler(nil)
     }
-    /// Returns [Boolean].
     /// True if the companion is in the call and is not muted.
     /// Otherwise, returns false.
     let otherAudioChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.otherAudio", binaryMessenger: binaryMessenger)
@@ -275,7 +223,6 @@ class JyphoonApiSetup {
     } else {
       otherAudioChannel.setMessageHandler(nil)
     }
-    /// Returns [Boolean].
     /// True if the user is in the call and shares video.
     /// Otherwise, returns false.
     let videoChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.video", binaryMessenger: binaryMessenger)
@@ -287,7 +234,6 @@ class JyphoonApiSetup {
     } else {
       videoChannel.setMessageHandler(nil)
     }
-    /// Returns [String].
     /// Get current user id
     let getCurrentUserIdChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.getCurrentUserId", binaryMessenger: binaryMessenger)
     if let api = api {
@@ -298,18 +244,16 @@ class JyphoonApiSetup {
     } else {
       getCurrentUserIdChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
     /// Hangs up the "call".
-    let confLeaveChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.confLeave", binaryMessenger: binaryMessenger)
+    let leaveChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.leave", binaryMessenger: binaryMessenger)
     if let api = api {
-      confLeaveChannel.setMessageHandler { _, reply in
-        let result = api.confLeave()
+      leaveChannel.setMessageHandler { _, reply in
+        let result = api.leave()
         reply(wrapResult(result))
       }
     } else {
-      confLeaveChannel.setMessageHandler(nil)
+      leaveChannel.setMessageHandler(nil)
     }
-    /// Returns [Boolean].
     /// True if the companion is in the call and shares video.
     /// Otherwise, returns false.
     let otherVideoChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.otherVideo", binaryMessenger: binaryMessenger)
@@ -321,23 +265,22 @@ class JyphoonApiSetup {
     } else {
       otherVideoChannel.setMessageHandler(nil)
     }
-    /// Returns [ConferenceStatus].
-    /// Returns the current conference status.
+    /// Returns CallStatus.
+    /// Returns the current call status.
     /// It can be one of the following:
-    /// - [ConferenceStatus.on]
-    /// - [ConferenceStatus.off]
-    /// - [ConferenceStatus.waiting]
-    let confStatusChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.confStatus", binaryMessenger: binaryMessenger)
+    /// - CallStatus.on
+    /// - CallStatus.off
+    /// - CallStatus.waiting
+    let callStatusChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.callStatus", binaryMessenger: binaryMessenger)
     if let api = api {
-      confStatusChannel.setMessageHandler { _, reply in
-        let result = api.confStatus()
+      callStatusChannel.setMessageHandler { _, reply in
+        let result = api.callStatus()
         reply(wrapResult(result))
       }
     } else {
-      confStatusChannel.setMessageHandler(nil)
+      callStatusChannel.setMessageHandler(nil)
     }
-    /// Returns [Void].
-    /// Switches the camera.
+    /// Switches the camera (front/back)
     let switchCameraChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonApi.switchCamera", binaryMessenger: binaryMessenger)
     if let api = api {
       switchCameraChannel.setMessageHandler { _, reply in
@@ -355,9 +298,10 @@ class JyphoonReceiver {
   init(binaryMessenger: FlutterBinaryMessenger){
     self.binaryMessenger = binaryMessenger
   }
-  func onEvent(event eventArg: String, completion: @escaping () -> Void) {
+  /// Called when the call status changes.
+  func onEvent(event eventArg: String, data dataArg: [String?: Any?], completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonReceiver.onEvent", binaryMessenger: binaryMessenger)
-    channel.sendMessage([eventArg]) { _ in
+    channel.sendMessage([eventArg, dataArg]) { _ in
       completion()
     }
   }

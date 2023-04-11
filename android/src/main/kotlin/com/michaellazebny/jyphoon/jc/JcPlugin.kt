@@ -3,11 +3,11 @@ package com.michaellazebny.jyphoon.jc
 import android.content.Context
 import com.michaellazebny.jyphoon.jc.handler.Handler
 
-import com.michaellazebny.jyphoon.jc.methods.MediaChannel
+import com.michaellazebny.jyphoon.jc.methods.Call
 import com.michaellazebny.jyphoon.jc.methods.Initialization
 import com.michaellazebny.jyphoon.jc.methods.UserInfo
 import com.michaellazebny.jyphoon.jc.views.SelfViewFactory
-import com.michaellazebny.jyphoon.jc.views.RemoteViewFactory
+import com.michaellazebny.jyphoon.jc.views.CompanionViewFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 
@@ -18,7 +18,7 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
 
     private val initialization = Initialization()
     private val userInfo = UserInfo()
-    private val mediaChannel = MediaChannel()
+    private val call = Call()
     private lateinit var handler: Handler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -31,14 +31,14 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
         JyphoonApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "self-view",
-            SelfViewFactory(),
+            SelfViewFactory(flutterPluginBinding.binaryMessenger),
         )
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "companion-view",
-            RemoteViewFactory(),
+            CompanionViewFactory(flutterPluginBinding.binaryMessenger),
         )
         receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
-        handler = Handler(receiver)
+        handler = Handler(receiver, this)
         handler.init()
     }
 
@@ -56,27 +56,28 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
 
     override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
 
-    override fun setVideo(video: Boolean) = mediaChannel.setVideo(video)
+    override fun setVideo(video: Boolean) = call.setVideo(video)
 
-    override fun setAudio(audio: Boolean) = mediaChannel.setAudio(audio)
+    override fun setAudio(audio: Boolean) = call.setAudio(audio)
 
-    override fun confJoin(confId: String, password: String, video: Boolean) = mediaChannel.join(confId, password, video)
+    override fun call(confId: String, password: String, video: Boolean, asr: Boolean) =
+        call.join(confId, password, video, asr);
 
     override fun getCurrentUserId() = userInfo.getUserId()
 
-    override fun confLeave() = mediaChannel.leave()
+    override fun leave() = call.leave()
 
-    override fun audio() = mediaChannel.audio()
+    override fun audio() = call.audio()
 
-    override fun otherAudio() = mediaChannel.otherAudio()
+    override fun otherAudio() = call.otherAudio()
 
-    override fun video() = mediaChannel.video()
+    override fun video() = call.video()
 
-    override fun otherVideo() = mediaChannel.otherVideo()
+    override fun otherVideo() = call.otherVideo()
 
-    override fun confStatus() = mediaChannel.confStatus()
+    override fun callStatus() = call.confStatus()
 
-    override fun switchCamera() = mediaChannel.switchCamera()
+    override fun switchCamera() = call.switchCamera()
 
-    override fun setSpeaker(speaker: Boolean) = mediaChannel.setSpeaker(speaker)
+    override fun setSpeaker(speaker: Boolean) = call.setSpeaker(speaker)
 }

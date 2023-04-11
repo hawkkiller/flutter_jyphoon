@@ -1,20 +1,27 @@
-import 'package:jc/src/generated/jyphoon_api.dart';
+import 'package:jc/generated/jyphoon_api.dart';
 
-class UiKitController {
-  factory UiKitController() => instance;
+class CompanionController {
+  factory CompanionController() => instance;
 
-  UiKitController._()
-      : _companionViewApi = CompanionViewApi(),
-        _selfViewApi = SelfViewApi();
+  CompanionController._() : _companionViewApi = CompanionViewApi();
 
-  static final instance = UiKitController._();
+  static final instance = CompanionController._();
 
   final CompanionViewApi _companionViewApi;
-  final SelfViewApi _selfViewApi;
 
   void setCompanionFrame(double width, double height) {
     _companionViewApi.setCompanionFrame(width, height);
   }
+}
+
+class SelfController {
+  factory SelfController() => instance;
+
+  SelfController._() : _selfViewApi = SelfViewApi();
+
+  static final instance = SelfController._();
+
+  final SelfViewApi _selfViewApi;
 
   void setSelfFrame(double width, double height) {
     _selfViewApi.setSelfFrame(width, height);

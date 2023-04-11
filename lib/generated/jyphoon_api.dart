@@ -19,10 +19,6 @@ class JyphoonApi {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   /// Returns whether JC was inited.
-  ///
-  /// On **Android**:
-  /// Returns **true** if JCManager.initialize() was successfully called.
-  /// Otherwise, returns **false** if initialize() was not called or failed.
   Future<bool> isInited() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonApi.isInited', codec,
@@ -50,8 +46,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns bool.
-  ///
   /// Initializes the engine. It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> initialize() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -103,10 +97,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
-  ///
-  /// Takes [String] displayName in.
-  ///
   /// Sets the name that is visible to another participant(s).
   Future<void> setDisplayName(String arg_displayName) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -130,8 +120,8 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [bool].
-  /// Sets account number. It is needed to set appKey before. Otherwise, it will fail.
+  /// Sets account number. It acts like uuid. It launches login process.
+  /// It is needed to set appKey before. Otherwise, it will fail.
   Future<bool> setAccountNumber(String arg_accountNumber) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonApi.setAccountNumber', codec,
@@ -159,10 +149,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
-  ///
-  /// Takes [Int] timeout in.
-  ///
   /// Sets the timeout for the call request.
   Future<void> setTimeout(int arg_timeout) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -186,16 +172,13 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Boolean].
-  /// Takes [String] confId in. It is the conference identifier.
-  /// Takes [String] password in. It is the password for the conference.
   /// Starts the "call".
-  Future<bool> confJoin(String arg_confId, String arg_password, bool arg_video) async {
+  Future<bool> call(String arg_confId, String arg_password, bool arg_video, bool arg_asr) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JyphoonApi.confJoin', codec,
+        'dev.flutter.pigeon.JyphoonApi.call', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_confId, arg_password, arg_video]) as List<Object?>?;
+        await channel.send(<Object?>[arg_confId, arg_password, arg_video, arg_asr]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -217,8 +200,7 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
-  /// Takes [String] account in. It is the account identifier of the person you want to call.
+  /// Set Jyphoon backend server address.
   Future<void> setServerAddress(String arg_serverAddress) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonApi.setServerAddress', codec,
@@ -241,7 +223,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
   /// Starts or stops to send video
   Future<void> setVideo(bool arg_video) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -265,7 +246,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
   /// Starts or stops to send audio.
   Future<void> setAudio(bool arg_audio) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -289,8 +269,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
-  ///
   /// Configures the speaker mode.
   Future<void> setSpeaker(bool arg_speaker) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -314,7 +292,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Boolean].
   /// True if the user is in the call and is not muted.
   /// Otherwise, returns false.
   Future<bool> audio() async {
@@ -344,7 +321,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Boolean].
   /// True if the companion is in the call and is not muted.
   /// Otherwise, returns false.
   Future<bool> otherAudio() async {
@@ -374,7 +350,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Boolean].
   /// True if the user is in the call and shares video.
   /// Otherwise, returns false.
   Future<bool> video() async {
@@ -404,7 +379,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [String].
   /// Get current user id
   Future<String?> getCurrentUserId() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -428,11 +402,10 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
   /// Hangs up the "call".
-  Future<bool> confLeave() async {
+  Future<bool> leave() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JyphoonApi.confLeave', codec,
+        'dev.flutter.pigeon.JyphoonApi.leave', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -457,7 +430,6 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Boolean].
   /// True if the companion is in the call and shares video.
   /// Otherwise, returns false.
   Future<bool> otherVideo() async {
@@ -487,15 +459,15 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [ConferenceStatus].
-  /// Returns the current conference status.
+  /// Returns CallStatus.
+  /// Returns the current call status.
   /// It can be one of the following:
-  /// - [ConferenceStatus.on]
-  /// - [ConferenceStatus.off]
-  /// - [ConferenceStatus.waiting]
-  Future<String> confStatus() async {
+  /// - CallStatus.on
+  /// - CallStatus.off
+  /// - CallStatus.waiting
+  Future<String> callStatus() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.JyphoonApi.confStatus', codec,
+        'dev.flutter.pigeon.JyphoonApi.callStatus', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -520,8 +492,7 @@ class JyphoonApi {
     }
   }
 
-  /// Returns [Void].
-  /// Switches the camera.
+  /// Switches the camera (front/back)
   Future<void> switchCamera() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonApi.switchCamera', codec,
@@ -549,7 +520,8 @@ class JyphoonApi {
 abstract class JyphoonReceiver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  Future<void> onEvent(String event);
+  /// Called when the call status changes.
+  void onEvent(String event, Map<String?, Object?> data);
 
   static void setup(JyphoonReceiver? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -565,7 +537,9 @@ abstract class JyphoonReceiver {
           final List<Object?> args = (message as List<Object?>?)!;
           final String? arg_event = (args[0] as String?);
           assert(arg_event != null, 'Argument for dev.flutter.pigeon.JyphoonReceiver.onEvent was null, expected non-null String.');
-          await api.onEvent(arg_event!);
+          final Map<String?, Object?>? arg_data = (args[1] as Map<Object?, Object?>?)?.cast<String?, Object?>();
+          assert(arg_data != null, 'Argument for dev.flutter.pigeon.JyphoonReceiver.onEvent was null, expected non-null Map<String?, Object?>.');
+          api.onEvent(arg_event!, arg_data!);
           return;
         });
       }

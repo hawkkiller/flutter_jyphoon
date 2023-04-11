@@ -10,6 +10,13 @@ class JCHandler {
     static let CONFERENCE_PARTP_JOIN = "CONFERENCE_PARTP_JOIN"
     static let CONFERENCE_PROP_CHANGE = "CONFERENCE_PROP_CHANGE"
     static let CONFERENCE_MD_CHANNEL_STATE_CHANGE = "CONFERENCE_MD_CHANNEL_STATE_CHANGE"
+    static let ON_AUDIO_OUTPUT_TYPE_CHANGE = "ON_AUDIO_OUTPUT_TYPE_CHANGE"
+    static let ON_RENDER_RECEIVED = "ON_RENDER_RECEIVED"
+    static let ON_RENDER_START = "ON_RENDER_START"
+    static let ON_CALL_ITEM_ADD = "ON_CALL_ITEM_ADD"
+    static let ON_CALL_ITEM_REMOVE = "ON_CALL_ITEM_REMOVE"
+    static let ON_CALL_ITEM_UPDATE = "ON_CALL_ITEM_UPDATE"
+    static let ON_CLIENT_STATE_CHANGE = "ON_CLIENT_STATE_CHANGE"
     
     
     static private var _instance: JCHandler?
@@ -20,19 +27,26 @@ class JCHandler {
         }
     }
     
-    static func initialize(receiver: JyphoonReceiver) {
-        _instance = JCHandler(receiver: receiver)
+    static func initialize(receiver: JyphoonReceiver,api: JyphoonApi) {
+        _instance = JCHandler(receiver: receiver, api: api)
     }
     
     private let receiver: JyphoonReceiver
+    private let api: JyphoonApi
 
-    init(receiver: JyphoonReceiver) {
+    init(receiver: JyphoonReceiver, api: JyphoonApi) {
         self.receiver = receiver
+        self.api = api
     }
     
     public func onEvent(event: String) {
-        receiver.onEvent(event: event) {
-            
-        }
+        var dataProtoc = [String? : Any]()
+        dataProtoc["video"] = api.video()
+        dataProtoc["audio"] = api.audio()
+        dataProtoc["otherAudio"] = api.otherAudio()
+        dataProtoc["otherVideo"] = api.otherVideo()
+        dataProtoc["callStatus"] = api.callStatus()
+        
+        receiver.onEvent(event: event, data: dataProtoc) {}
     }
 }

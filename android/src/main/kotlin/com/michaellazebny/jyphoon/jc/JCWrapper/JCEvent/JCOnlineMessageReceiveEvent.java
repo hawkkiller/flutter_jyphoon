@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.JCWrapper.JCEvent;
+package com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent;
 
 /**
  * @author juphoon
