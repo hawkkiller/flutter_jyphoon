@@ -39,6 +39,7 @@ protocol JyphoonInitializationApi {
   func setServerAddress(serverAddress: String)
   /// Get current user id
   func getCurrentUserId() -> String?
+  func clientState() -> Int32
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -139,6 +140,15 @@ class JyphoonInitializationApiSetup {
       }
     } else {
       getCurrentUserIdChannel.setMessageHandler(nil)
+    }
+    let clientStateChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonInitializationApi.clientState", binaryMessenger: binaryMessenger)
+    if let api = api {
+      clientStateChannel.setMessageHandler { _, reply in
+        let result = api.clientState()
+        reply(wrapResult(result))
+      }
+    } else {
+      clientStateChannel.setMessageHandler(nil)
     }
   }
 }

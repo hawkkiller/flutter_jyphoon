@@ -12,70 +12,10 @@ import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 
 /** Generated class from Pigeon. */
-/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
-interface JyphoonApi {
-  /** Returns whether JC was inited. */
-  fun isInited(): Boolean
-  /** Initializes the engine. It is needed to set appKey before. Otherwise, it will fail. */
-  fun initialize(): Boolean
-  /** Sets appKey in order to have access to the Jyphoon API. */
-  fun setAppKey(appKey: String)
-  /** Sets the name that is visible to another participant(s). */
-  fun setDisplayName(displayName: String)
-  /**
-   * Sets account number. It acts like uuid. It launches login process.
-   * It is needed to set appKey before. Otherwise, it will fail.
-   */
-  fun setAccountNumber(accountNumber: String): Boolean
-  /** Sets the timeout for the call request. */
-  fun setTimeout(timeout: Long)
-  /** Starts the "call". */
-  fun call(confId: String, password: String, video: Boolean, asr: Boolean): Boolean
-  /** Set Jyphoon backend server address. */
-  fun setServerAddress(serverAddress: String)
-  /** Starts or stops to send video */
-  fun setVideo(video: Boolean)
-  /** Starts or stops to send audio. */
-  fun setAudio(audio: Boolean)
-  /** Configures the speaker mode. */
-  fun setSpeaker(speaker: Boolean)
-  /**
-   * True if the user is in the call and is not muted.
-   * Otherwise, returns false.
-   */
-  fun audio(): Boolean
-  /**
-   * True if the companion is in the call and is not muted.
-   * Otherwise, returns false.
-   */
-  fun otherAudio(): Boolean
-  /**
-   * True if the user is in the call and shares video.
-   * Otherwise, returns false.
-   */
-  fun video(): Boolean
-  /** Get current user id */
-  fun getCurrentUserId(): String?
-  /** Hangs up the "call". */
-  fun leave(): Boolean
-  /**
-   * True if the companion is in the call and shares video.
-   * Otherwise, returns false.
-   */
-  fun otherVideo(): Boolean
-  /**
-   * Returns CallStatus.
-   * Returns the current call status.
-   * It can be one of the following:
-   * - CallStatus.on
-   * - CallStatus.off
-   * - CallStatus.waiting
-   */
-  fun callStatus(): String
-  /** Switches the camera (front/back) */
-  fun switchCamera()
-  /** Returns the current state of the client. */
-  fun clientState(): Long
+
+enum class CallType(val raw: Int) {
+  ONETOONE(0),
+  GROUP(1);
 
   companion object {
     fun ofRaw(raw: Int): CallType? {
@@ -109,6 +49,7 @@ interface JyphoonInitializationApi {
   fun setServerAddress(serverAddress: String)
   /** Get current user id */
   fun getCurrentUserId(): String?
+  fun clientState(): Long
 
   companion object {
     /** The codec used by JyphoonInitializationApi. */
@@ -226,28 +167,7 @@ interface JyphoonInitializationApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.call", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              val args = message as List<Any?>
-              val confIdArg = args[0] as String
-              val passwordArg = args[1] as String
-              val videoArg = args[2] as Boolean
-              val asrArg = args[3] as Boolean
-              wrapped = listOf<Any?>(api.call(confIdArg, passwordArg, videoArg, asrArg))
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.setServerAddress", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonInitializationApi.setServerAddress", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             var wrapped = listOf<Any?>()
@@ -272,6 +192,22 @@ interface JyphoonInitializationApi {
             var wrapped = listOf<Any?>()
             try {
               wrapped = listOf<Any?>(api.getCurrentUserId())
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonInitializationApi.clientState", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              wrapped = listOf<Any?>(api.clientState())
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }
@@ -532,151 +468,6 @@ interface JyphoonCallApi {
               val speakerArg = args[0] as Boolean
               api.setSpeaker(speakerArg)
               wrapped = listOf<Any?>(null)
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.audio", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.audio())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.otherAudio", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.otherAudio())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.video", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.video())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.getCurrentUserId", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.getCurrentUserId())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.leave", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.leave())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.otherVideo", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.otherVideo())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.callStatus", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.callStatus())
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.switchCamera", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              api.switchCamera()
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Error) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonApi.clientState", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped = listOf<Any?>()
-            try {
-              wrapped = listOf<Any?>(api.clientState())
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

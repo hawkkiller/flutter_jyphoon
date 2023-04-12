@@ -43,6 +43,8 @@ abstract class JyphoonInitializationApi {
 
   /// Get current user id
   String? getCurrentUserId();
+
+  int clientState();
 }
 
 @HostApi()
