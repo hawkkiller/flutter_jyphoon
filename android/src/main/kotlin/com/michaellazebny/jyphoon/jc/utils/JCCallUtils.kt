@@ -28,7 +28,7 @@ object JCCallUtils {
             return otherParticipant
         }
     fun getCallType(): CallType? {
-        return if (JCManager.getInstance().call.activeCallItem != null) {
+        return if (JCManager.getInstance().call.callItems.isNotEmpty()) {
             CallType.ONETOONE
         } else if (JCManager.getInstance().mediaChannel.selfParticipant != null) {
             CallType.GROUP

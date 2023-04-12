@@ -16,6 +16,7 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
     private lateinit var initializationApi: InitializationApi
     private lateinit var oneToOneCallApi: OneToOneCallApi
     private lateinit var groupCallApi: GroupCallApi
+    private val stub = StubCallApi()
 
     private lateinit var sdkEventsHandler: SdkEventsHandler
 
@@ -99,7 +100,31 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
             return when (JCCallUtils.getCallType()) {
                 CallType.ONETOONE -> oneToOneCallApi
                 CallType.GROUP -> groupCallApi
-                else -> throw Exception("Call type is not set")
+                else -> stub
             }
         }
+}
+
+class StubCallApi : JyphoonCallApi {
+    override fun call(destination: String, password: String, video: Boolean, type: CallType) = false
+
+    override fun setVideo(video: Boolean) {}
+
+    override fun setAudio(audio: Boolean) {}
+
+    override fun leave() = false
+
+    override fun audio() = false
+
+    override fun otherAudio() = false
+
+    override fun video() = false
+
+    override fun otherVideo() = false
+
+    override fun callStatus() = "off"
+
+    override fun switchCamera() {}
+
+    override fun setSpeaker(speaker: Boolean) {}
 }
