@@ -92,6 +92,10 @@ class InitializationApi(private val context: Context) : JyphoonInitializationApi
         }
         return null
     }
+
+    override fun clientState(): Long {
+        return JCManager.getInstance().client.state.toLong()
+    }
 }
 
 

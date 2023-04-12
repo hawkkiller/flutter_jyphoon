@@ -2,11 +2,16 @@ package com.michaellazebny.jyphoon.jc.sdkEventsHandler
 
 import com.michaellazebny.jyphoon.jc.JyphoonCallApi
 import com.michaellazebny.jyphoon.jc.JyphoonReceiver
+import com.michaellazebny.jyphoon.jc.api.InitializationApi
 import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class SdkEventsHandler(private val receiver: JyphoonReceiver, private val callApi: JyphoonCallApi) {
+class SdkEventsHandler(
+    private val receiver: JyphoonReceiver,
+    private val callApi: JyphoonCallApi,
+    private val initApi: InitializationApi
+) {
     fun init() {
         EventBus.getDefault().register(this)
     }
@@ -25,6 +30,7 @@ class SdkEventsHandler(private val receiver: JyphoonReceiver, private val callAp
             "otherAudio" to callApi.otherAudio(),
             "otherVideo" to callApi.otherVideo(),
             "callStatus" to callApi.callStatus(),
+            "clientState" to initApi.clientState()
         )
         receiver.onEvent(event.eventType.name, map) {}
     }

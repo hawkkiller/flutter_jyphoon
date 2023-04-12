@@ -8,7 +8,7 @@ public class SwiftJcPlugin: NSObject, FlutterPlugin {
     let channel = FlutterMethodChannel(name: "jc", binaryMessenger: registrar.messenger())
     let instance = SwiftJcPlugin()
     let api = JcApi()
-    JyphoonApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
+    JyphoonCallApiSetup.setUp(binaryMessenger: registrar.messenger())
     JCHandler.initialize(receiver: JyphoonReceiver.init(binaryMessenger: registrar.messenger()), api: api)
     registrar.addMethodCallDelegate(instance, channel: channel)
     let selfViewFactory = SelfViewFactory(messenger: registrar.messenger())
@@ -38,7 +38,6 @@ private class JcApi: JyphoonApi {
     _isInited = initialization.initialize()
     return _isInited
   }
-    
   
   func setAppKey(appKey: String) {
     initialization.setAppKey(key: appKey)

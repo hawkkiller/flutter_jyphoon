@@ -90,6 +90,8 @@ class JcPlugin : FlutterPlugin, JyphoonInitializationApi, JyphoonCallApi {
 
     override fun setSpeaker(speaker: Boolean) = callApi.setSpeaker(speaker)
 
+    override fun clientState() = initializationApi.clientState()
+
     private val callApi: JyphoonCallApi
         get() {
             return when (JCCallUtils.getCallType()) {
