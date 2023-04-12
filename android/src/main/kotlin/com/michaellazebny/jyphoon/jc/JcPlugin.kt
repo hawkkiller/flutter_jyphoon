@@ -7,8 +7,10 @@ import com.michaellazebny.jyphoon.jc.sdkEventsHandler.SdkEventsHandler
 import com.michaellazebny.jyphoon.jc.utils.JCCallUtils
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 
+interface JyphoonApi : JyphoonInitializationApi, JyphoonCallApi
+
 /** JcPlugin */
-class JcPlugin : FlutterPlugin, JyphoonInitializationApi, JyphoonCallApi {
+class JcPlugin : FlutterPlugin, JyphoonApi {
     private lateinit var applicationContext: Context
     private lateinit var receiver: JyphoonReceiver
     private lateinit var initializationApi: InitializationApi
