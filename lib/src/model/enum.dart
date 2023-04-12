@@ -48,3 +48,32 @@ enum CallStatus {
     }
   }
 }
+
+enum ClientState {
+  notInit(0),
+  idle(1),
+  logining(2),
+  logined(3),
+  logouting(4);
+
+  const ClientState(this.value);
+
+  final int value;
+
+  static ClientState fromInt(int value) {
+    switch (value) {
+      case 0:
+        return ClientState.notInit;
+      case 1:
+        return ClientState.idle;
+      case 2:
+        return ClientState.logining;
+      case 3:
+        return ClientState.logined;
+      case 4:
+        return ClientState.logouting;
+      default:
+        throw Exception('Unknown client state: $value');
+    }
+  }
+}

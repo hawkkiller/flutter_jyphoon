@@ -130,6 +130,14 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         ),
                       ],
                     ),
+                    // child: Row(
+                    //   children: [
+                    //     ,
+                    //   Expanded(
+                    //     child: ,
+                    //   ),
+                    // ],
+                    // ),
                   ),
                   StreamBuilder<AudioStatus>(
                     stream: _sdk.state.selfAudio,

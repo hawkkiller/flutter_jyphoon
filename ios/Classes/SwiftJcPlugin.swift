@@ -26,6 +26,10 @@ private class JcApi: JyphoonApi {
   
   private var _isInited = false
   
+  func clientState() -> Int32 {
+    Int32(userInfo.clientState())
+  }
+    
   func isInited() -> Bool {
     _isInited
   }
@@ -34,6 +38,7 @@ private class JcApi: JyphoonApi {
     _isInited = initialization.initialize()
     return _isInited
   }
+    
   
   func setAppKey(appKey: String) {
     initialization.setAppKey(key: appKey)
