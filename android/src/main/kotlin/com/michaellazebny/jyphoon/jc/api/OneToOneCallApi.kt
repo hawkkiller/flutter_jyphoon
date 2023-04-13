@@ -24,8 +24,11 @@ class OneToOneCallApi : JyphoonCallApi {
         video: Boolean,
         type: CallType
     ): Boolean {
-        val param = JCCall.CallParam(if (video) "video" else "audio", "")
-        val res = JCManager.getInstance().call.call(destination, true, param)
+        val param = JCCall.CallParam(
+            if (video) "video" else "audio",
+            "${destination}_${System.currentTimeMillis() / 1000}",
+        )
+        val res = JCManager.getInstance().call.call(destination, video, param)
         if (res && video) {
             setVideo(true)
         }
@@ -67,7 +70,8 @@ class OneToOneCallApi : JyphoonCallApi {
      */
     override fun video(): Boolean {
         val videoStart = JCManager.getInstance().mediaDevice.isCameraOpen
-        val uploadVideoStreamSelf = JCManager.getInstance().call.activeCallItem.uploadVideoStreamSelf
+        val uploadVideoStreamSelf =
+            JCManager.getInstance().call.activeCallItem.uploadVideoStreamSelf
         val video = JCManager.getInstance().call.activeCallItem.video
         return videoStart && uploadVideoStreamSelf && video
     }
