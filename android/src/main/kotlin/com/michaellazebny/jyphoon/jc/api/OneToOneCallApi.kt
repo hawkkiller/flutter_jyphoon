@@ -41,11 +41,12 @@ class OneToOneCallApi : JyphoonCallApi {
      * - CallStatus.waiting
      */
     override fun callStatus(): String {
-        val callState = JCManager.getInstance().call.activeCallItem ?: return "off"
+        val call = JCManager.getInstance().call
+        val activeCall = call.activeCallItem ?: return "off"
 
-        return when (callState.state) {
+        return when (activeCall.state) {
             JCCall.STATE_OK, JCCall.STATE_TALKING -> "on"
-            JCCall.STATE_PENDING, JCCall.STATE_CONNECTING -> "waiting"
+            JCCall.STATE_PENDING, JCCall.STATE_CONNECTING, JCCall.STATE_INIT -> "waiting"
             else -> "off"
         }
     }
