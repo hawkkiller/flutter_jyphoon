@@ -15,17 +15,25 @@ class OneToOneCallApi : JyphoonCallApi {
         )
         if (res && video) {
             setVideo(video: true)
+            setSpeaker(speaker: true)
         }
         return res
     }
     
     func callStatus() -> String {
-        let activeCallItem = JCRoom.shared.call.getActiveCallItem()
-        if (activeCallItem == nil) {
+        guard let activeCallItem = JCRoom.shared.call.getActiveCallItem() else {
             return "off"
         }
-        switch (activeCallItem?.state) {
-            JC
+        
+        switch (activeCallItem.state) {
+        case .`init`, .pending, .connecting:
+            return "waiting"
+        case .talking, .ok:
+            return "on"
+        case .cancel, .canceled, .missed, .error:
+            return "off"
+        @unknown default:
+            return "off"
         }
     }
     

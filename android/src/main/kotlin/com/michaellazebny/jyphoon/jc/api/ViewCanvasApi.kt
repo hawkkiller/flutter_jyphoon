@@ -64,6 +64,4 @@ sealed class ViewCanvasApi {
             }
         }
     }
-
-
 }

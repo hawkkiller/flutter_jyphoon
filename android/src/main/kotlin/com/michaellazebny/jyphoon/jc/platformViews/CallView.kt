@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.juphoon.cloud.JCMediaDevice
+import com.michaellazebny.jyphoon.jc.CompanionViewApi
 import com.michaellazebny.jyphoon.jc.SelfViewApi
 import com.michaellazebny.jyphoon.jc.api.ViewCanvasApi
 import io.flutter.plugin.common.BinaryMessenger
@@ -11,7 +12,7 @@ import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
-class CallView(messenger: BinaryMessenger, canvasApi: ViewCanvasApi) : PlatformView, SelfViewApi {
+class CallView(messenger: BinaryMessenger, canvasApi: ViewCanvasApi) : PlatformView, SelfViewApi, CompanionViewApi {
     private var view: View?
 
     init {
@@ -20,7 +21,7 @@ class CallView(messenger: BinaryMessenger, canvasApi: ViewCanvasApi) : PlatformV
                 SelfViewApi.setUp(messenger, this)
             }
             is ViewCanvasApi.CompanionViewCanvasApi -> {
-                SelfViewApi.setUp(messenger, this)
+                CompanionViewApi.setUp(messenger, this)
             }
         }
         view = canvasApi.startVideo(JCMediaDevice.RENDER_FULL_SCREEN)
@@ -35,6 +36,11 @@ class CallView(messenger: BinaryMessenger, canvasApi: ViewCanvasApi) : PlatformV
     }
 
     override fun setSelfFrame(width: Double, height: Double) {
+        view?.layoutParams?.width = ViewHelper.convertDpToPixel(width).toInt()
+        view?.layoutParams?.height = ViewHelper.convertDpToPixel(height).toInt()
+    }
+
+    override fun setCompanionFrame(width: Double, height: Double) {
         view?.layoutParams?.width = ViewHelper.convertDpToPixel(width).toInt()
         view?.layoutParams?.height = ViewHelper.convertDpToPixel(height).toInt()
     }

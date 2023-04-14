@@ -2,15 +2,17 @@ import Flutter
 import UIKit
 import JCSDKOC
 
-class CompanionViewFactory: NSObject, FlutterPlatformViewFactory {
+class CallViewFactory: NSObject, FlutterPlatformViewFactory {
     private var messenger: FlutterBinaryMessenger
+    private var api: ViewCanvasApi
     
     public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
           return FlutterStandardMessageCodec.sharedInstance()
     }
 
-    init(messenger: FlutterBinaryMessenger) {
+    init(messenger: FlutterBinaryMessenger, api: ViewCanvasApi) {
         self.messenger = messenger
+        self.api = api
         super.init()
     }
 
@@ -19,15 +21,14 @@ class CompanionViewFactory: NSObject, FlutterPlatformViewFactory {
         viewIdentifier viewId: Int64,
         arguments args: Any?
     ) -> FlutterPlatformView {
-        return CompanionView(
-            frame: frame,
-            viewIdentifier: viewId,
-            arguments: args,
-            binaryMessenger: messenger)
+        return CallView(binaryMessenger: messenger, api: api)
     }
 }
 
-class CompanionView: NSObject, FlutterPlatformView, CompanionViewApi {
+class CallView: NSObject, FlutterPlatformView, CompanionViewApi, SelfViewApi {
+    func setSelfFrame(width: Double, height: Double) {
+        canvas?.videoView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+    }
     
     private var canvas: JCMediaDeviceVideoCanvas? = nil
     
@@ -38,20 +39,22 @@ class CompanionView: NSObject, FlutterPlatformView, CompanionViewApi {
     private var _view: UIView
 
     init(
-        frame: CGRect,
-        viewIdentifier viewId: Int64,
-        arguments args: Any?,
-        binaryMessenger messenger: FlutterBinaryMessenger?
+        binaryMessenger messenger: FlutterBinaryMessenger?,
+        api: ViewCanvasApi
     ) {
         _view = UIView()
         super.init()
-        CompanionViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
+        if (api is CompanionViewCanvasApi) {
+            CompanionViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
+        } else if (api is SelfViewCanvasApi) {
+            SelfViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
+        }
+        
         // iOS views can be created here
         let participant = JCRoomUtils.otherParticipant!
         canvas = participant.startVideo(.fullScreen, pictureSize: .large)
         JCRoom.shared.mediaChannel.requestVideo(participant, pictureSize: .large)
         _view.addSubview(canvas!.videoView)
-        
     }
 
     func view() -> UIView {

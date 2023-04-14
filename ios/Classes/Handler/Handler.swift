@@ -26,7 +26,7 @@ class JCHandler {
         }
     }
     
-    static func initialize(receiver: JyphoonReceiver,api: JyphoonApi) {
+    static func initialize(receiver: JyphoonReceiver, api: JyphoonApi) {
         _instance = JCHandler(receiver: receiver, api: api)
     }
     
