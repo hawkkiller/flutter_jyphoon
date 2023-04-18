@@ -35,11 +35,17 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
         JyphoonInitializationApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "self-view",
-            CallViewFactory(flutterPluginBinding.binaryMessenger, ViewCanvasApi.SelfViewCanvasApi()),
+            CallViewFactory(
+                flutterPluginBinding.binaryMessenger,
+                ViewCanvasApi.SelfViewCanvasApi()
+            ),
         )
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "companion-view",
-            CallViewFactory(flutterPluginBinding.binaryMessenger, ViewCanvasApi.CompanionViewCanvasApi()),
+            CallViewFactory(
+                flutterPluginBinding.binaryMessenger,
+                ViewCanvasApi.CompanionViewCanvasApi()
+            ),
         )
         receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
         sdkEventsHandler = SdkEventsHandler(receiver, this)
@@ -64,12 +70,18 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
     override fun setServerAddress(serverAddress: String) =
         initializationApi.setServerAddress(serverAddress)
 
-    override fun call(destination: String, password: String, video: Boolean, type: CallType) : Boolean {
+    override fun call(
+        destination: String,
+        password: String,
+        video: Boolean,
+        did: String,
+        type: CallType
+    ): Boolean {
         val callApi = when (type) {
             CallType.ONETOONE -> oneToOneCallApi
             CallType.GROUP -> groupCallApi
         }
-        return callApi.call(destination, password, video, type)
+        return callApi.call(destination, password, video, did, type)
 
     }
 
@@ -106,7 +118,13 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
 }
 
 class StubCallApi : JyphoonCallApi {
-    override fun call(destination: String, password: String, video: Boolean, type: CallType) = false
+    override fun call(
+        destination: String,
+        password: String,
+        video: Boolean,
+        did: String,
+        type: CallType
+    ) = false
 
     override fun setVideo(video: Boolean) {}
 

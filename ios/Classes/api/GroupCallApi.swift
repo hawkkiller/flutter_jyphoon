@@ -5,7 +5,7 @@ import Foundation
 class GroupCallApi : JyphoonCallApi {
     private let jc = JCRoom.shared
     
-    func call(destination: String, password: String, video: Bool, type: CallType) -> Bool {
+    func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool {
         let joinParam = JCMediaChannelJoinParam()
         joinParam.capacity = 2
         let res = jc.mediaChannel.join(destination, joinParam: joinParam)

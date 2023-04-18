@@ -234,7 +234,7 @@ interface JyphoonCallApi {
    *
    * [type] - oneToOne or group.
    */
-  fun call(destination: String, password: String, video: Boolean, type: CallType): Boolean
+  fun call(destination: String, password: String, video: Boolean, did: String, type: CallType): Boolean
   /**
    * Returns CallStatus.
    * Returns the current call status.
@@ -296,8 +296,9 @@ interface JyphoonCallApi {
               val destinationArg = args[0] as String
               val passwordArg = args[1] as String
               val videoArg = args[2] as Boolean
-              val typeArg = CallType.ofRaw(args[3] as Int)!!
-              wrapped = listOf<Any?>(api.call(destinationArg, passwordArg, videoArg, typeArg))
+              val didArg = args[3] as String
+              val typeArg = CallType.ofRaw(args[4] as Int)!!
+              wrapped = listOf<Any?>(api.call(destinationArg, passwordArg, videoArg, didArg, typeArg))
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

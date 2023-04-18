@@ -10,6 +10,7 @@ public class SwiftJcPlugin: NSObject, FlutterPlugin {
     let api = JyphoonApi()
     registrar.addMethodCallDelegate(instance, channel: channel)
     JyphoonCallApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
+    JyphoonInitializationApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
     JCHandler.initialize(receiver: JyphoonReceiver.init(binaryMessenger: registrar.messenger()), api: api)
     
     let selfViewFactory = CallViewFactory(messenger: registrar.messenger(), api: CompanionViewCanvasApi())
@@ -21,13 +22,18 @@ public class SwiftJcPlugin: NSObject, FlutterPlugin {
 }
 
 class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
+    
     private let oneToOne = OneToOneCallApi()
     private let group = GroupCallApi()
     private let stub = JyphoonCallApiStub()
     private let initialization = InitializationApi()
     
-    func call(destination: String, password: String, video: Bool, type: CallType) -> Bool {
-        callApi.call(destination: destination, password: password, video: video, type: type)
+    func isInited() -> Bool {
+        initialization.isInited()
+    }
+    
+    func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool {
+        callApi.call(destination: destination, password: password, video: video, did: did, type: type)
     }
     
     func callStatus() -> String {
@@ -68,10 +74,6 @@ class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
     
     func setSpeaker(speaker: Bool) {
         callApi.setSpeaker(speaker: speaker)
-    }
-    
-    func isInited() -> Bool {
-        initialization.isInited()
     }
     
     func initialize() -> Bool {
@@ -118,7 +120,7 @@ class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
 }
 
 private class JyphoonCallApiStub : JyphoonCallApi {
-    func call(destination: String, password: String, video: Bool, type: CallType) -> Bool {
+    func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool {
         false
     }
     

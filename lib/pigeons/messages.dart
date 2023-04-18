@@ -63,6 +63,7 @@ abstract class JyphoonCallApi {
     String destination,
     String password,
     bool video,
+    String did,
     CallType type,
   );
 

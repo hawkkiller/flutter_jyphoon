@@ -22,11 +22,12 @@ class OneToOneCallApi : JyphoonCallApi {
         destination: String,
         password: String,
         video: Boolean,
+        did: String,
         type: CallType
     ): Boolean {
         val param = JCCall.CallParam(
             if (video) "video" else "audio",
-            "${destination}_${System.currentTimeMillis() / 1000}",
+            "${did}_${System.currentTimeMillis() / 1000}",
         )
         val res = JCManager.getInstance().call.call(destination, video, param)
         if (res && video) {

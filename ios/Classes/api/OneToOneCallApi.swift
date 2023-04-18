@@ -3,10 +3,10 @@ import JCSDKOC
 import Foundation
 
 class OneToOneCallApi : JyphoonCallApi {
-    func call(destination: String, password: String, video: Bool, type: CallType) -> Bool {
-        var callParam = JCCallParam(
+    func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool {
+        let callParam = JCCallParam(
             extraParam: video ? "video" : "audio",
-            ticket: "\(destination)_\(Date().timeIntervalSince1970)"
+            ticket: "\(did)_\(Date().timeIntervalSince1970)"
         )
         let res = JCRoom.shared.call.call(
             destination,

@@ -70,11 +70,9 @@ class JCRoom: NSObject, JCCallCallback {
     
     public var inited: Bool {
         get {
-            _inited
+            return _inited
         }
     }
-    
-    
     
     public func setDisplayName(name: String) {
         client.displayName = name

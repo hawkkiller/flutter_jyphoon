@@ -23,6 +23,7 @@ class GroupCallApi : JyphoonCallApi {
         destination: String,
         password: String,
         video: Boolean,
+        did: String,
         type: CallType
     ): Boolean {
         val res: Boolean
