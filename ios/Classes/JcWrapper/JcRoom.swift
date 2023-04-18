@@ -99,6 +99,7 @@ class JCRoom: NSObject, JCCallCallback {
         UserDefaults.standard.setValue(server, forKey: "kServer")
         UserDefaults.standard.synchronize()
         _inited = client != nil && mediaDevice != nil && mediaChannel != nil
+        return _inited
     }
 }
 
