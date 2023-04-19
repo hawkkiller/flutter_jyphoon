@@ -19,10 +19,10 @@ abstract class JyphoonSDK {
 
   Future<bool> call(
     String destination, {
-    String ticket = '',
     CallType type = CallType.group,
     String password = '',
     bool video = false,
+    String did = '',
   });
 
   Future<bool> leave();
@@ -79,9 +79,9 @@ class JyphoonSDKImpl implements JyphoonSDK {
     String password = '',
     bool video = false,
     CallType type = CallType.group,
-    String ticket = '',
+    String did = '',
   }) =>
-      _callApi.call(destination, password, video, ticket, type);
+      _callApi.call(destination, password, video, did, type);
 
   @override
   Future<bool> leave() => _callApi.leave();
