@@ -24,7 +24,8 @@ class InitializationApi : JyphoonInitializationApi {
     }
     
     func setAccountNumber(accountNumber: String) -> Bool {
-        return JCRoom.shared.client.login(accountNumber, password: "123", loginParam: loginParam)
+        let res = JCRoom.shared.client.login(accountNumber, password: "123", loginParam: loginParam)
+        return res
     }
     
     func setTimeout(timeout: Int32) {

@@ -84,7 +84,7 @@ class _FeedScreenState extends State<FeedScreen> {
           label: 'AccountNumber',
           onTap: (str) => _sdk.setAccountNumber(str).then(
                 (value) => setState(
-                  () => _accountNumberSet = true,
+                  () => _accountNumberSet = value,
                 ),
               ),
           isActive: isInitialized,

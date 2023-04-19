@@ -13,7 +13,7 @@ public class SwiftJcPlugin: NSObject, FlutterPlugin {
     JyphoonInitializationApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
     JCHandler.initialize(receiver: JyphoonReceiver.init(binaryMessenger: registrar.messenger()), api: api)
     
-    let selfViewFactory = CallViewFactory(messenger: registrar.messenger(), api: CompanionViewCanvasApi())
+    let selfViewFactory = CallViewFactory(messenger: registrar.messenger(), api: SelfViewCanvasApi())
     registrar.register(selfViewFactory, withId: "self-view")
       
     let companionViewFactory = CallViewFactory(messenger: registrar.messenger(), api: CompanionViewCanvasApi())
@@ -33,7 +33,12 @@ class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
     }
     
     func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool {
-        callApi.call(destination: destination, password: password, video: video, did: did, type: type)
+        var callApi: JyphoonCallApi
+        switch (type) {
+        case .group: callApi = group
+        case .oneToOne: callApi = oneToOne
+        }
+        return callApi.call(destination: destination, password: password, video: video, did: did, type: type)
     }
     
     func callStatus() -> String {

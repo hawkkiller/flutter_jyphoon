@@ -27,16 +27,15 @@ class CallViewFactory: NSObject, FlutterPlatformViewFactory {
 
 class CallView: NSObject, FlutterPlatformView, CompanionViewApi, SelfViewApi {
     func setSelfFrame(width: Double, height: Double) {
-        canvas?.videoView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        _canvas?.videoView?.frame = CGRect(x: 0, y: 0, width: width, height: height)
     }
     
-    private var canvas: JCMediaDeviceVideoCanvas? = nil
-    
     func setCompanionFrame(width: Double, height: Double) {
-        canvas?.videoView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        _canvas?.videoView?.frame = CGRect(x: 0, y: 0, width: width, height: height)
     }
     
     private var _view: UIView
+    private var _canvas: JCMediaDeviceVideoCanvas?
 
     init(
         binaryMessenger messenger: FlutterBinaryMessenger?,
@@ -44,17 +43,15 @@ class CallView: NSObject, FlutterPlatformView, CompanionViewApi, SelfViewApi {
     ) {
         _view = UIView()
         super.init()
+
         if (api is CompanionViewCanvasApi) {
             CompanionViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
         } else if (api is SelfViewCanvasApi) {
             SelfViewApiSetup.setUp(binaryMessenger: messenger!, api: self)
         }
         
-        // iOS views can be created here
-        let participant = JCRoomUtils.otherParticipant!
-        canvas = participant.startVideo(.fullScreen, pictureSize: .large)
-        JCRoom.shared.mediaChannel.requestVideo(participant, pictureSize: .large)
-        _view.addSubview(canvas!.videoView)
+        _canvas = api.startVideo(mode: .fullScreen)
+        _view.addSubview(_canvas!.videoView)
     }
 
     func view() -> UIView {
