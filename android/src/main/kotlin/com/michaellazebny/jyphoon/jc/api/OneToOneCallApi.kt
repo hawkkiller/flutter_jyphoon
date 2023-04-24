@@ -1,5 +1,6 @@
 package com.michaellazebny.jyphoon.jc.api
 
+import android.util.Log
 import com.juphoon.cloud.JCCall
 import com.michaellazebny.jyphoon.jc.CallType
 import com.michaellazebny.jyphoon.jc.JyphoonCallApi
@@ -47,6 +48,7 @@ class OneToOneCallApi : JyphoonCallApi {
     override fun callStatus(): String {
         val call = JCManager.getInstance().call
         val activeCall = call.activeCallItem ?: return "off"
+        Log.i("JC_CALL_STATUS_REASON", activeCall.reason.toString())
 
         return when (activeCall.state) {
             JCCall.STATE_OK, JCCall.STATE_TALKING -> "on"
