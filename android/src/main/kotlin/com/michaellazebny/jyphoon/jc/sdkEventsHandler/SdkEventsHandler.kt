@@ -1,5 +1,6 @@
 package com.michaellazebny.jyphoon.jc.sdkEventsHandler
 
+import android.util.Log
 import com.michaellazebny.jyphoon.jc.JyphoonApi
 import com.michaellazebny.jyphoon.jc.JyphoonCallApi
 import com.michaellazebny.jyphoon.jc.JyphoonInitializationApi
@@ -33,6 +34,7 @@ class SdkEventsHandler(
             "callStatus" to api.callStatus(),
             "clientState" to api.clientState()
         )
+        Log.i("JC_EVENT", "${event.eventType.name} $map")
         receiver.onEvent(event.eventType.name, map) {}
     }
 }
