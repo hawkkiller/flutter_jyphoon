@@ -75,13 +75,14 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
         password: String,
         video: Boolean,
         did: String,
-        type: CallType
+        type: CallType,
+        ts: Long
     ): Boolean {
         val callApi = when (type) {
             CallType.ONETOONE -> oneToOneCallApi
             CallType.GROUP -> groupCallApi
         }
-        return callApi.call(destination, password, video, did, type)
+        return callApi.call(destination, password, video, did, type, ts)
 
     }
 
@@ -123,7 +124,8 @@ class StubCallApi : JyphoonCallApi {
         password: String,
         video: Boolean,
         did: String,
-        type: CallType
+        type: CallType,
+        ts: Long
     ) = false
 
     override fun setVideo(video: Boolean) {}

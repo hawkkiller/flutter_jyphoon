@@ -32,13 +32,13 @@ class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
         initialization.isInited()
     }
     
-    func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool {
+    func call(destination: String, password: String, video: Bool, did: String, type: CallType, ts: Int32) -> Bool {
         var callApi: JyphoonCallApi
         switch (type) {
         case .group: callApi = group
         case .oneToOne: callApi = oneToOne
         }
-        return callApi.call(destination: destination, password: password, video: video, did: did, type: type)
+        return callApi.call(destination: destination, password: password, video: video, did: did, type: type, ts: ts)
     }
     
     func callStatus() -> String {
@@ -125,7 +125,7 @@ class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
 }
 
 private class JyphoonCallApiStub : JyphoonCallApi {
-    func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool {
+    func call(destination: String, password: String, video: Bool, did: String, type: CallType, ts: Int32) -> Bool {
         false
     }
     
