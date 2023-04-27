@@ -65,6 +65,7 @@ abstract class JyphoonCallApi {
     bool video,
     String did,
     CallType type,
+    int ts,
   );
 
   /// Returns CallStatus.

@@ -23,6 +23,7 @@ abstract class JyphoonSDK {
     String password = '',
     bool video = false,
     String did = '',
+    int ts = 0,
   });
 
   Future<bool> leave();
@@ -80,8 +81,16 @@ class JyphoonSDKImpl implements JyphoonSDK {
     bool video = false,
     CallType type = CallType.group,
     String did = '',
+    int ts = 0,
   }) =>
-      _callApi.call(destination, password, video, did, type);
+      _callApi.call(
+        destination,
+        password,
+        video,
+        did,
+        type,
+        ts,
+      );
 
   @override
   Future<bool> leave() => _callApi.leave();

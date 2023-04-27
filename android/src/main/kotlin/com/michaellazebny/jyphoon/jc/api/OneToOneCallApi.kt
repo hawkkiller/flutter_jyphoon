@@ -24,11 +24,12 @@ class OneToOneCallApi : JyphoonCallApi {
         password: String,
         video: Boolean,
         did: String,
-        type: CallType
+        type: CallType,
+        ts: Long
     ): Boolean {
         val param = JCCall.CallParam(
             if (video) "video" else "audio",
-            "${did}_${System.currentTimeMillis() / 1000}",
+            "${did}_$ts",
         )
         val res = JCManager.getInstance().call.call(destination, video, param)
         if (res && video) {
@@ -48,6 +49,7 @@ class OneToOneCallApi : JyphoonCallApi {
     override fun callStatus(): String {
         val call = JCManager.getInstance().call
         val activeCall = call.activeCallItem ?: return "off"
+        JCCall.REASON_NONE
         Log.i("JC_CALL_STATUS_REASON", activeCall.reason.toString())
 
         return when (activeCall.state) {

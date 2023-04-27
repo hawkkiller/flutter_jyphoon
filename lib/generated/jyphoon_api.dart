@@ -275,12 +275,12 @@ class JyphoonCallApi {
   /// [video] - initiate call as videocall or audiocall.
   ///
   /// [type] - oneToOne or group.
-  Future<bool> call(String arg_destination, String arg_password, bool arg_video, String arg_did, CallType arg_type) async {
+  Future<bool> call(String arg_destination, String arg_password, bool arg_video, String arg_did, CallType arg_type, int arg_ts) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.JyphoonCallApi.call', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_destination, arg_password, arg_video, arg_did, arg_type.index]) as List<Object?>?;
+        await channel.send(<Object?>[arg_destination, arg_password, arg_video, arg_did, arg_type.index, arg_ts]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

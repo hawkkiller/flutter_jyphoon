@@ -24,7 +24,8 @@ class GroupCallApi : JyphoonCallApi {
         password: String,
         video: Boolean,
         did: String,
-        type: CallType
+        type: CallType,
+        ts: Long
     ): Boolean {
         val res: Boolean
         val joinParam = JCMediaChannel.JoinParam()

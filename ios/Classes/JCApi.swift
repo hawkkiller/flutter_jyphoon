@@ -164,7 +164,7 @@ protocol JyphoonCallApi {
   /// [video] - initiate call as videocall or audiocall.
   ///
   /// [type] - oneToOne or group.
-  func call(destination: String, password: String, video: Bool, did: String, type: CallType) -> Bool
+  func call(destination: String, password: String, video: Bool, did: String, type: CallType, ts: Int32) -> Bool
   /// Returns CallStatus.
   /// Returns the current call status.
   /// It can be one of the following:
@@ -221,7 +221,8 @@ class JyphoonCallApiSetup {
         let videoArg = args[2] as! Bool
         let didArg = args[3] as! String
         let typeArg = CallType(rawValue: args[4] as! Int)!
-        let result = api.call(destination: destinationArg, password: passwordArg, video: videoArg, did: didArg, type: typeArg)
+        let tsArg = args[5] as! Int32
+        let result = api.call(destination: destinationArg, password: passwordArg, video: videoArg, did: didArg, type: typeArg, ts: tsArg)
         reply(wrapResult(result))
       }
     } else {
