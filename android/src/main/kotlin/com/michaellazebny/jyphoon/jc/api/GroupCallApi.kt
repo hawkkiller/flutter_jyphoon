@@ -1,5 +1,6 @@
 package com.michaellazebny.jyphoon.jc.api
 
+import com.juphoon.cloud.JCCall
 import com.juphoon.cloud.JCMediaChannel
 import com.michaellazebny.jyphoon.jc.CallType
 import com.michaellazebny.jyphoon.jc.JyphoonCallApi
@@ -34,6 +35,7 @@ class GroupCallApi : JyphoonCallApi {
         JCManager.getInstance().mediaDevice.enableSpeaker(true)
         JCManager.getInstance().mediaChannel.enableUploadAudioStream(true)
         JCManager.getInstance().mediaChannel.enableUploadVideoStream(true)
+        JCManager.getInstance().call.updateMediaConfig(JCCall.MediaConfig.generateByMode(JCCall.MediaConfig.MODE_720P))
         res = JCManager.getInstance().mediaChannel.join(destination, joinParam)
         if (res && video) {
             setVideo(true)

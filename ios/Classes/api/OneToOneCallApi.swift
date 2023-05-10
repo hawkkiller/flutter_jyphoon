@@ -9,6 +9,7 @@ class OneToOneCallApi : JyphoonCallApi {
             extraParam: video ? "video" : "audio",
             ticket: "\(did)_\(ts)"
         )
+        JCRoom.shared.call.mediaConfig = JCCallMediaConfig.generate(by: JCCallMediaConfigMode.modeIOT)
         let res = JCRoom.shared.call.call(
             destination,
             video: video,

@@ -8,6 +8,7 @@ class GroupCallApi : JyphoonCallApi {
     func call(destination: String, password: String, video: Bool, did: String, type: CallType, ts: Int32) -> Bool {
         let joinParam = JCMediaChannelJoinParam()
         joinParam.capacity = 2
+        JCRoom.shared.call.mediaConfig = JCCallMediaConfig.generate(by: JCCallMediaConfigMode.mode720P)
         let res = jc.mediaChannel.join(destination, joinParam: joinParam)
         if (res) {
             jc.mediaChannel.enableUploadAudioStream(true)
