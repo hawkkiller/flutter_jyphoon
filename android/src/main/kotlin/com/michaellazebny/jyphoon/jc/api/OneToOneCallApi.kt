@@ -31,6 +31,8 @@ class OneToOneCallApi : JyphoonCallApi {
             if (video) "video" else "audio",
             "${did}_$ts",
         )
+        JCManager.getInstance().call.updateMediaConfig(JCCall.MediaConfig.generateByMode(JCCall.MediaConfig.MODE_IOT_SMALL))
+
         val res = JCManager.getInstance().call.call(destination, video, param)
         if (res && video) {
             setVideo(true)
