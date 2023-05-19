@@ -1,85 +1,153 @@
 package com.michaellazebny.jyphoon.jc
 
 import android.content.Context
-import com.michaellazebny.jyphoon.jc.handler.Handler
-
-import com.michaellazebny.jyphoon.jc.methods.Call
-import com.michaellazebny.jyphoon.jc.methods.Initialization
-import com.michaellazebny.jyphoon.jc.methods.UserInfo
-import com.michaellazebny.jyphoon.jc.views.SelfViewFactory
-import com.michaellazebny.jyphoon.jc.views.CompanionViewFactory
-
+import com.michaellazebny.jyphoon.jc.api.*
+import com.michaellazebny.jyphoon.jc.platformViews.CallViewFactory
+import com.michaellazebny.jyphoon.jc.sdkEventsHandler.SdkEventsHandler
+import com.michaellazebny.jyphoon.jc.utils.JCCallUtils
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+
+interface JyphoonApi : JyphoonInitializationApi, JyphoonCallApi
 
 /** JcPlugin */
 class JcPlugin : FlutterPlugin, JyphoonApi {
     private lateinit var applicationContext: Context
     private lateinit var receiver: JyphoonReceiver
+    private lateinit var initializationApi: InitializationApi
+    private lateinit var oneToOneCallApi: OneToOneCallApi
+    private lateinit var groupCallApi: GroupCallApi
+    private val stub = StubCallApi()
 
-    private val initialization = Initialization()
-    private val userInfo = UserInfo()
-    private val call = Call()
-    private lateinit var handler: Handler
+    private lateinit var sdkEventsHandler: SdkEventsHandler
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        JyphoonApi.setUp(binding.binaryMessenger, null)
-        handler.dispose()
+        JyphoonInitializationApi.setUp(binding.binaryMessenger, null)
+        JyphoonCallApi.setUp(binding.binaryMessenger, null)
+        sdkEventsHandler.dispose()
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = flutterPluginBinding.applicationContext
-        JyphoonApi.setUp(flutterPluginBinding.binaryMessenger, this)
+        initializationApi = InitializationApi(applicationContext)
+        oneToOneCallApi = OneToOneCallApi()
+        groupCallApi = GroupCallApi()
+        JyphoonCallApi.setUp(flutterPluginBinding.binaryMessenger, this)
+        JyphoonInitializationApi.setUp(flutterPluginBinding.binaryMessenger, this)
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "self-view",
-            SelfViewFactory(flutterPluginBinding.binaryMessenger),
+            CallViewFactory(
+                flutterPluginBinding.binaryMessenger,
+                ViewCanvasApi.SelfViewCanvasApi()
+            ),
         )
         flutterPluginBinding.platformViewRegistry.registerViewFactory(
             "companion-view",
-            CompanionViewFactory(flutterPluginBinding.binaryMessenger),
+            CallViewFactory(
+                flutterPluginBinding.binaryMessenger,
+                ViewCanvasApi.CompanionViewCanvasApi()
+            ),
         )
         receiver = JyphoonReceiver(flutterPluginBinding.binaryMessenger)
-        handler = Handler(receiver, this)
-        handler.init()
+        sdkEventsHandler = SdkEventsHandler(receiver, this)
+        sdkEventsHandler.init()
     }
 
-    override fun isInited() = initialization.isInited()
+    override fun isInited() = initializationApi.isInited()
 
-    override fun initialize() = initialization.initialize(applicationContext)
+    override fun initialize() = initializationApi.initialize()
 
-    override fun setAppKey(appKey: String) = initialization.setAppKey(appKey)
+    override fun setAppKey(appKey: String) = initializationApi.setAppKey(appKey)
 
-    override fun setDisplayName(displayName: String) = userInfo.setDisplayName(displayName)
+    override fun setDisplayName(displayName: String) = initializationApi.setDisplayName(displayName)
 
-    override fun setAccountNumber(accountNumber: String) = userInfo.setAccountNumber(accountNumber)
+    override fun setAccountNumber(accountNumber: String) =
+        initializationApi.setAccountNumber(accountNumber)
 
-    override fun setTimeout(timeout: Long) = userInfo.setTimeout(timeout)
+    override fun setTimeout(timeout: Long) = initializationApi.setTimeout(timeout)
 
-    override fun setServerAddress(serverAddress: String) = userInfo.setServerAddress(serverAddress)
+    override fun getCurrentUserId() = initializationApi.getCurrentUserId()
 
-    override fun setVideo(video: Boolean) = call.setVideo(video)
+    override fun setServerAddress(serverAddress: String) =
+        initializationApi.setServerAddress(serverAddress)
 
-    override fun setAudio(audio: Boolean) = call.setAudio(audio)
+    override fun call(
+        destination: String,
+        password: String,
+        video: Boolean,
+        did: String,
+        type: CallType,
+        ts: Long
+    ): Boolean {
+        val callApi = when (type) {
+            CallType.ONETOONE -> oneToOneCallApi
+            CallType.GROUP -> groupCallApi
+        }
+        return callApi.call(destination, password, video, did, type, ts)
 
-    override fun call(confId: String, password: String, video: Boolean, asr: Boolean) =
-        call.join(confId, password, video, asr);
+    }
 
-    override fun getCurrentUserId() = userInfo.getUserId()
+    override fun setVideo(video: Boolean) = callApi.setVideo(video)
 
-    override fun leave() = call.leave()
+    override fun setAudio(audio: Boolean) = callApi.setAudio(audio)
 
-    override fun audio() = call.audio()
+    override fun leave() = callApi.leave()
 
-    override fun otherAudio() = call.otherAudio()
+    override fun audio() = callApi.audio()
 
-    override fun video() = call.video()
+    override fun otherAudio() = callApi.otherAudio()
 
-    override fun otherVideo() = call.otherVideo()
+    override fun video() = callApi.video()
 
-    override fun callStatus() = call.confStatus()
+    override fun otherVideo() = callApi.otherVideo()
 
-    override fun switchCamera() = call.switchCamera()
+    override fun callStatus() = callApi.callStatus()
 
-    override fun setSpeaker(speaker: Boolean) = call.setSpeaker(speaker)
+    override fun switchCamera() = callApi.switchCamera()
 
-    override fun clientState() = userInfo.clientState()
+    override fun setSpeaker(speaker: Boolean) = callApi.setSpeaker(speaker)
+
+    override fun clientState() = initializationApi.clientState()
+
+    override fun speaker() = callApi.speaker()
+
+    private val callApi: JyphoonCallApi
+        get() {
+            return when (JCCallUtils.getCallType()) {
+                CallType.ONETOONE -> oneToOneCallApi
+                CallType.GROUP -> groupCallApi
+                else -> stub
+            }
+        }
+}
+
+class StubCallApi : JyphoonCallApi {
+    override fun call(
+        destination: String,
+        password: String,
+        video: Boolean,
+        did: String,
+        type: CallType,
+        ts: Long
+    ) = false
+
+    override fun setVideo(video: Boolean) {}
+
+    override fun speaker() = false
+    override fun setAudio(audio: Boolean) {}
+
+    override fun leave() = false
+
+    override fun audio() = false
+
+    override fun otherAudio() = false
+
+    override fun video() = false
+
+    override fun otherVideo() = false
+
+    override fun callStatus() = "off"
+
+    override fun switchCamera() {}
+
+    override fun setSpeaker(speaker: Boolean) {}
 }

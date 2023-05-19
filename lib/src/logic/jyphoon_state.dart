@@ -6,6 +6,7 @@ import 'package:jc/src/model/enum.dart';
 abstract class JyphoonState {
   abstract final Stream<VideoStatus> selfVideo;
   abstract final Stream<AudioStatus> selfAudio;
+  abstract final Stream<SpeakerStatus> selfSpeaker;
 
   abstract final Stream<VideoStatus> companionVideo;
   abstract final Stream<AudioStatus> companionAudio;
@@ -24,6 +25,7 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
   InnerJyphoonStateImpl() {
     _selfVideo.add(VideoStatus.off);
     _selfAudio.add(AudioStatus.off);
+    _selfSpeaker.add(SpeakerStatus.off);
     _companionVideo.add(VideoStatus.off);
     _companionAudio.add(AudioStatus.off);
     _call.add(CallStatus.off);
@@ -32,6 +34,7 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
 
   final _selfVideo = StreamController<VideoStatus>.broadcast();
   final _selfAudio = StreamController<AudioStatus>.broadcast();
+  final _selfSpeaker = StreamController<SpeakerStatus>.broadcast();
 
   final _companionVideo = StreamController<VideoStatus>.broadcast();
   final _companionAudio = StreamController<AudioStatus>.broadcast();
@@ -61,9 +64,13 @@ class InnerJyphoonStateImpl implements InnerJyphoonState {
   late final call = _call.stream.distinct().asBroadcastStream();
 
   @override
+  late final selfSpeaker = _selfSpeaker.stream.asBroadcastStream();
+
+  @override
   void updateState(CallState state) {
     _selfVideo.add(state.video);
     _selfAudio.add(state.audio);
+    _selfSpeaker.add(state.selfSpeaker);
     _companionVideo.add(state.otherVideo);
     _companionAudio.add(state.otherAudio);
     _call.add(state.callStatus);

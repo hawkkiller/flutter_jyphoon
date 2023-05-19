@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.tools;
+package com.michaellazebny.jyphoon.jc.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;

@@ -1,12 +1,19 @@
-package com.michaellazebny.jyphoon.jc.handler
+package com.michaellazebny.jyphoon.jc.sdkEventsHandler
 
+import android.util.Log
 import com.michaellazebny.jyphoon.jc.JyphoonApi
+import com.michaellazebny.jyphoon.jc.JyphoonCallApi
+import com.michaellazebny.jyphoon.jc.JyphoonInitializationApi
 import com.michaellazebny.jyphoon.jc.JyphoonReceiver
+import com.michaellazebny.jyphoon.jc.api.InitializationApi
 import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class Handler(private val receiver: JyphoonReceiver, private val api: JyphoonApi) {
+class SdkEventsHandler(
+    private val receiver: JyphoonReceiver,
+    private val api: JyphoonApi,
+) {
     fun init() {
         EventBus.getDefault().register(this)
     }
@@ -26,7 +33,9 @@ class Handler(private val receiver: JyphoonReceiver, private val api: JyphoonApi
             "otherVideo" to api.otherVideo(),
             "callStatus" to api.callStatus(),
             "clientState" to api.clientState(),
+            "speaker" to api.speaker(),
         )
+        Log.i("JC_EVENT", "${event.eventType.name} $map")
         receiver.onEvent(event.eventType.name, map) {}
     }
 }

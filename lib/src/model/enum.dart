@@ -30,6 +30,23 @@ enum AudioStatus {
   }
 }
 
+enum SpeakerStatus {
+  on(value: true),
+  off(value: false);
+
+  const SpeakerStatus({required this.value});
+
+  final bool value;
+
+  static SpeakerStatus fromBool({required bool value}) {
+    if (value) {
+      return SpeakerStatus.on;
+    }
+    return SpeakerStatus.off;
+  }
+}
+
+
 enum CallStatus {
   on,
   waiting,

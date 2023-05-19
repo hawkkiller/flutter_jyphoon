@@ -1,4 +1,4 @@
-package com.michaellazebny.jyphoon.jc.views
+package com.michaellazebny.jyphoon.jc.platformViews
 
 import android.content.res.Resources
 import android.util.TypedValue

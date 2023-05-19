@@ -47,7 +47,7 @@ class JCRoom: NSObject, JCCallCallback {
         get {
             return _mediaDevice!
         }
-    }
+}
     
     var mediaChannel: JCMediaChannel {
         get {
@@ -65,6 +65,14 @@ class JCRoom: NSObject, JCCallCallback {
     private var _mediaDevice : JCMediaDevice?
     private var _mediaChannel : JCMediaChannel?
     private var _jcCall: JCCall?
+    
+    private var _inited: Bool = false
+    
+    public var inited: Bool {
+        get {
+            return _inited
+        }
+    }
     
     public func setDisplayName(name: String) {
         client.displayName = name
@@ -88,7 +96,8 @@ class JCRoom: NSObject, JCCallCallback {
         UserDefaults.standard.setValue(appkey, forKey: "kAppkey")
         UserDefaults.standard.setValue(server, forKey: "kServer")
         UserDefaults.standard.synchronize()
-        return client != nil && mediaDevice != nil && mediaChannel != nil
+        _inited = client != nil && mediaDevice != nil && mediaChannel != nil
+        return _inited
     }
 }
 
