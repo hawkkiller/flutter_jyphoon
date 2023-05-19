@@ -17,6 +17,7 @@ class JCHandler {
     static let ON_CALL_ITEM_REMOVE = "ON_CALL_ITEM_REMOVE"
     static let ON_CALL_ITEM_UPDATE = "ON_CALL_ITEM_UPDATE"
     static let ON_CLIENT_STATE_CHANGE = "ON_CLIENT_STATE_CHANGE"
+    static let CALL_UPDATE = "CALL_UPDATE"
     
     static private var _instance: JCHandler?
     
@@ -46,6 +47,7 @@ class JCHandler {
         dataProtoc["otherVideo"] = api.otherVideo()
         dataProtoc["callStatus"] = api.callStatus()
         dataProtoc["clientState"] = api.clientState()
+        dataProtoc["speaker"] = api.speaker()
         
         receiver.onEvent(event: event, data: dataProtoc) {}
     }

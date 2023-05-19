@@ -41,6 +41,10 @@ class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
         return callApi.call(destination: destination, password: password, video: video, did: did, type: type, ts: ts)
     }
     
+    func speaker() -> Bool {
+        callApi.speaker()
+    }
+    
     func callStatus() -> String {
         callApi.callStatus()
     }
@@ -125,6 +129,10 @@ class JyphoonApi : JyphoonCallApi, JyphoonInitializationApi {
 }
 
 private class JyphoonCallApiStub : JyphoonCallApi {
+    func speaker() -> Bool {
+        false
+    }
+    
     func call(destination: String, password: String, video: Bool, did: String, type: CallType, ts: Int32) -> Bool {
         false
     }

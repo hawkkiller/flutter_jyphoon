@@ -178,6 +178,9 @@ protocol JyphoonCallApi {
   /// True if the user is in the call and shares video.
   /// Otherwise, returns false.
   func video() -> Bool
+  /// True if the user is in the call and uses speaker.
+  /// Otherwise, returns false.
+  func speaker() -> Bool
   /// True if the companion is in the call and is not muted.
   /// Otherwise, returns false.
   func otherAudio() -> Bool
@@ -264,6 +267,17 @@ class JyphoonCallApiSetup {
       }
     } else {
       videoChannel.setMessageHandler(nil)
+    }
+    /// True if the user is in the call and uses speaker.
+    /// Otherwise, returns false.
+    let speakerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.JyphoonCallApi.speaker", binaryMessenger: binaryMessenger)
+    if let api = api {
+      speakerChannel.setMessageHandler { _, reply in
+        let result = api.speaker()
+        reply(wrapResult(result))
+      }
+    } else {
+      speakerChannel.setMessageHandler(nil)
     }
     /// True if the companion is in the call and is not muted.
     /// Otherwise, returns false.

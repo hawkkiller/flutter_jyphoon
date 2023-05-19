@@ -4,8 +4,10 @@ import com.juphoon.cloud.JCCall
 import com.juphoon.cloud.JCMediaChannel
 import com.michaellazebny.jyphoon.jc.CallType
 import com.michaellazebny.jyphoon.jc.JyphoonCallApi
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent
 import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
 import com.michaellazebny.jyphoon.jc.utils.JCCallUtils
+import org.greenrobot.eventbus.EventBus
 
 class GroupCallApi : JyphoonCallApi {
     /**
@@ -39,6 +41,7 @@ class GroupCallApi : JyphoonCallApi {
         res = JCManager.getInstance().mediaChannel.join(destination, joinParam)
         if (res && video) {
             setVideo(true)
+            setSpeaker(true)
         }
         return res
     }
@@ -82,6 +85,10 @@ class GroupCallApi : JyphoonCallApi {
         val videoStart = JCManager.getInstance().mediaDevice.isCameraOpen
         val uploadLocalVideo = JCManager.getInstance().mediaChannel.uploadLocalVideo
         return selfVideo && videoStart && uploadLocalVideo
+    }
+
+    override fun speaker(): Boolean {
+        return JCManager.getInstance().mediaDevice.isSpeakerOn
     }
 
     /**
@@ -131,11 +138,13 @@ class GroupCallApi : JyphoonCallApi {
         } else {
             JCManager.getInstance().mediaDevice.stopAudio()
         }
+        EventBus.getDefault().post(JCEvent(JCEvent.EventType.CALL_UPDATE))
     }
 
     /** Enables \ disables speaker. */
     override fun setSpeaker(speaker: Boolean) {
         JCManager.getInstance().mediaDevice.enableSpeaker(speaker)
+        EventBus.getDefault().post(JCEvent(JCEvent.EventType.CALL_UPDATE))
     }
 
 

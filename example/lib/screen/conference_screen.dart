@@ -63,10 +63,71 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                     },
                     child: const Text('Leave'),
                   ),
+                  StreamBuilder<AudioStatus>(
+                    stream: _sdk.state.selfAudio,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Text('data is null');
+                      }
+                      return TextButton(
+                        onPressed: () async {
+                          await _sdk.setAudio(audio: !snapshot.data!.value);
+                        },
+                        child: Text(
+                          snapshot.data!.value ? 'Mute' : 'Unmute',
+                        ),
+                      );
+                    },
+                  ),
+                  StreamBuilder<SpeakerStatus>(
+                    stream: _sdk.state.selfSpeaker,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Text('data is null');
+                      }
+                      return TextButton(
+                        onPressed: () async {
+                          await _sdk.setSpeaker(speaker: !snapshot.data!.value);
+                        },
+                        child: Text(
+                          snapshot.data!.value ? 'off speaker' : 'on speaker',
+                        ),
+                      );
+                    },
+                  ),
+                  StreamBuilder<VideoStatus>(
+                    stream: _sdk.state.selfVideo,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Text('data is null');
+                      }
+                      return TextButton(
+                        onPressed: () {
+                          _sdk.setVideo(video: !snapshot.data!.value);
+                        },
+                        child: Text(
+                          snapshot.data == VideoStatus.on ? 'Turn video off' : 'Turn video on',
+                        ),
+                      );
+                    },
+                  ),
+                  Text('Call type $type'),
+                  Switch.adaptive(
+                    value: type,
+                    onChanged: (t) {
+                      setState(() {
+                        type = !type;
+                      });
+                    },
+                  ),
                   StreamBuilder<CallStatus>(
                     stream: _sdk.state.call,
                     builder: (context, snapshot) {
-                      return Text(snapshot.data.toString());
+                      return Center(
+                        child: Text(
+                          snapshot.data.toString(),
+                        ),
+                      );
                     },
                   ),
                   Container(
@@ -130,56 +191,7 @@ class _ConferenceScreenState extends State<ConferenceScreen> {
                         ),
                       ],
                     ),
-                    // child: Row(
-                    //   children: [
-                    //     ,
-                    //   Expanded(
-                    //     child: ,
-                    //   ),
-                    // ],
-                    // ),
                   ),
-                  StreamBuilder<AudioStatus>(
-                    stream: _sdk.state.selfAudio,
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Text('data is null');
-                      }
-                      return TextButton(
-                        onPressed: () async {
-                          await _sdk.setAudio(audio: !snapshot.data!.value);
-                        },
-                        child: Text(
-                          snapshot.data!.value ? 'Mute' : 'Unmute',
-                        ),
-                      );
-                    },
-                  ),
-                  StreamBuilder<VideoStatus>(
-                    stream: _sdk.state.selfVideo,
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Text('data is null');
-                      }
-                      return TextButton(
-                        onPressed: () {
-                          _sdk.setVideo(video: !snapshot.data!.value);
-                        },
-                        child: Text(
-                          snapshot.data == VideoStatus.on
-                              ? 'Turn video off'
-                              : 'Turn video on',
-                        ),
-                      );
-                    },
-                  ),
-                  Switch.adaptive(
-                      value: type,
-                      onChanged: (t) {
-                        setState(() {
-                          type = !type;
-                        });
-                      }),
                 ],
               ),
             ),

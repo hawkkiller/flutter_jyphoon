@@ -15,11 +15,20 @@ class OneToOneCallApi : JyphoonCallApi {
             video: video,
             callParam: callParam
         )
-        if (res && video) {
+        if (!res) {
+            return false;
+        }
+        setAudio(audio: true)
+        if (video) {
             setVideo(video: true)
             setSpeaker(speaker: true)
         }
+        
         return res
+    }
+    
+    func speaker() -> Bool {
+        JCRoom.shared.mediaDevice.isSpeakerOn()
     }
     
     func callStatus() -> String {
@@ -41,8 +50,8 @@ class OneToOneCallApi : JyphoonCallApi {
     
     func audio() -> Bool {
         let audioStart = JCRoom.shared.mediaDevice.audioStart
-        let uploadLocalAudio = JCRoom.shared.call.getActiveCallItem()?.microphoneMute ?? false
-        return audioStart && uploadLocalAudio
+        let uploadLocalAudio = JCRoom.shared.call.getActiveCallItem()?.microphoneMute ?? true
+        return audioStart && !uploadLocalAudio
     }
     
     func video() -> Bool {
@@ -86,9 +95,11 @@ class OneToOneCallApi : JyphoonCallApi {
         } else {
             JCRoom.shared.mediaDevice.stopAudio()
         }
+        JCHandler.instance.onEvent(event: JCHandler.CALL_UPDATE)
     }
     
     func setSpeaker(speaker: Bool) {
         JCRoom.shared.mediaDevice.enableSpeaker(speaker)
+        JCHandler.instance.onEvent(event: JCHandler.CALL_UPDATE)
     }
 }

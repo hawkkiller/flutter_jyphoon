@@ -84,6 +84,10 @@ abstract class JyphoonCallApi {
   /// Otherwise, returns false.
   bool video();
 
+  /// True if the user is in the call and uses speaker.
+  /// Otherwise, returns false.
+  bool speaker();
+
   /// True if the companion is in the call and is not muted.
   /// Otherwise, returns false.
   bool otherAudio();

@@ -4,7 +4,9 @@ import android.util.Log
 import com.juphoon.cloud.JCCall
 import com.michaellazebny.jyphoon.jc.CallType
 import com.michaellazebny.jyphoon.jc.JyphoonCallApi
+import com.michaellazebny.jyphoon.jc.jcWrapper.JCEvent.JCEvent
 import com.michaellazebny.jyphoon.jc.jcWrapper.JCManager
+import org.greenrobot.eventbus.EventBus
 
 class OneToOneCallApi : JyphoonCallApi {
     /**
@@ -36,7 +38,9 @@ class OneToOneCallApi : JyphoonCallApi {
         val res = JCManager.getInstance().call.call(destination, video, param)
         if (res && video) {
             setVideo(true)
+            setSpeaker(true)
         }
+        setAudio(true)
         return res
     }
 
@@ -67,8 +71,12 @@ class OneToOneCallApi : JyphoonCallApi {
      */
     override fun audio(): Boolean {
         val audioStart = JCManager.getInstance().mediaDevice.isAudioStart
-        val uploadLocalAudio = JCManager.getInstance().call.activeCallItem?.microphoneMute ?: false
-        return audioStart && uploadLocalAudio
+        val uploadLocalAudio = JCManager.getInstance().call.activeCallItem?.microphoneMute ?: true
+        return audioStart && !uploadLocalAudio
+    }
+
+    override fun speaker(): Boolean {
+        return JCManager.getInstance().mediaDevice.isSpeakerOn
     }
 
     /**
@@ -125,16 +133,21 @@ class OneToOneCallApi : JyphoonCallApi {
 
     /** Enables \ disables audio. */
     override fun setAudio(audio: Boolean) {
+        val activeItem = JCManager.getInstance().call.activeCallItem
         if (audio) {
             JCManager.getInstance().mediaDevice.startAudio()
         } else {
             JCManager.getInstance().mediaDevice.stopAudio()
         }
+        JCManager.getInstance().call.muteMicrophone(activeItem, audio)
+        EventBus.getDefault().post(JCEvent(JCEvent.EventType.CALL_UPDATE))
     }
 
     /** Enables \ disables speaker. */
     override fun setSpeaker(speaker: Boolean) {
         JCManager.getInstance().mediaDevice.enableSpeaker(speaker)
+        JCManager.getInstance().call.muteSpeaker(JCManager.getInstance().call.activeCallItem, !speaker)
+        EventBus.getDefault().post(JCEvent(JCEvent.EventType.CALL_UPDATE))
     }
 
 }

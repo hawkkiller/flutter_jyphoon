@@ -255,6 +255,11 @@ interface JyphoonCallApi {
    */
   fun video(): Boolean
   /**
+   * True if the user is in the call and uses speaker.
+   * Otherwise, returns false.
+   */
+  fun speaker(): Boolean
+  /**
    * True if the companion is in the call and is not muted.
    * Otherwise, returns false.
    */
@@ -348,6 +353,22 @@ interface JyphoonCallApi {
             var wrapped = listOf<Any?>()
             try {
               wrapped = listOf<Any?>(api.video())
+            } catch (exception: Error) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.JyphoonCallApi.speaker", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped = listOf<Any?>()
+            try {
+              wrapped = listOf<Any?>(api.speaker())
             } catch (exception: Error) {
               wrapped = wrapError(exception)
             }

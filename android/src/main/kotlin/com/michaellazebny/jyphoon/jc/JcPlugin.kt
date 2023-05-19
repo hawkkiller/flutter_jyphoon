@@ -108,6 +108,8 @@ class JcPlugin : FlutterPlugin, JyphoonApi {
 
     override fun clientState() = initializationApi.clientState()
 
+    override fun speaker() = callApi.speaker()
+
     private val callApi: JyphoonCallApi
         get() {
             return when (JCCallUtils.getCallType()) {
@@ -130,6 +132,7 @@ class StubCallApi : JyphoonCallApi {
 
     override fun setVideo(video: Boolean) {}
 
+    override fun speaker() = false
     override fun setAudio(audio: Boolean) {}
 
     override fun leave() = false

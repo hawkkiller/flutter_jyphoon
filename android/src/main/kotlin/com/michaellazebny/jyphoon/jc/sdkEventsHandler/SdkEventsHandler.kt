@@ -32,7 +32,8 @@ class SdkEventsHandler(
             "otherAudio" to api.otherAudio(),
             "otherVideo" to api.otherVideo(),
             "callStatus" to api.callStatus(),
-            "clientState" to api.clientState()
+            "clientState" to api.clientState(),
+            "speaker" to api.speaker(),
         )
         Log.i("JC_EVENT", "${event.eventType.name} $map")
         receiver.onEvent(event.eventType.name, map) {}

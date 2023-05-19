@@ -10,15 +10,14 @@ class GroupCallApi : JyphoonCallApi {
         joinParam.capacity = 2
         JCRoom.shared.call.mediaConfig = JCCallMediaConfig.generate(by: JCCallMediaConfigMode.mode720P)
         let res = jc.mediaChannel.join(destination, joinParam: joinParam)
-        if (res) {
-            jc.mediaChannel.enableUploadAudioStream(true)
-            
-            if (video) {
-                setVideo(video: true)
-                setSpeaker(speaker: true)
-            }
+        if (!res) {
+            return false;
         }
-        
+        setAudio(audio: true)
+        if (video) {
+            setVideo(video: true)
+            setSpeaker(speaker: true)
+        }
         return res
     }
     
@@ -31,6 +30,10 @@ class GroupCallApi : JyphoonCallApi {
             return "waiting"
         }
         return "on"
+    }
+    
+    func speaker() -> Bool {
+        JCRoom.shared.mediaDevice.isSpeakerOn()
     }
     
     func audio() -> Bool {
@@ -74,9 +77,16 @@ class GroupCallApi : JyphoonCallApi {
     
     func setAudio(audio: Bool) {
         JCRoom.shared.mediaChannel.enableUploadAudioStream(audio)
+        if (audio) {
+            JCRoom.shared.mediaDevice.startAudio()
+        } else {
+            JCRoom.shared.mediaDevice.stopAudio()
+        }
+        JCHandler.instance.onEvent(event: JCHandler.CALL_UPDATE)
     }
     
     func setSpeaker(speaker: Bool) {
         JCRoom.shared.mediaDevice.enableSpeaker(speaker)
+        JCHandler.instance.onEvent(event: JCHandler.CALL_UPDATE)
     }
 }
